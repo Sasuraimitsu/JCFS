@@ -37,7 +37,12 @@
             font-size: 4rem;
             font-weight: 900;
             line-height: 1;
-            color: #80BFFF;
+            color: #FFFFFF;
+            opacity: 0.95;
+        }
+        .kpi-text {
+            font-size: 1.125rem;
+            margin-top: 0.5rem;
         }
         .flow-arrow {
             font-size: 2rem;
@@ -52,20 +57,18 @@
         .progress-step:not(:last-child)::after {
             content: '';
             position: absolute;
-            top: 2.5rem; 
-            left: 50%;
-            transform: translateX(50%);
-            width: calc(100% + 4rem);
+            top: 2rem;
+            right: -2.5rem;
+            width: 2rem;
             height: 2px;
-            background-color: #cbd5e1;
+            background-color: #007BFF;
             z-index: -1;
         }
-        .progress-step.completed:not(:last-child)::after {
-            background-color: #007BFF;
-        }
-        @media (max-width: 767px) {
+         @media (min-width: 768px) {
             .progress-step:not(:last-child)::after {
-                display: none;
+                top: 50%;
+                right: -2rem;
+                width: 4rem;
             }
         }
         .lang-btn {
@@ -115,9 +118,27 @@
                             <span id="kpi-text" class="kpi-text"></span>
                         </div>
                     </div>
-                    <div class="chart-container">
+                    <figure class="chart-container">
                         <canvas id="fishermenPovertyChart"></canvas>
-                        <p id="poverty-chart-caption" class="text-center text-sm text-gray-500 mt-2"></p>
+                        <figcaption id="poverty-chart-caption" class="text-center text-sm text-gray-500 mt-2"></figcaption>
+                    </figure>
+                </div>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                        <p class="text-4xl font-bold text-red-700">35%</p>
+                        <p id="kpi1-title" class="text-gray-600 font-semibold"></p>
+                        <p id="kpi1-source" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                        <p class="text-4xl font-bold text-green-700">2.5<span id="kpi2-unit" class="text-2xl"></span></p>
+                        <p id="kpi2-title" class="text-gray-600 font-semibold"></p>
+                        <p id="kpi2-source" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-4xl font-bold text-blue-700">200%</p>
+                        <p id="kpi3-title" class="text-gray-600 font-semibold"></p>
+                        <p id="kpi3-source" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                 </div>
                 <div class="mt-8 space-y-4">
@@ -143,13 +164,13 @@
                         <p id="formula-desc" class="text-gray-600 mb-6"></p>
                         <div class="flex items-center justify-center space-x-2 md:space-x-4">
                             <div class="text-center p-4 rounded-lg bg-red-50 border-2 border-red-200 w-1/2 h-full flex flex-col justify-center">
-                                <span class="text-4xl">💸</span>
+                                <span class="text-4xl" role="img" aria-label="コスト削減">💸</span>
                                 <p id="cost-reduction-title" class="font-bold text-red-700 mt-2 text-lg"></p>
                                 <p id="cost-reduction-desc" class="text-sm text-gray-600 mt-1"></p>
                             </div>
                             <div class="text-4xl font-bold text-gray-700">+</div>
                             <div class="text-center p-4 rounded-lg bg-green-50 border-2 border-green-300 w-1/2 h-full flex flex-col justify-center">
-                                <span class="text-4xl">📈</span>
+                                <span class="text-4xl" role="img" aria-label="売上拡大">📈</span>
                                 <p id="revenue-growth-title" class="font-bold text-green-700 mt-2 text-lg"></p>
                                 <p id="revenue-growth-desc" class="text-sm text-gray-600 mt-1"></p>
                             </div>
@@ -165,25 +186,25 @@
                     <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 flex flex-col text-center">
                         <h4 id="ecosystem-title" class="text-xl font-bold mb-4"></h4>
                         <div class="p-4 bg-blue-100 rounded-lg">
-                            <span class="text-3xl">🚢</span>
+                            <span class="text-3xl" role="img" aria-label="設備提供">🚢</span>
                             <p id="eco-step1-title" class="font-bold"></p>
                             <p id="eco-step1-desc" class="text-sm"></p>
                         </div>
                         <div class="flow-arrow">↓</div>
                         <div class="p-4 bg-blue-100 rounded-lg">
-                            <span class="text-3xl">🐟</span>
+                            <span class="text-3xl" role="img" aria-label="漁獲・買取">🐟</span>
                             <p id="eco-step2-title" class="font-bold"></p>
                             <p id="eco-step2-desc" class="text-sm"></p>
                         </div>
                         <div class="flow-arrow">↓</div>
                         <div class="p-4 bg-blue-100 rounded-lg">
-                            <span class="text-3xl">💹</span>
+                            <span class="text-3xl" role="img" aria-label="販売・収益化">💹</span>
                             <p id="eco-step3-title" class="font-bold"></p>
                             <p id="eco-step3-desc" class="text-sm"></p>
                         </div>
                         <div class="flow-arrow">↓</div>
                         <div class="p-4 bg-green-100 rounded-lg">
-                            <span class="text-3xl">🤝</span>
+                            <span class="text-3xl" role="img" aria-label="利益分配">🤝</span>
                             <p id="eco-step4-title" class="font-bold"></p>
                             <p id="eco-step4-desc" class="text-sm"></p>
                         </div>
@@ -197,14 +218,14 @@
                 <h2 id="execution-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="execution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 md:gap-x-16 gap-y-8 max-w-5xl mx-auto">
-                    <div class="progress-step completed">
+                    <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
                         <h4 class="font-bold">STEP 1</h4>
                         <p id="exec-step1-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step1-status" class="text-xs text-green-600 font-bold"></p>
                         <p id="exec-step1-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
-                    <div class="progress-step completed">
+                    <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
                         <h4 class="font-bold">STEP 2</h4>
                         <p id="exec-step2-title" class="text-sm font-semibold text-gray-700"></p>
@@ -219,7 +240,7 @@
                         <p id="exec-step3-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
-                        <div class="mx-auto w-16 h-16 rounded-full border-4 border-gray-400 border-dashed text-gray-400 flex items-center justify-center text-3xl mb-2">🚀</div>
+                        <div class="mx-auto w-16 h-16 rounded-full border-4 border-gray-400 border-dashed text-gray-400 flex items-center justify-center text-3xl mb-2" role="img" aria-label="ローンチ">🚀</div>
                         <h4 class="font-bold text-gray-500">GOAL</h4>
                         <p id="exec-step4-title" class="text-sm font-semibold text-gray-500"></p>
                         <p id="exec-step4-status" class="text-xs text-gray-400 font-bold"></p>
@@ -236,12 +257,8 @@
                 <div class="text-center mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <p id="facility-inv-title" class="text-gray-600 font-bold"></p>
-                        <p class="text-4xl md:text-5xl font-black text-[#004AAD]">$1,000,000</p>
-                        <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
-                            <p id="facility-inv-item1"></p>
-                            <p id="facility-inv-item2"></p>
-                            <p id="facility-inv-item3"></p>
-                            <p id="facility-inv-item4"></p>
+                        <p class="text-4xl md:text-5xl font-black text-[#004AAD]">$997,366</p>
+                        <div id="facility-inv-breakdown" class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
                         </div>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg flex flex-col justify-center">
@@ -256,28 +273,37 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
-                        <h3 id="vessel-lease-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
-                        <p id="vessel-lease-desc" class="text-gray-600 mb-4"></p>
-                        <div class="my-4">
-                            <p id="vessel-lease-investment" class="text-lg"></p>
-                            <p class="text-4xl font-bold">¥2,500,000 /share</p>
-                            <p id="vessel-lease-note" class="text-xs text-gray-500 mt-1"></p>
+                        <div class="flex-grow">
+                            <h3 id="vessel-lease-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
+                            <p id="vessel-lease-desc" class="text-gray-600 min-h-[4.5rem] mb-4"></p>
+                            <div class="my-4">
+                                <p id="vessel-lease-investment" class="text-lg"></p>
+                                <p class="text-4xl font-bold">¥2,500,000 /share</p>
+                                <p id="vessel-lease-note" class="text-xs text-gray-500 mt-1"></p>
+                            </div>
                         </div>
-                        <div class="chart-container mt-auto">
+                        <figure class="chart-container mt-auto">
                             <canvas id="shipInvestmentReturnChart"></canvas>
-                            <p id="return-chart-caption" class="text-center text-sm text-gray-500 mt-2"></p>
-                        </div>
+                            <figcaption id="return-chart-caption" class="text-center text-sm text-gray-500 mt-2"></figcaption>
+                        </figure>
                     </div>
-                    <div class="border-2 border-gray-300 rounded-lg p-6 text-center flex flex-col">
-                        <h3 id="business-inv-title" class="text-2xl font-bold text-gray-800 mb-4"></h3>
-                        <p id="business-inv-desc" class="text-gray-600 mb-4 flex-grow"></p>
-                        <div class="my-4">
-                            <p id="business-inv-investment" class="text-lg"></p>
-                            <p class="text-4xl font-bold">$300,000+</p>
+                    <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
+                        <div class="flex-grow">
+                            <h3 id="business-inv-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
+                            <p id="business-inv-desc" class="text-gray-600 min-h-[4.5rem]"></p>
+                            <div class="my-4">
+                                <p id="business-inv-investment" class="text-lg"></p>
+                                <p class="text-4xl font-bold">$300,000+</p>
+                            </div>
+                            <div class="text-left bg-gray-50 p-3 rounded-lg border border-gray-200 mb-4">
+                                <h4 id="dividend-sources-title" class="font-bold text-gray-700 text-center mb-2"></h4>
+                                <ul id="dividend-sources-list" class="text-sm text-gray-600 list-disc list-inside space-y-1"></ul>
+                            </div>
                         </div>
-                        <div class="mt-auto p-4 bg-gray-100 rounded-lg">
-                            <p id="business-inv-highlight" class="text-2xl font-bold text-[#004AAD]"></p>
-                            <p id="business-inv-highlight-desc" class="text-gray-600"></p>
+                        <div class="mt-auto p-6 bg-blue-50 rounded-lg text-center">
+                            <p id="return-target-title" class="text-gray-600 font-bold"></p>
+                            <p class="text-5xl font-black text-[#004AAD] my-1">2.5<span id="return-target-unit" class="text-3xl"></span></p>
+                            <p id="return-target-desc" class="text-sm text-gray-700 mt-2"></p>
                         </div>
                     </div>
                 </div>
@@ -303,6 +329,13 @@
                 kpiText: "過去17年での魚の個体数減少率",
                 povertyChartCaption: "漁師の収益状況（2漁村118世帯への調査に基づく推定）",
                 povertyChartLabels: ['実質赤字(超貧困層)', 'かろうじて生活(貧困層)', '普通', '余裕がある'],
+                kpi1Title: "水揚げ後の廃棄ロス率",
+                kpi1Source: "（出典：FAO調査 2024）",
+                kpi2Unit: "倍",
+                kpi2Title: "鮮度管理による市場価格の上昇",
+                kpi2Source: "（出典：プノンペン中央市場調査）",
+                kpi3Title: "政府が掲げる5年間の輸出額成長目標",
+                kpi3Source: "（出典：国家水産戦略2025-2030）",
                 geopoliticalTitle: "【緊急課題】地政学リスクによる孤立",
                 geopoliticalDesc: "近隣国との紛争により、カンボジア漁船はこれまで利用してきた他国の港で水揚げすることが困難になっています。多くの漁師が水揚げの場所を失い、漁業そのものが成り立たない危機的状況です。**自国の漁港インフラ整備は、もはや待ったなしの国家課題となっています。**",
                 govTitle: "【好機】政府の強力な追い風",
@@ -343,10 +376,15 @@
                 investmentTitle: "4. The Investment Opportunity",
                 investmentSubtitle: "社会的インパクトと経済的リターンを両立する機会",
                 facilityInvTitle: "設備投資",
-                facilityInvItem1: "・漁港施設: $500,000",
-                facilityInvItem2: "・コールドチェーン施設: $200,000",
-                facilityInvItem3: "・加工施設: $200,000",
-                facilityInvItem4: "・造成: $100,000",
+                facilityInvBreakdown: `
+                    <p>・コールドチェーン施設建設費: $313,886</p>
+                    <p>・人件費・運営費等: $276,480</p>
+                    <p>・造成費: $250,000</p>
+                    <p>・技術訓練プログラム: $65,000</p>
+                    <p>・予備費: $60,000</p>
+                    <p>・試験的人工礁設置: $20,000</p>
+                    <p>・モニタリング・評価: $12,000</p>
+                `,
                 vesselInvTitle: "漁船調達",
                 vesselInvValue: "50隻",
                 vesselInvItem1: "・中小型船: 40隻",
@@ -356,13 +394,16 @@
                 vesselLeaseDesc: "中古漁船のオーナーとなり、リース料収入と事業配当、そして将来の売却益を得るスキームです。",
                 vesselLeaseInvestment: "投資額",
                 vesselLeaseNote: "※1隻あたり7万～20万ドルで調達予定",
-                returnChartCaption: "7年後のリターン目標",
-                returnChartLabels: ['初期投資', '7年後リターン目標'],
+                returnChartCaption: "投資回収シミュレーション",
+                returnChartLabels: ['初期投資', 'トータルリターン'],
                 businessInvTitle: "B. 事業投資",
                 businessInvDesc: "事業の設備投資が中心となり、リターンは主に事業配当から得られます。関連地の不動産投資も一部含まれ、将来的な資産価値向上も期待できます。",
                 businessInvInvestment: "投資額",
-                businessInvHighlight: "安定配当＋成長性",
-                businessInvHighlightDesc: "事業収益からの安定配当に加え、関連不動産の価値上昇によるキャピタルゲインも見込めます。",
+                dividendSourcesTitle: "事業配当の原資",
+                dividendSourcesList: `<li>船舶リーシング事業</li><li>国内の卸売事業</li><li>水産物の加工・製品化事業</li><li>機材・機器のメンテナンス事業</li><li>人材育成・派遣事業</li>`,
+                returnTargetTitle: "目標リターン（7年後）",
+                returnTargetUnit: "倍",
+                returnTargetDesc: "IRR（内部収益率）<span class='font-bold'>15-20%</span>相当<br>安定した事業配当と将来の資産価値上昇を含む",
                 footerText: "あなたの投資が、一国の産業を創り、人々の生活を豊かにする力になります。",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             },
@@ -376,6 +417,13 @@
                 kpiText: "Decline in Fish Population Over the Past 17 Years",
                 povertyChartCaption: "Fishermen's Profitability (Estimate based on a survey of 118 households in 2 villages)",
                 povertyChartLabels: ['Net Loss (Extreme Poverty)', 'Subsistence Level (Poverty)', 'Standard', 'Comfortable'],
+                kpi1Title: "Post-Harvest Waste Rate",
+                kpi1Source: "(Source: FAO Survey 2024)",
+                kpi2Unit: "x",
+                kpi2Title: "Market Price Increase with Freshness Management",
+                kpi2Source: "(Source: Phnom Penh Central Market Survey)",
+                kpi3Title: "Government's 5-Year Export Growth Target",
+                kpi3Source: "(Source: National Fisheries Strategy 2025-2030)",
                 geopoliticalTitle: "【Urgent Issue】Isolation Due to Geopolitical Risks",
                 geopoliticalDesc: "Due to conflicts with neighboring countries, Cambodian fishing boats are finding it difficult to land their catch at foreign ports they have long relied on. Many fishermen have lost their landing sites, creating a crisis where fishing itself is becoming untenable. **Developing domestic port infrastructure is now an urgent national priority.**",
                 govTitle: "【Opportunity】Strong Government Tailwinds",
@@ -416,10 +464,15 @@
                 investmentTitle: "4. The Investment Opportunity",
                 investmentSubtitle: "An Opportunity for Both Social Impact and Financial Returns",
                 facilityInvTitle: "Facility Investment",
-                facilityInvItem1: "・Port Facilities: $500,000",
-                facilityInvItem2: "・Cold Chain Facilities: $200,000",
-                facilityInvItem3: "・Processing Facilities: $200,000",
-                facilityInvItem4: "・Land Development: $100,000",
+                facilityInvBreakdown: `
+                    <p>・Cold Chain Facility Construction: $313,886</p>
+                    <p>・Personnel & Operating Costs: $276,480</p>
+                    <p>・Land Development: $250,000</p>
+                    <p>・Technical Training Program: $65,000</p>
+                    <p>・Contingency Fund: $60,000</p>
+                    <p>・Pilot Artificial Reef Installation: $20,000</p>
+                    <p>・Monitoring & Evaluation: $12,000</p>
+                `,
                 vesselInvTitle: "Vessel Procurement",
                 vesselInvValue: "50 Vessels",
                 vesselInvItem1: "・Small/Mid-size: 40",
@@ -429,32 +482,24 @@
                 vesselLeaseDesc: "Become an owner of a used fishing vessel and earn returns from lease fees, business dividends, and future sale proceeds.",
                 vesselLeaseInvestment: "Investment",
                 vesselLeaseNote: "※Vessels procured at $70k - $200k each",
-                returnChartCaption: "7-Year Return Target",
-                returnChartLabels: ['Initial Investment', '7-Year Return Target'],
+                returnChartCaption: "Investment Return Simulation",
+                returnChartLabels: ['Initial Investment', 'Total Return'],
                 businessInvTitle: "B. Business Investment",
                 businessInvDesc: "This investment focuses on the project's facilities, with returns primarily from business dividends. It also includes partial investment in related real estate, expecting future appreciation.",
                 businessInvInvestment: "Investment",
-                businessInvHighlight: "Stable Dividends + Growth",
-                businessInvHighlightDesc: "Expect stable dividends from business revenue, plus potential capital gains from related real estate appreciation.",
+                dividendSourcesTitle: "Sources of Business Dividends",
+                dividendSourcesList: `<li>Vessel Leasing Business</li><li>Domestic Wholesale Business</li><li>Seafood Processing & Product Development</li><li>Equipment Maintenance Business</li><li>Human Resource Development & Dispatch</li>`,
+                returnTargetTitle: "Target Return (After 7 years)",
+                returnTargetUnit: "x",
+                returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
                 footerText: "Your investment has the power to build a nation's industry and enrich people's lives.",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             }
         };
 
         let povertyChart, returnChart;
-        const brilliantBlues = ['#004AAD', '#007BFF', '#80BFFF', '#4DA3FF', '#0062D8'];
-        const grayScale = ['#6B7280', '#D1D5DB'];
-
+        
         Chart.register(ChartDataLabels);
-
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                return label.join(' ');
-            }
-            return label;
-        };
 
         const defaultChartOptions = {
             responsive: true,
@@ -465,22 +510,17 @@
                 },
                 tooltip: {
                     callbacks: {
-                        title: tooltipTitleCallback
+                        title: (tooltipItems) => {
+                            const item = tooltipItems[0];
+                            const label = item.chart.data.labels[item.dataIndex];
+                            return Array.isArray(label) ? label.join(' ') : label;
+                        }
                     }
                 },
                 datalabels: {
                     color: '#fff',
                     font: {
                         weight: 'bold'
-                    },
-                    formatter: (value, ctx) => {
-                        let sum = 0;
-                        let dataArr = ctx.chart.data.datasets[0].data;
-                        dataArr.map(data => {
-                            sum += data;
-                        });
-                        let percentage = (value*100 / sum).toFixed(0) + "%";
-                        return percentage;
                     },
                 }
             }
@@ -495,7 +535,7 @@
                     labels: translations[lang].povertyChartLabels,
                     datasets: [{
                         data: [18, 42, 30, 10],
-                        backgroundColor: ['#b91c1c', '#f97316', brilliantBlues[2], brilliantBlues[3]],
+                        backgroundColor: ['#b91c1c', '#f97316', '#80BFFF', '#4DA3FF'],
                         borderColor: '#ffffff',
                         borderWidth: 2
                     }]
@@ -504,7 +544,15 @@
                     ...defaultChartOptions,
                     plugins: {
                         ...defaultChartOptions.plugins,
-                        legend: { position: 'bottom' }
+                        legend: { position: 'bottom' },
+                        datalabels: {
+                            ...defaultChartOptions.plugins.datalabels,
+                             formatter: (value, ctx) => {
+                                const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = (value / total * 100).toFixed(0) + "%";
+                                return percentage;
+                            },
+                        }
                     }
                 }
             });
@@ -518,15 +566,14 @@
                 data: {
                     labels: translations[lang].returnChartLabels,
                     datasets: [{
-                        data: [100, 250],
-                        backgroundColor: [grayScale[0], brilliantBlues[1]],
-                        borderColor: [grayScale[1], brilliantBlues[0]],
+                        data: [100, 180],
+                        backgroundColor: ['#6B7280', '#007BFF'],
+                        borderColor: ['#D1D5DB', '#004AAD'],
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...defaultChartOptions,
                     indexAxis: 'y',
                     scales: {
                         x: {
@@ -535,9 +582,23 @@
                         }
                     },
                     plugins: {
+                        ...defaultChartOptions.plugins,
                         legend: { display: false },
-                        tooltip: { callbacks: { title: tooltipTitleCallback } },
-                        datalabels: { display: false }
+                        tooltip: { enabled: false },
+                        datalabels: {
+                            display: true,
+                            color: 'white',
+                            anchor: 'center',
+                            align: 'center',
+                            font: { weight: 'bold', size: '11px' },
+                            formatter: (value, context) => {
+                                if (lang === 'ja') {
+                                    return context.dataIndex === 0 ? `${value}%\n(※全額一年償却可)` : `${value}%\n毎年のリース料4-5%と事業配当、\nリセールバリュー1.3-1.5倍を想定`;
+                                } else {
+                                     return context.dataIndex === 0 ? `${value}%\n(Full 1-year depreciation)` : `${value}%\nBased on 4-5% annual lease, dividends,\nand 1.3-1.5x resale value`;
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -547,12 +608,12 @@
             document.documentElement.lang = lang;
             const t = translations[lang];
             
-            Object.keys(t).forEach(key => {
+            for (const key in t) {
                 const element = document.getElementById(key.replace(/([A-Z])/g, "-$1").toLowerCase());
                 if (element) {
                     element.innerHTML = t[key];
                 }
-            });
+            }
 
             document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
