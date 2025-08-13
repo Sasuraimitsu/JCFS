@@ -168,7 +168,7 @@
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
                 <h2 id="solution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
                 <p id="solution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                     <div>
                         <h3 id="formula-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
                         <p id="formula-desc" class="text-gray-600 mb-6"></p>
@@ -345,15 +345,6 @@
         <p id="footer-text"></p>
         <p id="footer-copyright" class="text-sm opacity-75 mt-2"></p>
     </footer>
-    
-    <!-- Modal -->
-    <div id="coming-soon-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
-            <h3 id="modal-title" class="text-2xl font-bold mb-4 jcfs-blue-dark"></h3>
-            <p id="modal-desc" class="mb-6 text-gray-700"></p>
-            <button id="modal-close-btn" class="bg-jcfs-blue-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-jcfs-blue-dark transition-colors"></button>
-        </div>
-    </div>
 
     <script>
         const translations = {
@@ -444,10 +435,7 @@
                 newsTitle: "5. 最新情報と活動報告",
                 newsSubtitle: "プロジェクトのリアルタイムな進捗は、公式SNSで発信しています。",
                 footerText: "あなたの投資が、一国の産業を創り、人々の生活を豊かにする力になります。",
-                footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved.",
-                modalTitle: "準備中",
-                modalDesc: "このページのコンテンツは現在準備中です。公開まで今しばらくお待ちください。",
-                modalCloseBtn: "閉じる"
+                footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             },
             en: {
                 headerTitle: "Cambodia Fishery Reform Project",
@@ -536,10 +524,7 @@
                 newsTitle: "5. News & Updates",
                 newsSubtitle: "Follow our real-time progress on our official social media channels.",
                 footerText: "Your investment has the power to build a nation's industry and enrich people's lives.",
-                footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved.",
-                modalTitle: "Coming Soon",
-                modalDesc: "The content for this page is currently under construction. Please check back soon.",
-                modalCloseBtn: "Close"
+                footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             }
         };
 
@@ -673,34 +658,8 @@
             document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
             document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
             
-            const modal = document.getElementById('coming-soon-modal');
-            const openBtn = document.getElementById('frp-link-button');
-            const closeBtn = document.getElementById('modal-close-btn');
-
-            if (openBtn) {
-                openBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const lang = document.documentElement.lang || 'ja';
-                    document.getElementById('modal-title').innerText = translations[lang].modalTitle;
-                    document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
-                    document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
-                    modal.classList.remove('hidden');
-                });
-            }
-
-            if(closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    modal.classList.add('hidden');
-                });
-            }
-
-            if(modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.add('hidden');
-                    }
-                });
-            }
+            // This section is intentionally left blank to ensure the link works.
+            // The modal logic has been removed.
             
             updateContent('ja');
         });
