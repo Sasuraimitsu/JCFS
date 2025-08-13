@@ -3,63 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カンボジア漁業の未来：日本のFRP漁船が拓く新時代 - JCFS</title>
+    <title>Cambodia Fishery Reform Project: An Invitation to Impact Investing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans JP', 'Inter', sans-serif;
-            background-color: #f8f9fa; 
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #f8f9fa;
         }
         .jcfs-blue-dark { color: #002D4F; }
         .jcfs-blue-primary { color: #005A9C; }
-        .jcfs-blue-light { color: #4D8BC8; }
-        .bg-jcfs-blue-dark { background-color: #002D4F; }
         .bg-jcfs-blue-primary { background-color: #005A9C; }
-        .border-jcfs-blue-primary { border-color: #005A9C; }
-        .border-jcfs-accent { border-color: #E6F0F9; }
-        .bg-jcfs-accent-light { background-color: #E6F0F9; }
+        .bg-jcfs-blue-dark { background-color: #002D4F; }
 
         .chart-container {
             position: relative;
+            height: 320px;
             width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
+            max-width: 400px;
+            margin: auto;
         }
         .kpi-card {
-            background-color: white;
+            background-color: #005A9C;
+            color: white;
+            padding: 2rem;
             border-radius: 0.5rem;
-            padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            border-left: 4px solid #005A9C; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
         }
-        .kpi-value {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 700;
-            color: #002D4F; 
+        .kpi-number {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #FFFFFF;
+            opacity: 0.95;
         }
-        .kpi-label {
-            color: #6B7280;
+        .kpi-text {
+            font-size: 1.125rem;
+            margin-top: 0.5rem;
         }
         .flow-arrow {
-            font-size: 2.5rem;
-            line-height: 1;
-            color: #4D8BC8;
+            font-size: 2rem;
+            color: #005A9C;
+            align-self: center;
+            margin: 0.5rem 0;
         }
-        .benefit-check {
-            color: #22C55E;
+        .progress-step {
+            text-align: center;
+            position: relative;
+        }
+        .progress-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            width: 150%;
+            height: 2px;
+            background-color: #4D8BC8;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+         @media (min-width: 768px) {
+            .progress-step:not(:last-child)::after {
+                top: 2rem;
+                left: 50%;
+                width: 100%;
+                transform: translateX(0);
+            }
         }
         .lang-btn {
             padding: 0.5rem 1rem;
@@ -80,246 +98,254 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto max-w-7xl px-4">
-            <div class="flex justify-between items-center py-4">
-                <div class="text-2xl font-bold jcfs-blue-dark">JCFS</div>
-                <nav class="flex items-center space-x-4">
-                    <a id="nav-home" href="https://sasuraimitsu.github.io/JCFS/" class="text-gray-600 hover:jcfs-blue-primary font-semibold"></a>
-                    <div class="flex items-center space-x-1">
-                        <button id="lang-ja" class="lang-btn">JP</button>
-                        <button id="lang-en" class="lang-btn">EN</button>
-                    </div>
-                </nav>
+    <header class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold jcfs-blue-dark">JCFS</div>
+            <div class="flex items-center space-x-2">
+                <button id="lang-ja" class="lang-btn">JP</button>
+                <button id="lang-en" class="lang-btn">EN</button>
             </div>
         </div>
     </header>
 
-    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+    <main class="container mx-auto p-4 md:p-8">
 
-        <header class="text-center my-12">
-            <h1 id="page-title" class="text-4xl md:text-5xl font-bold jcfs-blue-dark mb-4"></h1>
-            <p id="page-subtitle" class="text-xl md:text-2xl jcfs-blue-primary"></p>
-        </header>
+        <section id="hero" class="text-center my-12">
+             <h1 id="header-title" class="text-3xl md:text-5xl font-bold jcfs-blue-dark"></h1>
+             <p id="header-subtitle" class="mt-2 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"></p>
+        </section>
 
-        <section id="problem" class="mb-16">
+        <section id="opportunity" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="problem-title" class="text-3xl font-bold text-center jcfs-blue-dark mb-6"></h2>
-                <p id="problem-desc" class="text-lg text-center text-gray-600 mb-8"></p>
-                <div class="grid md:grid-cols-3 gap-6 text-center">
-                    <div class="p-4 bg-red-50 rounded-lg">
-                        <div class="text-4xl mb-2">⏳</div>
-                        <h3 id="problem-item1-title" class="text-xl font-bold text-red-800"></h3>
-                        <p id="problem-item1-desc" class="text-gray-700"></p>
+                <h2 id="opportunity-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <p id="opportunity-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <h3 id="opportunity-issue-title" class="text-2xl font-bold text-gray-800"></h3>
+                        <p id="opportunity-issue-desc" class="text-gray-600"></p>
+                        <div class="kpi-card">
+                            <span class="kpi-number">87.7%</span>
+                            <span id="kpi-text" class="kpi-text"></span>
+                        </div>
                     </div>
-                    <div class="p-4 bg-yellow-50 rounded-lg">
-                        <div class="text-4xl mb-2">💸</div>
-                        <h3 id="problem-item2-title" class="text-xl font-bold text-yellow-800"></h3>
-                        <p id="problem-item2-desc" class="text-gray-700"></p>
+                    <figure class="chart-container">
+                        <canvas id="fishermenPovertyChart"></canvas>
+                        <figcaption id="poverty-chart-caption" class="text-center text-sm text-gray-500 mt-2"></figcaption>
+                    </figure>
+                </div>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                        <p class="text-4xl font-bold text-red-700">35%</p>
+                        <p id="kpi1-title" class="text-gray-600 font-semibold"></p>
+                        <p id="kpi1-source" class="text-xs text-gray-500 mt-1"></p>
                     </div>
-                    <div class="p-4 bg-blue-50 rounded-lg">
-                        <div class="text-4xl mb-2">📉</div>
-                        <h3 id="problem-item3-title" class="text-xl font-bold text-blue-800"></h3>
-                        <p id="problem-item3-desc" class="text-gray-700"></p>
+                    <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                        <p class="text-4xl font-bold text-green-700">2.5<span id="kpi2-unit" class="text-2xl"></span></p>
+                        <p id="kpi2-title" class="text-gray-600 font-semibold"></p>
+                        <p id="kpi2-source" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-4xl font-bold text-blue-700">200%</p>
+                        <p id="kpi3-title" class="text-gray-600 font-semibold"></p>
+                        <p id="kpi3-source" class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                </div>
+                <div class="mt-8 space-y-4">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                        <h4 id="geopolitical-title" class="font-bold text-red-700"></h4>
+                        <p id="geopolitical-desc" class="text-gray-700"></p>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-[#007BFF] p-4 rounded-r-lg">
+                        <h4 id="gov-title" class="font-bold jcfs-blue-primary"></h4>
+                        <p id="gov-desc" class="text-gray-700"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h2 id="solution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <p id="solution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <h3 id="formula-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                        <p id="formula-desc" class="text-gray-600 mb-6"></p>
+                        <div class="flex items-center justify-center space-x-2 md:space-x-4">
+                            <div class="text-center p-4 rounded-lg bg-red-50 border-2 border-red-200 w-1/2 h-full flex flex-col justify-center">
+                                <span class="text-4xl" role="img" aria-label="コスト削減">💸</span>
+                                <p id="cost-reduction-title" class="font-bold text-red-700 mt-2 text-lg"></p>
+                                <p id="cost-reduction-desc" class="text-sm text-gray-600 mt-1"></p>
+                            </div>
+                            <div class="text-4xl font-bold text-gray-700">+</div>
+                            <div class="text-center p-4 rounded-lg bg-green-50 border-2 border-green-300 w-1/2 h-full flex flex-col justify-center">
+                                <span class="text-4xl" role="img" aria-label="売上拡大">📈</span>
+                                <p id="revenue-growth-title" class="font-bold text-green-700 mt-2 text-lg"></p>
+                                <p id="revenue-growth-desc" class="text-sm text-gray-600 mt-1"></p>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <span class="text-5xl font-bold text-[#007BFF]">=</span>
+                            <div class="mt-2 p-4 bg-blue-100 rounded-lg">
+                                <p id="income-result-title" class="text-xl md:text-2xl font-bold jcfs-blue-primary"></p>
+                                <p id="income-result-value" class="text-4xl md:text-5xl font-black jcfs-blue-primary"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 flex flex-col text-center">
+                        <h3 id="ecosystem-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                        <div class="p-4 bg-blue-100 rounded-lg">
+                            <span class="text-3xl" role="img" aria-label="設備提供">🚢</span>
+                            <p id="eco-step1-title" class="font-bold"></p>
+                            <p id="eco-step1-desc" class="text-sm"></p>
+                        </div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="p-4 bg-blue-100 rounded-lg">
+                            <span class="text-3xl" role="img" aria-label="漁獲・買取">🐟</span>
+                            <p id="eco-step2-title" class="font-bold"></p>
+                            <p id="eco-step2-desc" class="text-sm"></p>
+                        </div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="p-4 bg-blue-100 rounded-lg">
+                            <span class="text-3xl" role="img" aria-label="販売・収益化">💹</span>
+                            <p id="eco-step3-title" class="font-bold"></p>
+                            <p id="eco-step3-desc" class="text-sm"></p>
+                        </div>
+                        <div class="flow-arrow">↓</div>
+                        <div class="p-4 bg-green-100 rounded-lg">
+                            <span class="text-3xl" role="img" aria-label="利益分配">🤝</span>
+                            <p id="eco-step4-title" class="font-bold"></p>
+                            <p id="eco-step4-desc" class="text-sm"></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <section id="evolution" class="mb-16">
-            <h2 id="evolution-title" class="text-3xl font-bold text-center jcfs-blue-dark mb-8"></h2>
-            <div class="flex flex-col md:flex-row items-center justify-around gap-4 text-center">
-                <div class="p-6 bg-white rounded-lg shadow-md w-full md:w-1/4">
-                    <div class="text-5xl mb-3">🪵</div>
-                    <h3 id="evo-item1-title" class="text-2xl font-bold jcfs-blue-primary"></h3>
-                    <p id="evo-item1-desc" class="text-gray-600 mt-2"></p>
-                </div>
-                <div class="flow-arrow hidden md:block">&rarr;</div>
-                <div class="flow-arrow md:hidden">&darr;</div>
-                <div class="p-6 bg-white rounded-lg shadow-md w-full md:w-1/4">
-                    <div class="text-5xl mb-3">⚙️</div>
-                    <h3 id="evo-item2-title" class="text-2xl font-bold jcfs-blue-primary"></h3>
-                    <p id="evo-item2-desc" class="text-gray-600 mt-2"></p>
-                </div>
-                <div class="flow-arrow hidden md:block">&rarr;</div>
-                 <div class="flow-arrow md:hidden">&darr;</div>
-                <div class="p-6 bg-white rounded-lg shadow-lg w-full md:w-1/4 border-4 border-jcfs-blue-light">
-                    <div class="text-5xl mb-3">✨</div>
-                    <h3 id="evo-item3-title" class="text-2xl font-bold jcfs-blue-dark"></h3>
-                    <p id="evo-item3-desc" class="text-gray-600 mt-2"></p>
-                </div>
-            </div>
+        <section id="frp-solution-link" class="mb-12 text-center bg-jcfs-blue-dark text-white rounded-lg shadow-lg p-8 md:p-12">
+            <h2 id="frp-link-title" class="text-3xl font-bold mb-4"></h2>
+            <p id="frp-link-desc" class="text-xl max-w-3xl mx-auto mb-8"></p>
+            <a id="frp-link-button" href="./frp-details.html" class="inline-block bg-[#007BFF] text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-[#005A9C] transition-colors"></a>
         </section>
 
-        <section id="comparison" class="mb-16">
-            <h2 id="comparison-title" class="text-3xl font-bold text-center jcfs-blue-dark mb-8"></h2>
-            <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 id="lifespan-title" class="text-2xl font-bold text-center mb-4 jcfs-blue-primary"></h3>
-                    <div class="chart-container">
-                        <canvas id="lifespanChart"></canvas>
-                    </div>
-                    <p id="lifespan-desc" class="text-center mt-4 text-gray-600"></p>
-                </div>
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 id="cost-title" class="text-2xl font-bold text-center mb-4 jcfs-blue-primary"></h3>
-                     <div class="chart-container">
-                        <canvas id="costChart"></canvas>
-                    </div>
-                    <p id="cost-desc" class="text-center mt-4 text-gray-600"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="kpi" class="mb-16">
-             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="kpi-card">
-                    <p class="kpi-value text-5xl">3x</p>
-                    <p id="kpi1-label" class="kpi-label text-lg"></p>
-                </div>
-                <div class="kpi-card">
-                    <p class="kpi-value text-5xl">-70%</p>
-                    <p id="kpi2-label" class="kpi-label text-lg"></p>
-                </div>
-                <div class="kpi-card">
-                    <p class="kpi-value text-5xl">+20%</p>
-                    <p id="kpi3-label" class="kpi-label text-lg"></p>
-                </div>
-                <div class="kpi-card">
-                    <p class="kpi-value text-5xl">100%</p>
-                    <p id="kpi4-label" class="kpi-label text-lg"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="ikesu" class="mb-16 bg-white rounded-lg shadow-lg p-6 md:p-8">
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h2 id="ikesu-title" class="text-3xl font-bold jcfs-blue-dark mb-4"></h2>
-                    <p id="ikesu-desc" class="text-lg text-gray-700 mb-6"></p>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <div class="text-2xl jcfs-blue-primary mr-3">①</div>
-                            <div>
-                                <h4 id="ikesu-feature1-title" class="font-bold text-xl"></h4>
-                                <p id="ikesu-feature1-desc" class="text-gray-600"></p>
-                            </div>
-                        </div>
-                         <div class="flex items-start">
-                            <div class="text-2xl jcfs-blue-primary mr-3">②</div>
-                            <div>
-                                <h4 id="ikesu-feature2-title" class="font-bold text-xl"></h4>
-                                <p id="ikesu-feature2-desc" class="text-gray-600"></p>
-                            </div>
-                        </div>
-                         <div class="flex items-start">
-                            <div class="text-2xl jcfs-blue-primary mr-3">③</div>
-                            <div>
-                                <h4 id="ikesu-feature3-title" class="font-bold text-xl"></h4>
-                                <p id="ikesu-feature3-desc" class="text-gray-600"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="chart-container" style="height: 400px; max-height: 500px;">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                     <p id="revenue-desc" class="text-center mt-4 text-gray-600"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="models" class="mb-16 text-center bg-white rounded-lg shadow-lg p-8 md:p-12">
-            <h2 id="models-title" class="text-3xl font-bold jcfs-blue-dark mb-4"></h2>
-            <p id="models-desc" class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto"></p>
-            <a id="models-button" href="javascript:void(0);" class="inline-block bg-jcfs-blue-primary text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-jcfs-blue-dark transition-colors"></a>
-        </section>
-
-        <section id="lease-option" class="mb-16">
+        <section id="execution" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="lease-title" class="text-3xl font-bold text-center jcfs-blue-dark mb-4"></h2>
-                <p id="lease-desc" class="text-lg text-center text-gray-600 mb-10 max-w-3xl mx-auto"></p>
-                <div class="grid md:grid-cols-2 gap-8 items-stretch">
-                    <div class="border rounded-lg p-6 flex flex-col">
-                        <h3 id="lease-purchase-title" class="text-2xl font-bold text-center text-gray-500 mb-4"></h3>
-                        <div class="text-center text-6xl mb-4">💰</div>
-                        <div class="text-left space-y-3">
-                            <p class="flex items-start"><span class="text-red-500 font-bold text-2xl mr-2">&times;</span> <span id="lease-purchase-item1"></span></p>
-                            <p class="flex items-start"><span class="text-red-500 font-bold text-2xl mr-2">&times;</span> <span id="lease-purchase-item2"></span></p>
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <span id="lease-purchase-item3"></span></p>
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <span id="lease-purchase-item4"></span></p>
-                        </div>
+                <h2 id="execution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <p id="execution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="grid grid-cols-4 gap-x-2 md:gap-x-4 max-w-5xl mx-auto">
+                    <div class="progress-step">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
+                        <h4 class="font-bold">STEP 1</h4>
+                        <p id="exec-step1-title" class="text-sm font-semibold text-gray-700"></p>
+                        <p id="exec-step1-status" class="text-xs text-green-600 font-bold"></p>
                     </div>
-                    <div class="border-4 border-jcfs-blue-light rounded-lg p-6 bg-jcfs-accent-light flex flex-col">
-                        <h3 id="lease-proposal-title" class="text-2xl font-bold text-center jcfs-blue-dark mb-4"></h3>
-                        <div class="text-center text-6xl mb-4">🤝</div>
-                        <div class="text-left space-y-3">
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <strong id="lease-proposal-item1"></strong></p>
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <strong id="lease-proposal-item2"></strong></p>
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <strong id="lease-proposal-item3"></strong></p>
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <strong id="lease-proposal-item4"></strong></p>
-                            <p class="flex items-start"><span class="benefit-check font-bold text-2xl mr-2">&#10003;</span> <strong id="lease-proposal-item5"></strong></p>
-                        </div>
+                    <div class="progress-step">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
+                        <h4 class="font-bold">STEP 2</h4>
+                        <p id="exec-step2-title" class="text-sm font-semibold text-gray-700"></p>
+                        <p id="exec-step2-status" class="text-xs text-green-600 font-bold"></p>
+                    </div>
+                    <div class="progress-step">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl mb-2">...</div>
+                        <h4 class="font-bold">STEP 3</h4>
+                        <p id="exec-step3-title" class="text-sm font-semibold text-gray-700"></p>
+                        <p id="exec-step3-status" class="text-xs text-blue-600 font-bold"></p>
+                    </div>
+                    <div class="progress-step">
+                        <div class="mx-auto w-16 h-16 rounded-full border-4 border-gray-400 border-dashed text-gray-400 flex items-center justify-center text-3xl mb-2" role="img" aria-label="ローンチ">🚀</div>
+                        <h4 class="font-bold text-gray-500">GOAL</h4>
+                        <p id="exec-step4-title" class="text-sm font-semibold text-gray-500"></p>
+                        <p id="exec-step4-status" class="text-xs text-gray-400 font-bold"></p>
                     </div>
                 </div>
-                <p id="lease-summary" class="text-center mt-8 font-semibold text-lg jcfs-blue-dark"></p>
             </div>
         </section>
 
-        <section id="solution-summary" class="mb-16">
+        <section id="investment" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="solution-title" class="text-3xl font-bold text-center jcfs-blue-dark mb-8"></h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-jcfs-blue-primary text-white">
-                                <th id="solution-header1" class="p-4 font-bold"></th>
-                                <th id="solution-header2" class="p-4 font-bold"></th>
-                                <th id="solution-header3" class="p-4 font-bold"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td id="solution-row1-cell1" class="p-4 align-top"></td>
-                                <td id="solution-row1-cell2" class="p-4 align-top"></td>
-                                <td id="solution-row1-cell3" class="p-4 align-top"></td>
-                            </tr>
-                            <tr class="bg-gray-50 border-b">
-                                <td id="solution-row2-cell1" class="p-4 align-top"></td>
-                                <td id="solution-row2-cell2" class="p-4 align-top"></td>
-                                <td id="solution-row2-cell3" class="p-4 align-top"></td>
-                            </tr>
-                            <tr class="border-b">
-                                <td id="solution-row3-cell1" class="p-4 align-top"></td>
-                                <td id="solution-row3-cell2" class="p-4 align-top"></td>
-                                <td id="solution-row3-cell3" class="p-4 align-top"></td>
-                            </tr>
-                            <tr class="bg-gray-50">
-                                <td id="solution-row4-cell1" class="p-4 align-top"></td>
-                                <td id="solution-row4-cell2" class="p-4 align-top"></td>
-                                <td id="solution-row4-cell3" class="p-4 align-top"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <h2 id="investment-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <p id="investment-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="text-center mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p id="facility-inv-title" class="text-gray-600 font-bold"></p>
+                        <p class="text-4xl md:text-5xl font-black jcfs-blue-primary">$997,366</p>
+                        <div id="facility-inv-breakdown" class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg flex flex-col justify-center">
+                        <p id="vessel-inv-title" class="text-gray-600 font-bold"></p>
+                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black jcfs-blue-primary"></p>
+                        <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
+                            <p id="vessel-inv-item1"></p>
+                            <p id="vessel-inv-item2"></p>
+                            <p id="vessel-inv-item3" class="font-bold mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
+                        <div class="flex-grow">
+                            <h3 id="vessel-lease-title" class="text-2xl font-bold jcfs-blue-primary mb-4"></h3>
+                            <p id="vessel-lease-desc" class="text-gray-600 min-h-[4.5rem] mb-4"></p>
+                            <div class="my-4">
+                                <p id="vessel-lease-investment" class="text-lg"></p>
+                                <p class="text-4xl font-bold">¥2,500,000 /share</p>
+                                <p id="vessel-lease-note" class="text-xs text-gray-500 mt-1"></p>
+                            </div>
+                        </div>
+                        <figure class="chart-container mt-auto">
+                            <canvas id="shipInvestmentReturnChart"></canvas>
+                            <figcaption id="return-chart-caption" class="text-center text-sm text-gray-500 mt-2"></figcaption>
+                        </figure>
+                    </div>
+                    <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
+                        <div class="flex-grow">
+                            <h3 id="business-inv-title" class="text-2xl font-bold jcfs-blue-primary mb-4"></h3>
+                            <p id="business-inv-desc" class="text-gray-600 min-h-[4.5rem]"></p>
+                            <div class="my-4">
+                                <p id="business-inv-investment" class="text-lg"></p>
+                                <p class="text-4xl font-bold">$300,000+</p>
+                            </div>
+                            <div class="text-left bg-gray-50 p-3 rounded-lg border border-gray-200 mb-4">
+                                <h4 id="dividend-sources-title" class="font-bold text-gray-700 text-center mb-2"></h4>
+                                <ul id="dividend-sources-list" class="text-sm text-gray-600 list-disc list-inside space-y-1"></ul>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-6 bg-blue-50 rounded-lg text-center">
+                            <p id="return-target-title" class="text-gray-600 font-bold"></p>
+                            <p class="text-5xl font-black jcfs-blue-primary my-1">2.5<span id="return-target-unit" class="text-3xl"></span></p>
+                            <p id="return-target-desc" class="text-sm text-gray-700 mt-2"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="conclusion" class="text-center bg-jcfs-blue-dark text-white rounded-lg shadow-lg p-8 md:p-12">
-            <h2 id="conclusion-title" class="text-4xl font-bold mb-4"></h2>
-            <p id="conclusion-desc" class="text-xl max-w-3xl mx-auto mb-6"></p>
-            <a id="conclusion-button" href="#" class="inline-block bg-white text-jcfs-blue-dark font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-200 transition-colors"></a>
+        <section id="news" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center">
+                <h2 id="news-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <p id="news-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="flex justify-center items-center space-x-4">
+                    <a id="facebook-link" href="#" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                        <span class="text-2xl mr-2">📘</span>
+                        Facebook
+                    </a>
+                    <a id="instagram-link" href="#" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-pink-500 hover:bg-pink-600">
+                         <span class="text-2xl mr-2">📸</span>
+                        Instagram
+                    </a>
+                </div>
+            </div>
         </section>
 
-    </div>
+    </main>
 
-    <footer class="bg-white mt-16 pt-8 pb-4">
-        <div class="container mx-auto max-w-7xl px-4 text-center text-gray-500">
-            <p id="footer-copyright">&copy; 2024 JCFS. All Rights Reserved.</p>
-        </div>
+    <footer class="text-center p-6 mt-8 bg-gray-800 text-white">
+        <p id="footer-text"></p>
+        <p id="footer-copyright" class="text-sm opacity-75 mt-2"></p>
     </footer>
-
+    
     <div id="coming-soon-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
             <h3 id="modal-title" class="text-2xl font-bold mb-4 jcfs-blue-dark"></h3>
@@ -331,287 +357,336 @@
     <script>
         const translations = {
             ja: {
-                navHome: "ホームに戻る",
-                pageTitle: "カンボジア漁業の未来",
-                pageSubtitle: "日本のFRP漁船が拓く、持続可能で収益性の高い新時代",
-                problemTitle: "カンボジア漁業が直面する課題",
-                problemDesc: "伝統的な木造船は、操業範囲の限定、高い維持コスト、漁獲物の品質劣化といった深刻な課題を抱えており、漁業者の収益向上と産業の成長を妨げています。",
-                problemItem1Title: "限定的な操業",
-                problemItem1Desc: "氷の搭載量に限界があり、日帰り操業しかできず、沿岸の過密漁場での競争を強いられる。",
-                problemItem2Title: "高い維持コスト",
-                problemItem2Desc: "木材の腐食や虫害により、頻繁で高コストな修理が不可欠。船の寿命も短い。",
-                problemItem3Title: "低い収益性",
-                problemItem3Desc: "漁獲から時間が経ち鮮度が劣化。市場で安価に取引され、収入が伸び悩む。",
-                evolutionTitle: "漁船の進化：木からFRPへの必然的な流れ",
-                evoItem1Title: "木造船 (和船)",
-                evoItem1Desc: "古代からの伝統。自然素材だが、腐食や虫害に弱く、維持が困難。",
-                evoItem2Title: "鋼鉄船",
-                evoItem2Desc: "近代化の象徴。頑丈だが重く、錆びやすいため小型船には不向き。",
-                evoItem3Title: "FRP船",
-                evoItem3Desc: "現代の最適解。「軽くて強い」を実現し、耐久性と経済性を両立。",
-                comparisonTitle: "性能比較：木造船 vs 日本のFRP船",
-                lifespanTitle: "平均耐用年数 (Lifespan)",
-                lifespanDesc: "FRP船は木造船の3倍以上長持ちし、長期的な資産価値を提供します。",
-                costTitle: "ライフサイクルコスト (Lifecycle Cost)",
-                costDesc: "初期費用は高くても、FRP船は燃料費と維持費を大幅に削減し、総コストを低く抑えます。",
-                kpi1Label: "長い耐用年数",
-                kpi2Label: "メンテナンスコスト",
-                kpi3Label: "燃費効率",
-                kpi4Label: "腐食・腐敗耐性",
-                ikesuTitle: "日本の独自技術「イケス」の革命",
-                ikesuDesc: "「イケス（活魚槽）」は単なる水槽ではありません。漁獲物の価値を最大化し、収益構造を根本から変える戦略的設備です。",
-                ikesuFeature1Title: "鮮度維持から活魚輸送へ",
-                ikesuFeature1Desc: "魚を生きたまま港へ。最高の品質で出荷することで、市場での取引価格が飛躍的に向上します。",
-                ikesuFeature2Title: "操業範囲の拡大",
-                ikesuFeature2Desc: "数日間の沖合操業が可能に。未開拓の豊かな漁場へアクセスし、漁獲機会を増やします。",
-                ikesuFeature3Title: "高度な水循環システム",
-                ikesuFeature3Desc: "船の設計に組み込まれた循環システムが、魚を常に健康な状態に保ちます。",
-                revenueDesc: "イケスの活用により、漁獲量を増やさずとも、一航海あたりの収益を大幅に高めることが可能です。",
-                modelsTitle: "導入モデルラインナップ",
-                modelsDesc: "カンボジアの漁業スタイルやニーズに合わせた、導入予定のFRP漁船のご紹介をしております。<br>詳細は下記のリンクよりご覧ください。",
-                modelsButton: "モデルラインナップの詳細を見る",
+                headerTitle: "カンボジア漁業変革プロジェクト",
+                headerSubtitle: "社会課題の解決と経済的リターンを両立する投資機会",
+                opportunityTitle: "1. The Opportunity",
+                opportunitySubtitle: "なぜ「カンボジアの漁業」に、今投資すべきなのか？",
+                opportunityIssueTitle: "深刻な社会課題と巨大なポテンシャル",
+                opportunityIssueDesc: "カンボジアの水産業は、資源枯渇と非効率な操業により、国の食料安全保障を揺ががし、多くの漁師が貧困に喘いでいます。これは解決すべき巨大な社会課題であると同時に、未開拓の巨大市場を意味します。",
+                kpiText: "過去17年での魚の個体数減少率",
+                povertyChartCaption: "漁師の収益状況（2漁村118世帯への調査に基づく推定）",
+                povertyChartLabels: ['実質赤字(超貧困層)', 'かろうじて生活(貧困層)', '普通', '余裕がある'],
+                kpi1Title: "水揚げ後の廃棄ロス率",
+                kpi1Source: "（出典：FAO調査 2024）",
+                kpi2Unit: "倍",
+                kpi2Title: "鮮度管理による市場価格の上昇",
+                kpi2Source: "（出典：プノンペン中央市場調査）",
+                kpi3Title: "政府が掲げる5年間の輸出額成長目標",
+                kpi3Source: "（出典：国家水産戦略2025-2030）",
+                geopoliticalTitle: "【緊急課題】地政学リスクによる孤立",
+                geopoliticalDesc: "近隣国との紛争により、カンボジア漁船はこれまで利用してきた他国の港で水揚げすることが困難になっています。多くの漁師が水揚げの場所を失い、漁業そのものが成り立たない危機的状況です。**自国の漁港インフラ整備は、もはや待ったなしの国家課題となっています。**",
+                govTitle: "【好機】政府の強力な追い風",
+                govDesc: "カンボジア政府は養殖推進政策の失敗を経て、現在「海水面漁業の拡大」を国家の重要目標に掲げています。我々のプロジェクトは、この政府方針と完全に一致しており、強力な支援が期待できます。",
+                solutionTitle: "2. Our Solution",
+                solutionSubtitle: "どうやって市場を創造し、収益を上げるのか？",
+                formulaTitle: "漁師の収入を劇的に改善する方程式",
+                formulaDesc: "我々のモデルは、漁師の「支出を減らし、収入を増やす」という両面からのアプローチで、持続可能な収益向上を実現します。",
+                costReductionTitle: "コスト削減",
+                costReductionDesc: "高性能漁船で燃費・修繕費を大幅カット。",
+                revenueGrowthTitle: "売上拡大",
+                revenueGrowthDesc: "鮮度維持と全量買取で魚の価値を最大化。",
+                incomeResultTitle: "漁師の手取り収入",
+                incomeResultValue: "平均25% UP",
+                ecosystemTitle: "エコシステムの循環",
+                ecoStep1Title: "1. 設備提供",
+                ecoStep1Desc: "高性能漁船・冷蔵施設を漁師に無償提供",
+                ecoStep2Title: "2. 漁獲・買取",
+                ecoStep2Desc: "漁師が漁獲し、我々が適正価格で全量買取",
+                ecoStep3Title: "3. 販売・収益化",
+                ecoStep3Desc: "価値向上した魚を販売し、収益を確保",
+                ecoStep4Title: "4. 利益分配",
+                ecoStep4Desc: "漁師の収入は25%向上。投資家にも配当",
+                frpLinkTitle: "ソリューションの核：日本のFRP漁船",
+                frpLinkDesc: "我々の計画の中心には、日本の先進的なFRP（繊維強化プラスチック）漁船があります。その圧倒的な性能と経済性が、いかにしてカンボジア漁業の課題を解決するのか、詳細をご覧ください。",
+                frpLinkButton: "FRP漁船のメリットを詳しく見る",
+                executionTitle: "3. 着実な進捗と立上げへの道筋",
+                executionSubtitle: "計画は、実行されてこそ価値がある。",
+                execStep1Title: "計画と基盤構築",
+                execStep1Status: "[完了]",
+                execStep2Title: "許認可と設計",
+                execStep2Status: "[完了]",
+                execStep3Title: "最終準備",
+                execStep3Status: "[現在進行中]",
+                execStep4Title: "操業開始",
+                execStep4Status: "[間もなく]",
+                investmentTitle: "4. The Investment Opportunity",
+                investmentSubtitle: "社会的インパクトと経済的リターンを両立する機会",
+                facilityInvTitle: "設備投資",
+                facilityInvBreakdown: `
+                    <p>・コールドチェーン施設建設費: $313,886</p>
+                    <p>・人件費・運営費等: $276,480</p>
+                    <p>・造成費: $250,000</p>
+                    <p>・技術訓練プログラム: $65,000</p>
+                    <p>・予備費: $60,000</p>
+                    <p>・試験的人工礁設置: $20,000</p>
+                    <p>・モニタリング・評価: $12,000</p>
+                `,
+                vesselInvTitle: "漁船調達",
+                vesselInvValue: "50隻",
+                vesselInvItem1: "・中小型船: 40隻",
+                vesselInvItem2: "・中型船: 10隻",
+                vesselInvItem3: "・価格帯: $70,000 - $200,000 /隻",
+                vesselLeaseTitle: "A. 船舶投資（オペレーティングリース）",
+                vesselLeaseDesc: "中古漁船のオーナーとなり、リース料収入と事業配当、そして将来の売却益を得るスキームです。",
+                vesselLeaseInvestment: "投資額",
+                vesselLeaseNote: "※1隻あたり7万～20万ドルで調達予定",
+                returnChartCaption: "投資回収シミュレーション",
+                returnChartLabels: ['初期投資', 'トータルリターン'],
+                businessInvTitle: "B. 事業投資",
+                businessInvDesc: "事業の設備投資が中心となり、リターンは主に事業配当から得られます。関連地の不動産投資も一部含まれ、将来的な資産価値向上も期待できます。",
+                businessInvInvestment: "投資額",
+                dividendSourcesTitle: "事業配当の原資",
+                dividendSourcesList: `<li>船舶リーシング事業</li><li>国内の卸売事業</li><li>水産物の加工・製品化事業</li><li>機材・機器のメンテナンス事業</li><li>人材育成・派遣事業</li>`,
+                returnTargetTitle: "目標リターン（7年後）",
+                returnTargetUnit: "倍",
+                returnTargetDesc: "IRR（内部収益率）<span class='font-bold'>15-20%</span>相当<br>安定した事業配当と将来の資産価値上昇を含む",
+                newsTitle: "5. 最新情報と活動報告",
+                newsSubtitle: "プロジェクトのリアルタイムな進捗は、公式SNSで発信しています。",
+                footerText: "あなたの投資が、一国の産業を創り、人々の生活を豊かにする力になります。",
+                footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved.",
                 modalTitle: "準備中",
                 modalDesc: "このページのコンテンツは現在準備中です。公開まで今しばらくお待ちください。",
-                modalCloseBtn: "閉じる",
-                leaseTitle: "新たな選択肢：日本の中古FRP船リース",
-                leaseDesc: "FRP船の導入には、新船購入だけが選択肢ではありません。初期投資を劇的に抑え、すぐに高性能な船を利用できる「中古船リース」という賢い方法があります。",
-                leasePurchaseTitle: "従来の方法：新船購入",
-                leasePurchaseItem1: "高額な初期投資が必要",
-                leasePurchaseItem2: "資金調達やローンの手続きが複雑",
-                leasePurchaseItem3: "最新の設備と技術",
-                leasePurchaseItem4: "完全な所有権",
-                leaseProposalTitle: "新しい提案：中古船リース",
-                leaseProposalItem1: "初期投資を大幅に削減",
-                leaseProposalItem2: "すぐに導入、すぐに操業開始",
-                leaseProposalItem3: "日本で実績のある、信頼性の高い船体",
-                leaseProposalItem4: "メンテナンスサポートも相談可能",
-                leaseProposalItem5: "契約終了後の買取オプションも",
-                leaseSummary: "リースは、FRP船の優れた性能を、最小限のリスクとコストで体験するための最も賢明な第一歩です。",
-                solutionTitle: "FRP船のリースがもたらす変革",
-                solutionHeader1: "カンボジア漁業の課題",
-                solutionHeader2: "リースによる解決策",
-                solutionHeader3: "期待される成果",
-                solutionRow1Cell1: "<strong>限定的な操業時間と範囲</strong>",
-                solutionRow1Cell2: "初期投資なしで、すぐにイケス付きの高性能FRP船を導入。沖合操業へ即時移行。",
-                solutionRow1Cell3: "リース料を上回る収益増を早期に実現。リスクを抑えながら新しい漁法を試行可能。",
-                solutionRow2Cell1: "<strong>漁獲物の低品質と低収益</strong>",
-                solutionRow2Cell2: "リース船のイケスを活用し、活魚という高付加価値商品を創出。市場での交渉力を獲得。",
-                solutionRow2Cell3: "キャッシュフローが大幅に改善。リース期間終了後の船体買取に向けた自己資金を形成。",
-                solutionRow3Cell1: "<strong>高い維持・修理コスト</strong>",
-                solutionRow3Cell2: "メンテナンス負担が少ない中古FRP船を利用。契約によっては保守サポートも含まれる。",
-                solutionRow3Cell3: "突発的な修繕費用のリスクを回避。収支計画が立てやすくなり、経営が安定。",
-                solutionRow4Cell1: "<strong>船体の安全性への懸念</strong>",
-                solutionRow4Cell2: "近代設計の安全な船体を低コストで利用開始。乗組員の安全を即座に確保。",
-                solutionRow4Cell3: "漁業者の労働環境が大幅に改善。安心して操業に集中でき、生産性が向上。",
-                conclusionTitle: "未来への投資",
-                conclusionDesc: "日本のFRP漁船のリースによる導入は、単なる船の更新ではありません。それは、カンボジアの漁業を、より安全で、より収益性が高く、持続可能な産業へと変革させるための、最も賢明な戦略的パートナーシップです。",
-                conclusionButton: "さらに詳しく知る",
-                footerCopyright: "&copy; 2024 JCFS. All Rights Reserved.",
-                lifespanChartLabels: ['伝統的な木造船', '日本のFRP漁船'],
-                lifespanChartDatasetLabel: '平均耐用年数 (年)',
-                costChartLabels: ['伝統的な木造船', '日本のFRP漁船'],
-                costChartDataset1Label: '初期費用',
-                costChartDataset2Label: '維持・燃料費 (10年)',
-                costChartTitle: '総コスト比較 (10年間)',
-                revenueChartLabels: ['通常の鮮魚', '活魚 (イケス利用)'],
-                revenueChartDatasetLabel: '市場価値',
-                revenueChartTitle: '漁獲物の市場価値向上ポテンシャル'
+                modalCloseBtn: "閉じる"
             },
             en: {
-                navHome: "Back to Home",
-                pageTitle: "The Future of Cambodian Fisheries",
-                pageSubtitle: "A New Era of Sustainability and Profitability with Japanese FRP Boats",
-                problemTitle: "Challenges Facing Cambodian Fisheries",
-                problemDesc: "Traditional wooden boats pose significant challenges, including limited operational range, high maintenance costs, and catch quality degradation, hindering fishermen's profitability and industry growth.",
-                problemItem1Title: "Limited Operations",
-                problemItem1Desc: "Limited ice capacity restricts trips to single days, forcing competition in overcrowded coastal fishing grounds.",
-                problemItem2Title: "High Maintenance Costs",
-                problemItem2Desc: "Frequent, costly repairs are necessary due to wood rot and marine borers, shortening the vessel's lifespan.",
-                problemItem3Title: "Low Profitability",
-                problemItem3Desc: "Catch quality degrades over time, leading to low market prices and stagnant income.",
-                evolutionTitle: "The Evolution of Fishing Vessels: An Inevitable Shift from Wood to FRP",
-                evoItem1Title: "Wooden Boats",
-                evoItem1Desc: "A tradition since ancient times. Natural, but weak against rot and pests, making maintenance difficult.",
-                evoItem2Title: "Steel Boats",
-                evoItem2Desc: "A symbol of modernization. Sturdy but heavy and prone to rust, unsuitable for smaller vessels.",
-                evoItem3Title: "FRP Boats",
-                evoItem3Desc: "The modern optimal solution. Achieves being 'light and strong,' balancing durability and economy.",
-                comparisonTitle: "Performance Comparison: Wooden Boats vs. Japanese FRP Boats",
-                lifespanTitle: "Average Lifespan",
-                lifespanDesc: "FRP boats last over three times longer than wooden boats, providing long-term asset value.",
-                costTitle: "Lifecycle Cost",
-                costDesc: "While initial costs are higher, FRP boats significantly reduce fuel and maintenance expenses, lowering the total cost of ownership.",
-                kpi1Label: "Longer Lifespan",
-                kpi2Label: "Maintenance Cost",
-                kpi3Label: "Fuel Efficiency",
-                kpi4Label: "Corrosion/Rot Resistance",
-                ikesuTitle: "The Revolution of 'Ikesu' (Live Well) Technology",
-                ikesuDesc: "An 'ikesu' is not just a tank; it's a strategic facility that maximizes the value of the catch and fundamentally changes the revenue structure.",
-                ikesuFeature1Title: "From Freshness Preservation to Live Fish Transport",
-                ikesuFeature1Desc: "Bring fish to port alive. Delivering the highest quality dramatically increases market transaction prices.",
-                ikesuFeature2Title: "Expansion of Operational Range",
-                ikesuFeature2Desc: "Enables multi-day offshore operations. Access untapped, rich fishing grounds and increase fishing opportunities.",
-                ikesuFeature3Title: "Advanced Water Circulation System",
-                ikesuFeature3Desc: "A circulation system integrated into the boat's design keeps the fish in a constantly healthy state.",
-                revenueDesc: "By using an ikesu, it's possible to significantly increase revenue per trip without increasing the catch volume.",
-                modelsTitle: "Proposed Introduction Models",
-                modelsDesc: "Introducing the planned FRP fishing vessels tailored to the fishing styles and needs of Cambodia.<br>Please see the link below for details.",
-                modelsButton: "View Model Lineup Details",
+                headerTitle: "Cambodia Fishery Reform Project",
+                headerSubtitle: "An Investment Opportunity Blending Social Impact and Financial Returns",
+                opportunityTitle: "1. The Opportunity",
+                opportunitySubtitle: "Why Invest in Cambodia's Fishery Sector Now?",
+                opportunityIssueTitle: "A Critical Social Issue with Vast Potential",
+                opportunityIssueDesc: "Cambodia's fishery sector faces a crisis of resource depletion and inefficient practices, threatening national food security and leaving many fishers in poverty. This is a major social challenge, but also represents a vast, untapped market.",
+                kpiText: "Decline in Fish Population Over the Past 17 Years",
+                povertyChartCaption: "Fishermen's Profitability (Estimate based on a survey of 118 households in 2 villages)",
+                povertyChartLabels: ['Net Loss (Extreme Poverty)', 'Subsistence Level (Poverty)', 'Standard', 'Comfortable'],
+                kpi1Title: "Post-Harvest Waste Rate",
+                kpi1Source: "(Source: FAO Survey 2024)",
+                kpi2Unit: "x",
+                kpi2Title: "Market Price Increase with Freshness Management",
+                kpi2Source: "(Source: Phnom Penh Central Market Survey)",
+                kpi3Title: "Government's 5-Year Export Growth Target",
+                kpi3Source: "(Source: National Fisheries Strategy 2025-2030)",
+                geopoliticalTitle: "【Urgent Issue】Isolation Due to Geopolitical Risks",
+                geopoliticalDesc: "Due to conflicts with neighboring countries, Cambodian fishing boats are finding it difficult to land their catch at foreign ports they have long relied on. Many fishermen have lost their landing sites, creating a crisis where fishing itself is becoming untenable. **Developing domestic port infrastructure is now an urgent national priority.**",
+                govTitle: "【Opportunity】Strong Government Tailwinds",
+                govDesc: "Following the failure of its aquaculture promotion policy, the Cambodian government has now made the 'expansion of marine fisheries' a key national objective. Our project aligns perfectly with this government directive, promising strong official support.",
+                solutionTitle: "2. Our Solution",
+                solutionSubtitle: "How Will We Create a Market and Generate Revenue?",
+                formulaTitle: "The Formula for Drastically Improving Fishermen's Income",
+                formulaDesc: "Our model achieves sustainable profit growth through a dual approach: reducing fishermen's expenses while increasing their revenue.",
+                costReductionTitle: "Cost Reduction",
+                costReductionDesc: "Significantly cut fuel and repair costs with high-performance vessels.",
+                revenueGrowthTitle: "Revenue Growth",
+                revenueGrowthDesc: "Maximize fish value through freshness preservation and 100% purchase.",
+                incomeResultTitle: "Fishermen's Take-Home Income",
+                incomeResultValue: "Average 25% UP",
+                ecosystemTitle: "Ecosystem Cycle",
+                ecoStep1Title: "1. Provide Equipment",
+                ecoStep1Desc: "Offer high-performance vessels & cold storage to fishers at no initial cost.",
+                ecoStep2Title: "2. Harvest & Purchase",
+                ecoStep2Desc: "We buy 100% of the catch at a fair price.",
+                ecoStep3Title: "3. Sell & Monetize",
+                ecoStep3Desc: "Sell the higher-value fish to secure revenue.",
+                ecoStep4Title: "4. Profit Sharing",
+                ecoStep4Desc: "Fishermen's income rises 25%; investors receive dividends.",
+                frpLinkTitle: "The Core of Our Solution: Japanese FRP Vessels",
+                frpLinkDesc: "At the heart of our plan are advanced Japanese FRP (Fiber-Reinforced Plastic) fishing vessels. Discover how their superior performance and economic efficiency solve the core challenges of Cambodia's fishery sector.",
+                frpLinkButton: "Learn More About FRP Vessels",
+                executionTitle: "3. Steady Progress and the Path to Launch",
+                executionSubtitle: "A plan is only as good as its execution.",
+                execStep1Title: "Planning & Foundation",
+                execStep1Status: "[Completed]",
+                execStep2Title: "Permits & Design",
+                execStep2Status: "[Completed]",
+                execStep3Title: "Final Preparations",
+                execStep3Status: "[In Progress]",
+                execStep4Title: "Launch Operations",
+                execStep4Status: "[Coming Soon]",
+                investmentTitle: "4. The Investment Opportunity",
+                investmentSubtitle: "An Opportunity for Both Social Impact and Financial Returns",
+                facilityInvTitle: "Facility Investment",
+                facilityInvBreakdown: `
+                    <p>・Cold Chain Facility Construction: $313,886</p>
+                    <p>・Personnel & Operating Costs: $276,480</p>
+                    <p>・Land Development: $250,000</p>
+                    <p>・Technical Training Program: $65,000</p>
+                    <p>・Contingency Fund: $60,000</p>
+                    <p>・Pilot Artificial Reef Installation: $20,000</p>
+                    <p>・Monitoring & Evaluation: $12,000</p>
+                `,
+                vesselInvTitle: "Vessel Procurement",
+                vesselInvValue: "50 Vessels",
+                vesselInvItem1: "・Small/Mid-size: 40",
+                vesselInvItem2: "・Medium-size: 10",
+                vesselInvItem3: "・Price Range: $70,000 - $200,000 /vessel",
+                vesselLeaseTitle: "A. Vessel Investment (Operating Lease)",
+                vesselLeaseDesc: "Become an owner of a used fishing vessel and earn returns from lease fees, business dividends, and future sale proceeds.",
+                vesselLeaseInvestment: "Investment",
+                vesselLeaseNote: "※Vessels procured at $70k - $200k each",
+                returnChartCaption: "Investment Return Simulation",
+                returnChartLabels: ['Initial Investment', 'Total Return'],
+                businessInvTitle: "B. Business Investment",
+                businessInvDesc: "This investment focuses on the project's facilities, with returns primarily from business dividends. It also includes partial investment in related real estate, expecting future appreciation.",
+                businessInvInvestment: "Investment",
+                dividendSourcesTitle: "Sources of Business Dividends",
+                dividendSourcesList: `<li>Vessel Leasing Business</li><li>Domestic Wholesale Business</li><li>Seafood Processing & Product Development</li><li>Equipment Maintenance Business</li><li>Human Resource Development & Dispatch</li>`,
+                returnTargetTitle: "Target Return (After 7 years)",
+                returnTargetUnit: "x",
+                returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
+                newsTitle: "5. News & Updates",
+                newsSubtitle: "Follow our real-time progress on our official social media channels.",
+                footerText: "Your investment has the power to build a nation's industry and enrich people's lives.",
+                footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved.",
                 modalTitle: "Coming Soon",
                 modalDesc: "The content for this page is currently under construction. Please check back soon.",
-                modalCloseBtn: "Close",
-                leaseTitle: "A New Option: Leasing Used Japanese FRP Boats",
-                leaseDesc: "Purchasing a new boat isn't the only way to introduce an FRP vessel. There's a smart method called 'used boat leasing' that dramatically reduces initial investment and allows you to use a high-performance boat immediately.",
-                leasePurchaseTitle: "Traditional Method: New Boat Purchase",
-                leasePurchaseItem1: "Requires high initial investment",
-                leasePurchaseItem2: "Complex financing and loan procedures",
-                leasePurchaseItem3: "Latest equipment and technology",
-                leasePurchaseItem4: "Full ownership",
-                leaseProposalTitle: "New Proposal: Used Boat Leasing",
-                leaseProposalItem1: "Significantly reduce initial investment",
-                leaseProposalItem2: "Immediate introduction and start of operations",
-                leaseProposalItem3: "A reliable hull with a proven track record in Japan",
-                leaseProposalItem4: "Maintenance support is negotiable",
-                leaseProposalItem5: "Buyout option available at the end of the contract",
-                leaseSummary: "Leasing is the wisest first step to experience the superior performance of FRP boats with minimal risk and cost.",
-                solutionTitle: "The Transformation Brought by Leasing FRP Boats",
-                solutionHeader1: "Cambodian Fishery Challenge",
-                solutionHeader2: "Solution by Leasing",
-                solutionHeader3: "Expected Outcome",
-                solutionRow1Cell1: "<strong>Limited operational time/range</strong>",
-                solutionRow1Cell2: "Immediately introduce a high-performance FRP boat with an ikesu at no initial cost. Instantly transition to offshore operations.",
-                solutionRow1Cell3: "Achieve revenue growth exceeding lease fees early on. Test new fishing methods with reduced risk.",
-                solutionRow2Cell1: "<strong>Low catch quality and low revenue</strong>",
-                solutionRow2Cell2: "Utilize the leased boat's ikesu to create high-value products like live fish, gaining negotiating power in the market.",
-                solutionRow2Cell3: "Significantly improve cash flow. Build up capital for a potential buyout at the end of the lease term.",
-                solutionRow3Cell1: "<strong>High maintenance and repair costs</strong>",
-                solutionRow3Cell2: "Use a used FRP boat with low maintenance burden. Contracts may include maintenance support.",
-                solutionRow3Cell3: "Avoid the risk of unexpected repair costs. Easier to plan budgets, leading to stable management.",
-                solutionRow4Cell1: "<strong>Vessel safety concerns</strong>",
-                solutionRow4Cell2: "Start using a modern, safely designed vessel at a low cost. Ensure crew safety immediately.",
-                solutionRow4Cell3: "Dramatically improve the working environment for fishermen. Concentrate on fishing with peace of mind, boosting productivity.",
-                conclusionTitle: "An Investment in the Future",
-                conclusionDesc: "Leasing a Japanese FRP fishing boat is more than just a vessel upgrade. It is the wisest strategic partnership to transform Cambodia's fishing industry into a safer, more profitable, and sustainable one.",
-                conclusionButton: "Learn More",
-                footerCopyright: "&copy; 2024 JCFS. All Rights Reserved.",
-                lifespanChartLabels: ['Traditional Wooden Boat', 'Japanese FRP Boat'],
-                lifespanChartDatasetLabel: 'Average Lifespan (Years)',
-                costChartLabels: ['Traditional Wooden Boat', 'Japanese FRP Boat'],
-                costChartDataset1Label: 'Initial Cost',
-                costChartDataset2Label: 'Maintenance & Fuel (10 Yrs)',
-                costChartTitle: 'Total Cost Comparison (10 Years)',
-                revenueChartLabels: ['Regular Fresh Fish', 'Live Fish (using Ikesu)'],
-                revenueChartDatasetLabel: 'Market Value',
-                revenueChartTitle: 'Potential for Increasing Catch Market Value'
+                modalCloseBtn: "Close"
             }
         };
 
-        let lifespanChart, costChart, revenueChart;
+        let povertyChart, returnChart;
+        
+        Chart.register(ChartDataLabels);
 
-        function applyTranslations(lang) {
-            const t = translations[lang];
-            document.documentElement.lang = lang;
-            Object.keys(t).forEach(key => {
-                const element = document.getElementById(key.replace(/([A-Z])/g, '-$1').toLowerCase());
-                if (element) {
-                    element.innerHTML = t[key];
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        title: (tooltipItems) => {
+                            const item = tooltipItems[0];
+                            const label = item.chart.data.labels[item.dataIndex];
+                            return Array.isArray(label) ? label.join(' ') : label;
+                        }
+                    }
+                },
+                datalabels: {
+                    color: '#fff',
+                    font: {
+                        weight: 'bold'
+                    },
+                }
+            }
+        };
+
+        function createPovertyChart(lang) {
+            if (povertyChart) povertyChart.destroy();
+            const ctx = document.getElementById('fishermenPovertyChart').getContext('2d');
+            povertyChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: translations[lang].povertyChartLabels,
+                    datasets: [{
+                        data: [18, 42, 30, 10],
+                        backgroundColor: ['#b91c1c', '#f97316', '#80BFFF', '#4DA3FF'],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    plugins: {
+                        ...defaultChartOptions.plugins,
+                        legend: { position: 'bottom' },
+                        datalabels: {
+                            ...defaultChartOptions.plugins.datalabels,
+                             formatter: (value, ctx) => {
+                                const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = (value / total * 100).toFixed(0) + "%";
+                                return percentage;
+                            },
+                        }
+                    }
                 }
             });
         }
 
-        function createLifespanChart(lang) {
-            if (lifespanChart) lifespanChart.destroy();
-            const t = translations[lang];
-            const ctx = document.getElementById('lifespanChart').getContext('2d');
-            lifespanChart = new Chart(ctx, {
+        function createReturnChart(lang) {
+            if (returnChart) returnChart.destroy();
+            const ctx = document.getElementById('shipInvestmentReturnChart').getContext('2d');
+            returnChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: t.lifespanChartLabels,
+                    labels: translations[lang].returnChartLabels,
                     datasets: [{
-                        label: t.lifespanChartDatasetLabel,
-                        data: [10, 30],
-                        backgroundColor: ['#A0522D', '#005A9C'],
-                        borderColor: ['#A0522D', '#005A9C'],
+                        data: [100, 180],
+                        backgroundColor: ['#6B7280', '#007BFF'],
+                        borderColor: ['#D1D5DB', '#004AAD'],
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
-                    scales: { x: { beginAtZero: true, title: { display: true, text: lang === 'ja' ? '年 (Years)' : 'Years' } } },
-                    plugins: { legend: { display: false } }
+                    ...defaultChartOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { callback: (value) => value + '%' }
+                        }
+                    },
+                    plugins: {
+                        ...defaultChartOptions.plugins,
+                        legend: { display: false },
+                        tooltip: { enabled: false },
+                        datalabels: {
+                            display: true,
+                            color: 'white',
+                            anchor: 'center',
+                            align: 'center',
+                            font: { weight: 'bold', size: '11px' },
+                            formatter: (value, context) => {
+                                if (lang === 'ja') {
+                                    return context.dataIndex === 0 ? `${value}%\n(※全額一年償却可)` : `${value}%\n毎年のリース料4-5%と事業配当、\nリセールバリュー1.3-1.5倍を想定`;
+                                } else {
+                                     return context.dataIndex === 0 ? `${value}%\n(Full 1-year depreciation)` : `${value}%\nBased on 4-5% annual lease, dividends,\nand 1.3-1.5x resale value`;
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }
 
-        function createCostChart(lang) {
-            if (costChart) costChart.destroy();
-            const t = translations[lang];
-            const ctx = document.getElementById('costChart').getContext('2d');
-            costChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: t.costChartLabels,
-                    datasets: [
-                        { label: t.costChartDataset1Label, data: [15, 50], backgroundColor: '#FFC300' },
-                        { label: t.costChartDataset2Label, data: [40, 15], backgroundColor: '#FF5733' }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { x: { stacked: true }, y: { stacked: true, title: { display: true, text: lang === 'ja' ? '相対コストユニット' : 'Relative Cost Units' } } },
-                    plugins: { legend: { position: 'top' }, title: { display: true, text: t.costChartTitle } }
-                }
-            });
-        }
-
-        function createRevenueChart(lang) {
-            if (revenueChart) revenueChart.destroy();
-            const t = translations[lang];
-            const ctx = document.getElementById('revenueChart').getContext('2d');
-            revenueChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: t.revenueChartLabels,
-                    datasets: [{
-                        label: t.revenueChartDatasetLabel,
-                        data: [100, 350],
-                        backgroundColor: ['#4D8BC8', '#005A9C'],
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'top' }, title: { display: true, text: t.revenueChartTitle } }
-                }
-            });
-        }
-        
         function updateContent(lang) {
-            applyTranslations(lang);
+            document.documentElement.lang = lang;
+            const t = translations[lang];
+            
+            for (const key in t) {
+                const elementId = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = t[key];
+                }
+            }
+
             document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-            createLifespanChart(lang);
-            createCostChart(lang);
-            createRevenueChart(lang);
+            
+            createPovertyChart(lang);
+            createReturnChart(lang);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
             document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
             
-            // Modal control
             const modal = document.getElementById('coming-soon-modal');
-            const openBtn = document.getElementById('models-button');
+            const openBtn = document.getElementById('frp-link-button');
             const closeBtn = document.getElementById('modal-close-btn');
 
             if (openBtn) {
                 openBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const lang = document.documentElement.lang || 'ja';
-                    document.getElementById('modal-title').innerText = translations[lang].modalTitle;
-                    document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
-                    document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
-                    modal.classList.remove('hidden');
+                    // This prevents the link from being followed
+                    // e.preventDefault(); 
+                    
+                    // The following lines for the modal are not needed if the link should work
+                    // const lang = document.documentElement.lang || 'ja';
+                    // document.getElementById('modal-title').innerText = translations[lang].modalTitle;
+                    // document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
+                    // document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
+                    // modal.classList.remove('hidden');
                 });
             }
 
@@ -632,5 +707,6 @@
             updateContent('ja');
         });
     </script>
+
 </body>
 </html>
