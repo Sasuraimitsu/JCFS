@@ -80,7 +80,6 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-    <!-- Header -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto max-w-7xl px-4">
             <div class="flex justify-between items-center py-4">
@@ -315,12 +314,19 @@
 
     </div>
 
-    <!-- Footer -->
     <footer class="bg-white mt-16 pt-8 pb-4">
         <div class="container mx-auto max-w-7xl px-4 text-center text-gray-500">
             <p id="footer-copyright">&copy; 2024 JCFS. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <div id="coming-soon-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4 jcfs-blue-dark"></h3>
+            <p id="modal-desc" class="mb-6 text-gray-700"></p>
+            <button id="modal-close-btn" class="bg-jcfs-blue-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-jcfs-blue-dark transition-colors"></button>
+        </div>
+    </div>
 
     <script>
         const translations = {
@@ -365,8 +371,8 @@
                 modelsDesc: "カンボジアの漁業スタイルやニーズに合わせた、導入予定のFRP漁船のご紹介をしております。<br>詳細は下記のリンクよりご覧ください。",
                 modelsButton: "モデルラインナップの詳細を見る",
                 modalTitle: "準備中",
-　　　　　　　　　modalDesc: "このページのコンテンツは現在準備中です。公開まで今しばらくお待ちください。",
-　　　　　　　　　modalCloseBtn: "閉じる",                
+                modalDesc: "このページのコンテンツは現在準備中です。公開まで今しばらくお待ちください。",
+                modalCloseBtn: "閉じる",
                 leaseTitle: "新たな選択肢：日本の中古FRP船リース",
                 leaseDesc: "FRP船の導入には、新船購入だけが選択肢ではありません。初期投資を劇的に抑え、すぐに高性能な船を利用できる「中古船リース」という賢い方法があります。",
                 leasePurchaseTitle: "従来の方法：新船購入",
@@ -452,8 +458,8 @@
                 modelsDesc: "Introducing the planned FRP fishing vessels tailored to the fishing styles and needs of Cambodia.<br>Please see the link below for details.",
                 modelsButton: "View Model Lineup Details",
                 modalTitle: "Coming Soon",
-　　　　　　　　　modalDesc: "The content for this page is currently under construction. Please check back soon.",
-　　　　　　　　　modalCloseBtn: "Close",
+                modalDesc: "The content for this page is currently under construction. Please check back soon.",
+                modalCloseBtn: "Close",
                 leaseTitle: "A New Option: Leasing Used Japanese FRP Boats",
                 leaseDesc: "Purchasing a new boat isn't the only way to introduce an FRP vessel. There's a smart method called 'used boat leasing' that dramatically reduces initial investment and allows you to use a high-performance boat immediately.",
                 leasePurchaseTitle: "Traditional Method: New Boat Purchase",
@@ -589,41 +595,42 @@
             createRevenueChart(lang);
         }
 
-        document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
-        document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
+            document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
+            
+            // Modal control
+            const modal = document.getElementById('coming-soon-modal');
+            const openBtn = document.getElementById('models-button');
+            const closeBtn = document.getElementById('modal-close-btn');
 
-        // Initial load
-        // モーダル制御
-const modal = document.getElementById('coming-soon-modal');
-const openBtn = document.getElementById('models-button'); // こちらのIDが異なります
-const closeBtn = document.getElementById('modal-close-btn');
+            if (openBtn) {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = document.documentElement.lang || 'ja';
+                    document.getElementById('modal-title').innerText = translations[lang].modalTitle;
+                    document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
+                    document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
+                    modal.classList.remove('hidden');
+                });
+            }
 
-openBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const lang = document.documentElement.lang || 'ja';
-    document.getElementById('modal-title').innerText = translations[lang].modalTitle;
-    document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
-    document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
-    modal.classList.remove('hidden');
-});
+            if(closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.add('hidden');
+                });
+            }
 
-closeBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
-});
-
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.classList.add('hidden');
-    }
-});
-        updateContent('ja');
+            if(modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            }
+            
+            updateContent('ja');
+        });
     </script>
-<div id="coming-soon-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-lg shadow-lg text-center max-w-sm w-full">
-        <h3 id="modal-title" class="text-2xl font-bold mb-4 jcfs-blue-dark"></h3>
-        <p id="modal-desc" class="mb-6 text-gray-700"></p>
-        <button id="modal-close-btn" class="bg-jcfs-blue-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-jcfs-blue-dark transition-colors"></button>
-    </div>
-</div>
 </body>
 </html>
