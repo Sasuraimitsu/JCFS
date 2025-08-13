@@ -593,6 +593,29 @@
         document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
 
         // Initial load
+        // モーダル制御
+const modal = document.getElementById('coming-soon-modal');
+const openBtn = document.getElementById('models-button'); // こちらのIDが異なります
+const closeBtn = document.getElementById('modal-close-btn');
+
+openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const lang = document.documentElement.lang || 'ja';
+    document.getElementById('modal-title').innerText = translations[lang].modalTitle;
+    document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
+    document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
+    modal.classList.remove('hidden');
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+});
+
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.add('hidden');
+    }
+});
         updateContent('ja');
     </script>
 <div id="coming-soon-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
