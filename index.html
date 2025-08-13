@@ -13,7 +13,13 @@
     <style>
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #f8f9fa;
         }
+        .jcfs-blue-dark { color: #002D4F; }
+        .jcfs-blue-primary { color: #005A9C; }
+        .bg-jcfs-blue-primary { background-color: #005A9C; }
+        .bg-jcfs-blue-dark { background-color: #002D4F; }
+
         .chart-container {
             position: relative;
             height: 320px;
@@ -22,7 +28,7 @@
             margin: auto;
         }
         .kpi-card {
-            background-color: #004AAD;
+            background-color: #005A9C;
             color: white;
             padding: 2rem;
             border-radius: 0.5rem;
@@ -46,7 +52,7 @@
         }
         .flow-arrow {
             font-size: 2rem;
-            color: #007BFF;
+            color: #005A9C;
             align-self: center;
             margin: 0.5rem 0;
         }
@@ -58,17 +64,19 @@
             content: '';
             position: absolute;
             top: 2rem;
-            right: -2.5rem;
-            width: 2rem;
+            left: 50%;
+            width: 150%;
             height: 2px;
-            background-color: #007BFF;
+            background-color: #4D8BC8;
+            transform: translateX(-50%);
             z-index: -1;
         }
          @media (min-width: 768px) {
             .progress-step:not(:last-child)::after {
-                top: 50%;
-                right: -2rem;
-                width: 4rem;
+                top: 2rem;
+                left: 50%;
+                width: 100%;
+                transform: translateX(0);
             }
         }
         .lang-btn {
@@ -79,7 +87,7 @@
             transition: all 0.2s;
         }
         .lang-btn.active {
-            background-color: #004AAD;
+            background-color: #005A9C;
             color: white;
         }
         .lang-btn:not(.active) {
@@ -92,11 +100,8 @@
 
     <header class="bg-white shadow-md sticky top-0 z-10">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex-1">
-                <h1 id="header-title" class="text-xl md:text-3xl font-bold text-center text-[#004AAD]"></h1>
-                <p id="header-subtitle" class="text-center text-gray-600 mt-1 text-sm md:text-base"></p>
-            </div>
-            <div class="flex space-x-2">
+            <div class="text-2xl font-bold jcfs-blue-dark">JCFS</div>
+            <div class="flex items-center space-x-2">
                 <button id="lang-ja" class="lang-btn">JP</button>
                 <button id="lang-en" class="lang-btn">EN</button>
             </div>
@@ -105,9 +110,14 @@
 
     <main class="container mx-auto p-4 md:p-8">
 
+        <section id="hero" class="text-center my-12">
+             <h1 id="header-title" class="text-3xl md:text-5xl font-bold jcfs-blue-dark"></h1>
+             <p id="header-subtitle" class="mt-2 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"></p>
+        </section>
+
         <section id="opportunity" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="opportunity-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <h2 id="opportunity-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
                 <p id="opportunity-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div class="space-y-6">
@@ -147,7 +157,7 @@
                         <p id="geopolitical-desc" class="text-gray-700"></p>
                     </div>
                     <div class="bg-blue-50 border-l-4 border-[#007BFF] p-4 rounded-r-lg">
-                        <h4 id="gov-title" class="font-bold text-[#004AAD]"></h4>
+                        <h4 id="gov-title" class="font-bold jcfs-blue-primary"></h4>
                         <p id="gov-desc" class="text-gray-700"></p>
                     </div>
                 </div>
@@ -156,7 +166,7 @@
 
         <section id="solution" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="solution-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <h2 id="solution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
                 <p id="solution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div>
@@ -178,8 +188,8 @@
                         <div class="text-center mt-4">
                             <span class="text-5xl font-bold text-[#007BFF]">=</span>
                             <div class="mt-2 p-4 bg-blue-100 rounded-lg">
-                                <p id="income-result-title" class="text-xl md:text-2xl font-bold text-[#004AAD]"></p>
-                                <p id="income-result-value" class="text-4xl md:text-5xl font-black text-[#004AAD]"></p>
+                                <p id="income-result-title" class="text-xl md:text-2xl font-bold jcfs-blue-primary"></p>
+                                <p id="income-result-value" class="text-4xl md:text-5xl font-black jcfs-blue-primary"></p>
                             </div>
                         </div>
                     </div>
@@ -212,39 +222,42 @@
                 </div>
             </div>
         </section>
+        
+        <!-- New Section Linking to Sub-page -->
+        <section id="frp-solution-link" class="mb-12 text-center bg-jcfs-blue-dark text-white rounded-lg shadow-lg p-8 md:p-12">
+            <h2 id="frp-link-title" class="text-3xl font-bold mb-4"></h2>
+            <p id="frp-link-desc" class="text-xl max-w-3xl mx-auto mb-8"></p>
+            <a id="frp-link-button" href="./frp-details.html" class="inline-block bg-white text-jcfs-blue-dark font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-200 transition-colors"></a>
+        </section>
 
         <section id="execution" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="execution-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <h2 id="execution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
                 <p id="execution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 md:gap-x-16 gap-y-8 max-w-5xl mx-auto">
+                <div class="grid grid-cols-4 gap-x-2 md:gap-x-4 max-w-5xl mx-auto">
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
                         <h4 class="font-bold">STEP 1</h4>
                         <p id="exec-step1-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step1-status" class="text-xs text-green-600 font-bold"></p>
-                        <p id="exec-step1-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
                         <h4 class="font-bold">STEP 2</h4>
                         <p id="exec-step2-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step2-status" class="text-xs text-green-600 font-bold"></p>
-                        <p id="exec-step2-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl mb-2">...</div>
                         <h4 class="font-bold">STEP 3</h4>
                         <p id="exec-step3-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step3-status" class="text-xs text-blue-600 font-bold"></p>
-                        <p id="exec-step3-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full border-4 border-gray-400 border-dashed text-gray-400 flex items-center justify-center text-3xl mb-2" role="img" aria-label="ローンチ">🚀</div>
                         <h4 class="font-bold text-gray-500">GOAL</h4>
                         <p id="exec-step4-title" class="text-sm font-semibold text-gray-500"></p>
                         <p id="exec-step4-status" class="text-xs text-gray-400 font-bold"></p>
-                        <p id="exec-step4-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                 </div>
             </div>
@@ -252,18 +265,18 @@
 
         <section id="investment" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="investment-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <h2 id="investment-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
                 <p id="investment-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="text-center mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <p id="facility-inv-title" class="text-gray-600 font-bold"></p>
-                        <p class="text-4xl md:text-5xl font-black text-[#004AAD]">$997,366</p>
+                        <p class="text-4xl md:text-5xl font-black jcfs-blue-primary">$997,366</p>
                         <div id="facility-inv-breakdown" class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
                         </div>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg flex flex-col justify-center">
                         <p id="vessel-inv-title" class="text-gray-600 font-bold"></p>
-                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black text-[#004AAD]"></p>
+                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black jcfs-blue-primary"></p>
                         <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
                             <p id="vessel-inv-item1"></p>
                             <p id="vessel-inv-item2"></p>
@@ -274,7 +287,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
                         <div class="flex-grow">
-                            <h3 id="vessel-lease-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
+                            <h3 id="vessel-lease-title" class="text-2xl font-bold jcfs-blue-primary mb-4"></h3>
                             <p id="vessel-lease-desc" class="text-gray-600 min-h-[4.5rem] mb-4"></p>
                             <div class="my-4">
                                 <p id="vessel-lease-investment" class="text-lg"></p>
@@ -289,7 +302,7 @@
                     </div>
                     <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
                         <div class="flex-grow">
-                            <h3 id="business-inv-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
+                            <h3 id="business-inv-title" class="text-2xl font-bold jcfs-blue-primary mb-4"></h3>
                             <p id="business-inv-desc" class="text-gray-600 min-h-[4.5rem]"></p>
                             <div class="my-4">
                                 <p id="business-inv-investment" class="text-lg"></p>
@@ -302,7 +315,7 @@
                         </div>
                         <div class="mt-auto p-6 bg-blue-50 rounded-lg text-center">
                             <p id="return-target-title" class="text-gray-600 font-bold"></p>
-                            <p class="text-5xl font-black text-[#004AAD] my-1">2.5<span id="return-target-unit" class="text-3xl"></span></p>
+                            <p class="text-5xl font-black jcfs-blue-primary my-1">2.5<span id="return-target-unit" class="text-3xl"></span></p>
                             <p id="return-target-desc" class="text-sm text-gray-700 mt-2"></p>
                         </div>
                     </div>
@@ -312,7 +325,7 @@
 
         <section id="news" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center">
-                <h2 id="news-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <h2 id="news-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
                 <p id="news-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="flex justify-center items-center space-x-4">
                     <a id="facebook-link" href="#" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
@@ -376,20 +389,19 @@
                 ecoStep3Desc: "価値向上した魚を販売し、収益を確保",
                 ecoStep4Title: "4. 利益分配",
                 ecoStep4Desc: "漁師の収入は25%向上。投資家にも配当",
+                frpLinkTitle: "ソリューションの核：日本のFRP漁船",
+                frpLinkDesc: "我々の計画の中心には、日本の先進的なFRP（繊維強化プラスチック）漁船があります。その圧倒的な性能と経済性が、いかにしてカンボジア漁業の課題を解決するのか、詳細をご覧ください。",
+                frpLinkButton: "FRP漁船のメリットを詳しく見る",
                 executionTitle: "3. 着実な進捗と立上げへの道筋",
                 executionSubtitle: "計画は、実行されてこそ価値がある。",
                 execStep1Title: "計画と基盤構築",
                 execStep1Status: "[完了]",
-                execStep1Desc: "チーム組成、現地調査、漁業組合との提携完了。",
                 execStep2Title: "許認可と設計",
                 execStep2Status: "[完了]",
-                execStep2Desc: "施設設計、用地確定、輸出入ライセンス申請完了。",
                 execStep3Title: "最終準備",
                 execStep3Status: "[現在進行中]",
-                execStep3Desc: "水産庁の最終承認、ODA申請、現地視察を調整中。",
                 execStep4Title: "操業開始",
                 execStep4Status: "[間もなく]",
-                execStep4Desc: "投資実行後、速やかに建設・操業を開始。",
                 investmentTitle: "4. The Investment Opportunity",
                 investmentSubtitle: "社会的インパクトと経済的リターンを両立する機会",
                 facilityInvTitle: "設備投資",
@@ -466,20 +478,19 @@
                 ecoStep3Desc: "Sell the higher-value fish to secure revenue.",
                 ecoStep4Title: "4. Profit Sharing",
                 ecoStep4Desc: "Fishermen's income rises 25%; investors receive dividends.",
+                frpLinkTitle: "The Core of Our Solution: Japanese FRP Vessels",
+                frpLinkDesc: "At the heart of our plan are advanced Japanese FRP (Fiber-Reinforced Plastic) fishing vessels. Discover how their superior performance and economic efficiency solve the core challenges of Cambodia's fishery sector.",
+                frpLinkButton: "Learn More About FRP Vessels",
                 executionTitle: "3. Steady Progress and the Path to Launch",
                 executionSubtitle: "A plan is only as good as its execution.",
                 execStep1Title: "Planning & Foundation",
                 execStep1Status: "[Completed]",
-                execStep1Desc: "Team assembly, on-site research, and partnership with fishery association are complete.",
                 execStep2Title: "Permits & Design",
                 execStep2Status: "[Completed]",
-                execStep2Desc: "Facility design, site confirmation, and import/export license applications are complete.",
                 execStep3Title: "Final Preparations",
                 execStep3Status: "[In Progress]",
-                execStep3Desc: "Coordinating final approval from Fisheries Admin, ODA application, and site visits.",
                 execStep4Title: "Launch Operations",
                 execStep4Status: "[Coming Soon]",
-                execStep4Desc: "Construction and operations to begin promptly after investment.",
                 investmentTitle: "4. The Investment Opportunity",
                 investmentSubtitle: "An Opportunity for Both Social Impact and Financial Returns",
                 facilityInvTitle: "Facility Investment",
@@ -630,7 +641,8 @@
             const t = translations[lang];
             
             for (const key in t) {
-                const element = document.getElementById(key.replace(/([A-Z])/g, "-$1").toLowerCase());
+                const elementId = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+                const element = document.getElementById(elementId);
                 if (element) {
                     element.innerHTML = t[key];
                 }
