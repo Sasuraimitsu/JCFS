@@ -478,6 +478,8 @@
                 financialsNote: "※各シナリオは事業計画書に基づき算出。楽観シナリオは1拠点目の計画値を参照。",
                 revenueLabel: "半期売上 (ドル)",
                 profitLabel: "半期利益 (ドル)",
+                revenueTargetLabel: "年間売上目標 (半期換算)",
+                profitTargetLabel: "年間利益目標 (半期換算)",
                 risksTitle: "6. 主なリスクと緩和策",
                 risksSubtitle: "計画の堅牢性と事業遂行能力への信頼",
                 risk1Title: "【市場リスク】魚価・需要の変動",
@@ -576,12 +578,12 @@
                 returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
                 financialsTitle: "5. Financial Projections",
                 financialsSubtitle: "Semi-Annual Revenue and Profit Forecast",
-                scenarioBase: "Baseline",
-                scenarioPessimistic: "Pessimistic",
-                scenarioOptimistic: "Optimistic",
+// ... and in the English section ...
                 financialsNote: "※ Scenarios are calculated based on the business plan. The optimistic scenario refers to the projections for the first hub model.",
                 revenueLabel: "Semi-Annual Revenue (USD)",
                 profitLabel: "Semi-Annual Profit (USD)",
+                revenueTargetLabel: "Annual Revenue Target (Semi-Annual)",
+                profitTargetLabel: "Annual Profit Target (Semi-Annual)",
                 risksTitle: "6. Key Risks & Mitigation Strategies",
                 risksSubtitle: "Confidence in Plan Robustness and Execution Capability",
                 risk1Title: "【Market Risk】Fluctuations in Fish Price & Demand",
@@ -711,15 +713,15 @@
         }
 
         const financialData = {
-            base: {
+            base: { // From プロジェクトCF - 小規模モデル.csv
                 revenue: [11160, 29088, 110160, 196848, 434880, 521568, 597120, 683808, 770160, 856848, 977520, 1064208, 1178880, 1265568],
                 profit: [-21558, 17965, 3036, 64236, 73548, 92638, 168948, 198248, 181290, 217868, 292195, 331188, 306913, 342968]
             },
-            pessimistic: {
+            pessimistic: { // From プロジェクトCF - 悲観シナリオ.csv
                 revenue: [8928, 23270, 88128, 157478, 347904, 417254, 477696, 547046, 616128, 685478, 782016, 851366, 943104, 1012454],
                 profit: [-24006, 12052, -1891, 48869, 56390, 71662, 132710, 156150, 142584, 171846, 231308, 262494, 243082, 271894]
             },
-            optimistic: {
+            optimistic: { // From プロジェクトCF - 1拠点目.csv
                 revenue: [13392, 34906, 132192, 236218, 521856, 625882, 716544, 820570, 924192, 1028218, 1173024, 1277050, 1414656, 1518682],
                 profit: [-20334, 21438, 5429, 74023, 85126, 107998, 195202, 229442, 209096, 250310, 338302, 384814, 355046, 398182]
             }
@@ -837,4 +839,6 @@
 
 </body>
 </html>
+
+
 
