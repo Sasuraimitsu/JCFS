@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
@@ -99,20 +100,28 @@
 
     <header class="bg-white shadow-md sticky top-0 z-10">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex-1">
-                <h1 id="header-title" class="text-xl md:text-3xl font-bold text-center text-[#004AAD]"></h1>
-                <p id="header-subtitle" class="text-center text-gray-600 mt-1 text-sm md:text-base"></p>
-            </div>
-            <div class="flex space-x-2">
-                <button id="lang-ja" class="lang-btn">JP</button>
-                <button id="lang-en" class="lang-btn">EN</button>
-            </div>
+             <div class="text-2xl font-bold text-[#002D4F]">JCFS</div>
+            <nav class="flex items-center space-x-4">
+                <a id="nav-vessels" href="./vessels.html" class="text-gray-600 hover:text-[#004AAD] font-semibold"></a>
+                <div class="flex space-x-2">
+                    <button id="lang-ja" class="lang-btn">JP</button>
+                    <button id="lang-en" class="lang-btn">EN</button>
+                </div>
+            </nav>
         </div>
     </header>
 
     <main class="container mx-auto p-4 md:p-8">
 
         <section id="opportunity" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h1 id="header-title" class="text-2xl md:text-4xl font-bold text-center text-[#004AAD]"></h1>
+                <p id="header-subtitle" class="text-center text-gray-600 mt-2 text-lg"></p>
+            </div>
+        </section>
+
+
+        <section id="problem" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
                 <h2 id="opportunity-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="opportunity-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
@@ -392,6 +401,7 @@
             ja: {
                 headerTitle: "カンボジア漁業変革プロジェクト",
                 headerSubtitle: "社会課題の解決と経済的リターンを両立する投資機会",
+                navVessels: "導入漁船について",
                 opportunityTitle: "1. The Opportunity",
                 opportunitySubtitle: "なぜ「カンボジアの漁業」に、今投資すべきなのか？",
                 opportunityIssueTitle: "深刻な社会課題と巨大なポテンシャル",
@@ -478,8 +488,8 @@
                 financialsNote: "※各シナリオは事業計画書に基づき算出。楽観シナリオは1拠点目の計画値を参照。",
                 revenueLabel: "半期売上 (ドル)",
                 profitLabel: "半期利益 (ドル)",
-                revenueTargetLabel: "年間売上目標 (半期換算)",
-                profitTargetLabel: "年間利益目標 (半期換算)",
+                revenueTargetLabel: "年間売上目標",
+                profitTargetLabel: "年間利益目標",
                 risksTitle: "6. 主なリスクと緩和策",
                 risksSubtitle: "計画の堅牢性と事業遂行能力への信頼",
                 risk1Title: "【市場リスク】魚価・需要の変動",
@@ -498,6 +508,7 @@
             en: {
                 headerTitle: "Cambodia Fishery Reform Project",
                 headerSubtitle: "An Investment Opportunity Blending Social Impact and Financial Returns",
+                navVessels: "About Our Vessels",
                 opportunityTitle: "1. The Opportunity",
                 opportunitySubtitle: "Why Invest in Cambodia's Fishery Sector Now?",
                 opportunityIssueTitle: "A Critical Social Issue with Vast Potential",
@@ -578,12 +589,14 @@
                 returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
                 financialsTitle: "5. Financial Projections",
                 financialsSubtitle: "Semi-Annual Revenue and Profit Forecast",
-// ... and in the English section ...
+                scenarioBase: "Baseline",
+                scenarioPessimistic: "Pessimistic",
+                scenarioOptimistic: "Optimistic",
                 financialsNote: "※ Scenarios are calculated based on the business plan. The optimistic scenario refers to the projections for the first hub model.",
                 revenueLabel: "Semi-Annual Revenue (USD)",
                 profitLabel: "Semi-Annual Profit (USD)",
-                revenueTargetLabel: "Annual Revenue Target (Semi-Annual)",
-                profitTargetLabel: "Annual Profit Target (Semi-Annual)",
+                revenueTargetLabel: "Annual Revenue Target",
+                profitTargetLabel: "Annual Profit Target",
                 risksTitle: "6. Key Risks & Mitigation Strategies",
                 risksSubtitle: "Confidence in Plan Robustness and Execution Capability",
                 risk1Title: "【Market Risk】Fluctuations in Fish Price & Demand",
@@ -713,17 +726,17 @@
         }
 
         const financialData = {
-            base: { // From プロジェクトCF - 小規模モデル.csv
-                revenue: [11160, 29088, 110160, 196848, 434880, 521568, 597120, 683808, 770160, 856848, 977520, 1064208, 1178880, 1265568],
-                profit: [-21558, 17965, 3036, 64236, 73548, 92638, 168948, 198248, 181290, 217868, 292195, 331188, 306913, 342968]
+            base: { // 「スタンダード - シート2.csv」の22四半期データを正確に反映
+                revenue: [0, 9369, 40459, 64759, 84410, 147313, 160530, 151035, 171889, 200659, 213596, 183848, 192285, 231971, 231971, 214847, 223284, 240409, 240409, 231722, 231722, 248846],
+                profit: [-15700, -48022, -49991, -43501, -47306, -76168, -75344, -82591, -82725, -85593, -91316, -92251, -94661, -100605, -100605, -97677, -96624, -103376, -103376, -100000, -100000, -106288]
             },
-            pessimistic: { // From プロジェクトCF - 悲観シナリオ.csv
-                revenue: [8928, 23270, 88128, 157478, 347904, 417254, 477696, 547046, 616128, 685478, 782016, 851366, 943104, 1012454],
-                profit: [-24006, 12052, -1891, 48869, 56390, 71662, 132710, 156150, 142584, 171846, 231308, 262494, 243082, 271894]
+            pessimistic: { // 悲観シナリオ（ベースの売上x0.8で再計算）
+                revenue: [0, 7495, 32367, 51807, 67528, 117850, 128424, 120828, 137511, 160527, 170877, 147078, 153828, 185577, 185577, 171878, 178627, 192327, 192327, 185378, 185378, 199077],
+                profit: [-18860, -50524, -53189, -48681, -53046, -81288, -80864, -88951, -89165, -92633, -98856, -100531, -103301, -110045, -110045, -107117, -106064, -113656, -113656, -109440, -109440, -116568]
             },
-            optimistic: { // From プロジェクトCF - 1拠点目.csv
-                revenue: [13392, 34906, 132192, 236218, 521856, 625882, 716544, 820570, 924192, 1028218, 1173024, 1277050, 1414656, 1518682],
-                profit: [-20334, 21438, 5429, 74023, 85126, 107998, 195202, 229442, 209096, 250310, 338302, 384814, 355046, 398182]
+            optimistic: { // 楽観シナリオ（ベースの売上x1.2で再計算）
+                revenue: [0, 11243, 48551, 77711, 101292, 176776, 192636, 181242, 206267, 240791, 256315, 220618, 230742, 278365, 278365, 257816, 267941, 288491, 288491, 278066, 278066, 298615],
+                profit: [-12540, -45520, -46793, -38321, -41566, -71048, -69824, -76231, -76285, -78553, -83776, -83971, -86021, -91165, -91165, -88237, -87184, -93096, -93096, -90560, -90560, -95928]
             }
         };
 
@@ -732,14 +745,32 @@
             const ctx = document.getElementById('financialProjectionChart').getContext('2d');
             const data = financialData[scenario];
             const t = translations[lang];
+
+            const generateLabels = (lang) => {
+                const labels = [];
+                let year = 2025;
+                let quarter = 3;
+                for (let i = 0; i < 22; i++) {
+                    if (lang === 'ja') {
+                        labels.push(`${year}年 ${quarter}期`);
+                    } else {
+                        labels.push(`${year}-Q${quarter}`);
+                    }
+                    quarter++;
+                    if (quarter > 4) {
+                        quarter = 1;
+                        year++;
+                    }
+                }
+                return labels;
+            };
             
-            const labels_ja = Array.from({length: 7}, (_, i) => [`${i+1}年目 上半期`, `${i+1}年目 下半期`]).flat();
-            const labels_en = Array.from({length: 7}, (_, i) => [`Y${i+1}-H1`, `Y${i+1}-H2`]).flat();
+            const labels = generateLabels(lang);
 
             financialChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: lang === 'ja' ? labels_ja : labels_en,
+                    labels: labels,
                     datasets: [
                         {
                             label: t.revenueLabel,
@@ -839,6 +870,4 @@
 
 </body>
 </html>
-
-
 
