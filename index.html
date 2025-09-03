@@ -13,13 +13,7 @@
     <style>
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background-color: #f8f9fa;
         }
-        .jcfs-blue-dark { color: #002D4F; }
-        .jcfs-blue-primary { color: #005A9C; }
-        .bg-jcfs-blue-primary { background-color: #005A9C; }
-        .bg-jcfs-blue-dark { background-color: #002D4F; }
-
         .chart-container {
             position: relative;
             height: 320px;
@@ -28,7 +22,7 @@
             margin: auto;
         }
         .kpi-card {
-            background-color: #005A9C;
+            background-color: #004AAD;
             color: white;
             padding: 2rem;
             border-radius: 0.5rem;
@@ -52,7 +46,7 @@
         }
         .flow-arrow {
             font-size: 2rem;
-            color: #005A9C;
+            color: #007BFF;
             align-self: center;
             margin: 0.5rem 0;
         }
@@ -64,19 +58,17 @@
             content: '';
             position: absolute;
             top: 2rem;
-            left: 50%;
-            width: 150%;
+            right: -2.5rem;
+            width: 2rem;
             height: 2px;
-            background-color: #4D8BC8;
-            transform: translateX(-50%);
+            background-color: #007BFF;
             z-index: -1;
         }
          @media (min-width: 768px) {
             .progress-step:not(:last-child)::after {
-                top: 2rem;
-                left: 50%;
-                width: 100%;
-                transform: translateX(0);
+                top: 50%;
+                right: -2rem;
+                width: 4rem;
             }
         }
         .lang-btn {
@@ -87,7 +79,7 @@
             transition: all 0.2s;
         }
         .lang-btn.active {
-            background-color: #005A9C;
+            background-color: #004AAD;
             color: white;
         }
         .lang-btn:not(.active) {
@@ -100,8 +92,11 @@
 
     <header class="bg-white shadow-md sticky top-0 z-10">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold jcfs-blue-dark">JCFS</div>
-            <div class="flex items-center space-x-2">
+            <div class="flex-1">
+                <h1 id="header-title" class="text-xl md:text-3xl font-bold text-center text-[#004AAD]"></h1>
+                <p id="header-subtitle" class="text-center text-gray-600 mt-1 text-sm md:text-base"></p>
+            </div>
+            <div class="flex space-x-2">
                 <button id="lang-ja" class="lang-btn">JP</button>
                 <button id="lang-en" class="lang-btn">EN</button>
             </div>
@@ -110,14 +105,9 @@
 
     <main class="container mx-auto p-4 md:p-8">
 
-        <section id="hero" class="text-center my-12">
-             <h1 id="header-title" class="text-3xl md:text-5xl font-bold jcfs-blue-dark"></h1>
-             <p id="header-subtitle" class="mt-2 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"></p>
-        </section>
-
         <section id="opportunity" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="opportunity-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <h2 id="opportunity-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="opportunity-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div class="space-y-6">
@@ -157,7 +147,7 @@
                         <p id="geopolitical-desc" class="text-gray-700"></p>
                     </div>
                     <div class="bg-blue-50 border-l-4 border-[#007BFF] p-4 rounded-r-lg">
-                        <h4 id="gov-title" class="font-bold jcfs-blue-primary"></h4>
+                        <h4 id="gov-title" class="font-bold text-[#004AAD]"></h4>
                         <p id="gov-desc" class="text-gray-700"></p>
                     </div>
                 </div>
@@ -166,7 +156,7 @@
 
         <section id="solution" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="solution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <h2 id="solution-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="solution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div>
@@ -188,13 +178,13 @@
                         <div class="text-center mt-4">
                             <span class="text-5xl font-bold text-[#007BFF]">=</span>
                             <div class="mt-2 p-4 bg-blue-100 rounded-lg">
-                                <p id="income-result-title" class="text-xl md:text-2xl font-bold jcfs-blue-primary"></p>
-                                <p id="income-result-value" class="text-4xl md:text-5xl font-black jcfs-blue-primary"></p>
+                                <p id="income-result-title" class="text-xl md:text-2xl font-bold text-[#004AAD]"></p>
+                                <p id="income-result-value" class="text-4xl md:text-5xl font-black text-[#004AAD]"></p>
                             </div>
                         </div>
                     </div>
                     <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 flex flex-col text-center">
-                        <h3 id="ecosystem-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                        <h4 id="ecosystem-title" class="text-xl font-bold mb-4"></h4>
                         <div class="p-4 bg-blue-100 rounded-lg">
                             <span class="text-3xl" role="img" aria-label="設備提供">🚢</span>
                             <p id="eco-step1-title" class="font-bold"></p>
@@ -222,60 +212,63 @@
                 </div>
             </div>
         </section>
-        
-        <section id="frp-solution-link" class="mb-12 text-center bg-jcfs-blue-dark text-white rounded-lg shadow-lg p-8 md:p-12">
-            <h2 id="frp-link-title" class="text-3xl font-bold mb-4"></h2>
-            <p id="frp-link-desc" class="text-xl max-w-3xl mx-auto mb-8"></p>
-            <a id="frp-link-button" href="./frp-details.html" class="inline-block bg-[#007BFF] text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-[#005A9C] transition-colors"></a>
-        </section>
 
         <section id="execution" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="execution-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <h2 id="execution-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="execution-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
-                <div class="grid grid-cols-4 gap-x-2 md:gap-x-4 max-w-5xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 md:gap-x-16 gap-y-8 max-w-5xl mx-auto">
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
                         <h4 class="font-bold">STEP 1</h4>
                         <p id="exec-step1-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step1-status" class="text-xs text-green-600 font-bold"></p>
+                        <p id="exec-step1-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-green-500 text-white flex items-center justify-center text-3xl mb-2">✓</div>
                         <h4 class="font-bold">STEP 2</h4>
                         <p id="exec-step2-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step2-status" class="text-xs text-green-600 font-bold"></p>
+                        <p id="exec-step2-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center text-3xl mb-2">...</div>
                         <h4 class="font-bold">STEP 3</h4>
                         <p id="exec-step3-title" class="text-sm font-semibold text-gray-700"></p>
                         <p id="exec-step3-status" class="text-xs text-blue-600 font-bold"></p>
+                        <p id="exec-step3-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                     <div class="progress-step">
                         <div class="mx-auto w-16 h-16 rounded-full border-4 border-gray-400 border-dashed text-gray-400 flex items-center justify-center text-3xl mb-2" role="img" aria-label="ローンチ">🚀</div>
                         <h4 class="font-bold text-gray-500">GOAL</h4>
                         <p id="exec-step4-title" class="text-sm font-semibold text-gray-500"></p>
                         <p id="exec-step4-status" class="text-xs text-gray-400 font-bold"></p>
+                        <p id="exec-step4-desc" class="text-xs text-gray-500 mt-1"></p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="investment" class="mb-12">
+        <section id="investment">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <h2 id="investment-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+                <h2 id="investment-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="investment-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="text-center mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <p id="facility-inv-title" class="text-gray-600 font-bold"></p>
-                        <p class="text-4xl md:text-5xl font-black jcfs-blue-primary">$997,366</p>
-                        <div id="facility-inv-breakdown" class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
+                        <p class="text-4xl md:text-5xl font-black text-[#004AAD]">$437,098</p>
+                        <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
+                            <p id="facility-inv-item1"></p>
+                            <p id="facility-inv-item2"></p>
+                            <p id="facility-inv-item3"></p>
+                            <p id="facility-inv-item4"></p>
+                            <p id="facility-inv-item5"></p>
                         </div>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-lg flex flex-col justify-center">
                         <p id="vessel-inv-title" class="text-gray-600 font-bold"></p>
-                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black jcfs-blue-primary"></p>
+                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black text-[#004AAD]"></p>
                         <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
                             <p id="vessel-inv-item1"></p>
                             <p id="vessel-inv-item2"></p>
@@ -286,7 +279,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
                         <div class="flex-grow">
-                            <h3 id="vessel-lease-title" class="text-2xl font-bold jcfs-blue-primary mb-4"></h3>
+                            <h3 id="vessel-lease-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
                             <p id="vessel-lease-desc" class="text-gray-600 min-h-[4.5rem] mb-4"></p>
                             <div class="my-4">
                                 <p id="vessel-lease-investment" class="text-lg"></p>
@@ -301,7 +294,7 @@
                     </div>
                     <div class="border-2 border-[#007BFF] rounded-lg p-6 text-center flex flex-col">
                         <div class="flex-grow">
-                            <h3 id="business-inv-title" class="text-2xl font-bold jcfs-blue-primary mb-4"></h3>
+                            <h3 id="business-inv-title" class="text-2xl font-bold text-[#004AAD] mb-4"></h3>
                             <p id="business-inv-desc" class="text-gray-600 min-h-[4.5rem]"></p>
                             <div class="my-4">
                                 <p id="business-inv-investment" class="text-lg"></p>
@@ -314,7 +307,7 @@
                         </div>
                         <div class="mt-auto p-6 bg-blue-50 rounded-lg text-center">
                             <p id="return-target-title" class="text-gray-600 font-bold"></p>
-                            <p class="text-5xl font-black jcfs-blue-primary my-1">2.5<span id="return-target-unit" class="text-3xl"></span></p>
+                            <p class="text-5xl font-black text-[#004AAD] my-1">2.5<span id="return-target-unit" class="text-3xl"></span></p>
                             <p id="return-target-desc" class="text-sm text-gray-700 mt-2"></p>
                         </div>
                     </div>
@@ -323,17 +316,17 @@
         </section>
 
         <section id="news" class="mb-12">
-            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 text-center">
-                <h2 id="news-title" class="text-3xl font-bold jcfs-blue-primary text-center mb-2"></h2>
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h2 id="news-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="news-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
-                <div class="flex justify-center items-center space-x-4">
-                    <a id="facebook-link" href="#" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                        <span class="text-2xl mr-2">📘</span>
-                        Facebook
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="#" id="facebook-link" target="_blank" class="text-blue-600 hover:text-blue-800 transition duration-300">
+                        <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        <span class="sr-only">Facebook</span>
                     </a>
-                    <a id="instagram-link" href="#" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-pink-500 hover:bg-pink-600">
-                         <span class="text-2xl mr-2">📸</span>
-                        Instagram
+                    <a href="#" id="instagram-link" target="_blank" class="text-pink-500 hover:text-pink-700 transition duration-300">
+                        <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0-2a7 7 0 110 14 7 7 0 010-14zm6.406-1.185a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z" clip-rule="evenodd" /></svg>
+                        <span class="sr-only">Instagram</span>
                     </a>
                 </div>
             </div>
@@ -354,7 +347,7 @@
                 opportunityTitle: "1. The Opportunity",
                 opportunitySubtitle: "なぜ「カンボジアの漁業」に、今投資すべきなのか？",
                 opportunityIssueTitle: "深刻な社会課題と巨大なポテンシャル",
-                opportunityIssueDesc: "カンボジアの水産業は、資源枯渇と非効率な操業により、国の食料安全保障を揺ががし、多くの漁師が貧困に喘いでいます。これは解決すべき巨大な社会課題であると同時に、未開拓の巨大市場を意味します。",
+                opportunityIssueDesc: "カンボジアの水産業は、資源枯渇と非効率な操業により、国の食料安全保障を揺るがし、多くの漁師が貧困に喘いでいます。これは解決すべき巨大な社会課題であると同時に、未開拓の巨大市場を意味します。",
                 kpiText: "過去17年での魚の個体数減少率",
                 povertyChartCaption: "漁師の収益状況（2漁村118世帯への調査に基づく推定）",
                 povertyChartLabels: ['実質赤字(超貧困層)', 'かろうじて生活(貧困層)', '普通', '余裕がある'],
@@ -388,42 +381,39 @@
                 ecoStep3Desc: "価値向上した魚を販売し、収益を確保",
                 ecoStep4Title: "4. 利益分配",
                 ecoStep4Desc: "漁師の収入は25%向上。投資家にも配当",
-                frpLinkTitle: "ソリューションの核：日本のFRP漁船",
-                frpLinkDesc: "我々の計画の中心には、日本の先進的なFRP（繊維強化プラスチック）漁船があります。その圧倒的な性能と経済性が、いかにしてカンボジア漁業の課題を解決するのか、詳細をご覧ください。",
-                frpLinkButton: "FRP漁船のメリットを詳しく見る",
                 executionTitle: "3. 着実な進捗と立上げへの道筋",
                 executionSubtitle: "計画は、実行されてこそ価値がある。",
                 execStep1Title: "計画と基盤構築",
                 execStep1Status: "[完了]",
+                execStep1Desc: "チーム組成、現地調査、漁業組合との提携完了。",
                 execStep2Title: "許認可と設計",
                 execStep2Status: "[完了]",
+                execStep2Desc: "施設設計、用地確定、輸出入ライセンス申請完了。",
                 execStep3Title: "最終準備",
                 execStep3Status: "[現在進行中]",
+                execStep3Desc: "水産庁の最終承認、ODA申請、現地視察を調整中。",
                 execStep4Title: "操業開始",
                 execStep4Status: "[間もなく]",
+                execStep4Desc: "投資実行後、速やかに建設・操業を開始。",
                 investmentTitle: "4. The Investment Opportunity",
                 investmentSubtitle: "社会的インパクトと経済的リターンを両立する機会",
                 facilityInvTitle: "設備投資",
-                facilityInvBreakdown: `
-                    <p>・コールドチェーン施設建設費: $313,886</p>
-                    <p>・人件費・運営費等: $276,480</p>
-                    <p>・造成費: $250,000</p>
-                    <p>・技術訓練プログラム: $65,000</p>
-                    <p>・予備費: $60,000</p>
-                    <p>・試験的人工礁設置: $20,000</p>
-                    <p>・モニタリング・評価: $12,000</p>
-                `,
+                facilityInvItem1: "・土地造成費用: $200,000",
+                facilityInvItem2: "・埠頭整備: $30,000",
+                facilityInvItem3: "・小規模埠頭施設建設費: $119,513",
+                facilityInvItem4: "・施設設備導入費: $87,585",
+                facilityInvItem5: "・予備費 (5%): $21,855",
                 vesselInvTitle: "漁船調達",
-                vesselInvValue: "50隻",
-                vesselInvItem1: "・中小型船: 40隻",
-                vesselInvItem2: "・中型船: 10隻",
+                vesselInvValue: "35隻",
+                vesselInvItem1: "・中小型船: 30隻",
+                vesselInvItem2: "・中型船: 5隻",
                 vesselInvItem3: "・価格帯: $70,000 - $200,000 /隻",
                 vesselLeaseTitle: "A. 船舶投資（オペレーティングリース）",
                 vesselLeaseDesc: "中古漁船のオーナーとなり、リース料収入と事業配当、そして将来の売却益を得るスキームです。",
                 vesselLeaseInvestment: "投資額",
                 vesselLeaseNote: "※1隻あたり7万～20万ドルで調達予定",
                 returnChartCaption: "投資回収シミュレーション",
-                returnChartLabels: ['初期投資', 'トータルリターン'],
+                returnChartLabels: ['初期投資', 'トータルリターン目標'],
                 businessInvTitle: "B. 事業投資",
                 businessInvDesc: "事業の設備投資が中心となり、リターンは主に事業配当から得られます。関連地の不動産投資も一部含まれ、将来的な資産価値向上も期待できます。",
                 businessInvInvestment: "投資額",
@@ -432,8 +422,8 @@
                 returnTargetTitle: "目標リターン（7年後）",
                 returnTargetUnit: "倍",
                 returnTargetDesc: "IRR（内部収益率）<span class='font-bold'>15-20%</span>相当<br>安定した事業配当と将来の資産価値上昇を含む",
-                newsTitle: "5. 最新情報と活動報告",
-                newsSubtitle: "プロジェクトのリアルタイムな進捗は、公式SNSで発信しています。",
+                newsTitle: "5. News & Updates",
+                newsSubtitle: "最新の活動状況は、公式SNSでご覧いただけます。",
                 footerText: "あなたの投資が、一国の産業を創り、人々の生活を豊かにする力になります。",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             },
@@ -477,42 +467,39 @@
                 ecoStep3Desc: "Sell the higher-value fish to secure revenue.",
                 ecoStep4Title: "4. Profit Sharing",
                 ecoStep4Desc: "Fishermen's income rises 25%; investors receive dividends.",
-                frpLinkTitle: "The Core of Our Solution: Japanese FRP Vessels",
-                frpLinkDesc: "At the heart of our plan are advanced Japanese FRP (Fiber-Reinforced Plastic) fishing vessels. Discover how their superior performance and economic efficiency solve the core challenges of Cambodia's fishery sector.",
-                frpLinkButton: "Learn More About FRP Vessels",
                 executionTitle: "3. Steady Progress and the Path to Launch",
                 executionSubtitle: "A plan is only as good as its execution.",
                 execStep1Title: "Planning & Foundation",
                 execStep1Status: "[Completed]",
+                execStep1Desc: "Team assembly, on-site research, and partnership with fishery association are complete.",
                 execStep2Title: "Permits & Design",
                 execStep2Status: "[Completed]",
+                execStep2Desc: "Facility design, site confirmation, and import/export license applications are complete.",
                 execStep3Title: "Final Preparations",
                 execStep3Status: "[In Progress]",
+                execStep3Desc: "Coordinating final approval from Fisheries Admin, ODA application, and site visits.",
                 execStep4Title: "Launch Operations",
                 execStep4Status: "[Coming Soon]",
+                execStep4Desc: "Construction and operations to begin promptly after investment.",
                 investmentTitle: "4. The Investment Opportunity",
                 investmentSubtitle: "An Opportunity for Both Social Impact and Financial Returns",
                 facilityInvTitle: "Facility Investment",
-                facilityInvBreakdown: `
-                    <p>・Cold Chain Facility Construction: $313,886</p>
-                    <p>・Personnel & Operating Costs: $276,480</p>
-                    <p>・Land Development: $250,000</p>
-                    <p>・Technical Training Program: $65,000</p>
-                    <p>・Contingency Fund: $60,000</p>
-                    <p>・Pilot Artificial Reef Installation: $20,000</p>
-                    <p>・Monitoring & Evaluation: $12,000</p>
-                `,
+                facilityInvItem1: "・Land Development: $200,000",
+                facilityInvItem2: "・Pier Development: $30,000",
+                facilityInvItem3: "・Small-scale Pier Facility Construction: $119,513",
+                facilityInvItem4: "・Facility Equipment Installation: $87,585",
+                facilityInvItem5: "・Contingency (5%): $21,855",
                 vesselInvTitle: "Vessel Procurement",
-                vesselInvValue: "50 Vessels",
-                vesselInvItem1: "・Small/Mid-size: 40",
-                vesselInvItem2: "・Medium-size: 10",
+                vesselInvValue: "35 Vessels",
+                vesselInvItem1: "・Small/Mid-size: 30",
+                vesselInvItem2: "・Medium-size: 5",
                 vesselInvItem3: "・Price Range: $70,000 - $200,000 /vessel",
                 vesselLeaseTitle: "A. Vessel Investment (Operating Lease)",
                 vesselLeaseDesc: "Become an owner of a used fishing vessel and earn returns from lease fees, business dividends, and future sale proceeds.",
                 vesselLeaseInvestment: "Investment",
                 vesselLeaseNote: "※Vessels procured at $70k - $200k each",
                 returnChartCaption: "Investment Return Simulation",
-                returnChartLabels: ['Initial Investment', 'Total Return'],
+                returnChartLabels: ['Initial Investment', 'Total Return Target'],
                 businessInvTitle: "B. Business Investment",
                 businessInvDesc: "This investment focuses on the project's facilities, with returns primarily from business dividends. It also includes partial investment in related real estate, expecting future appreciation.",
                 businessInvInvestment: "Investment",
@@ -522,7 +509,7 @@
                 returnTargetUnit: "x",
                 returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
                 newsTitle: "5. News & Updates",
-                newsSubtitle: "Follow our real-time progress on our official social media channels.",
+                newsSubtitle: "Follow our progress on our official social media channels.",
                 footerText: "Your investment has the power to build a nation's industry and enrich people's lives.",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             }
@@ -624,9 +611,9 @@
                             font: { weight: 'bold', size: '11px' },
                             formatter: (value, context) => {
                                 if (lang === 'ja') {
-                                    return context.dataIndex === 0 ? `${value}%\n(※全額一年償却可)` : `${value}%\n毎年のリース料4-5%と事業配当、\nリセールバリュー1.3-1.5倍を想定`;
+                                    return context.dataIndex === 0 ? `${value}%` : `${value}%\n(年間リース料4-5%, 事業配当, リセール1.3-1.5倍想定)`;
                                 } else {
-                                     return context.dataIndex === 0 ? `${value}%\n(Full 1-year depreciation)` : `${value}%\nBased on 4-5% annual lease, dividends,\nand 1.3-1.5x resale value`;
+                                     return context.dataIndex === 0 ? `${value}%` : `${value}%\n(4-5% annual lease, dividends, 1.3-1.5x resale target)`;
                                 }
                             }
                         }
@@ -640,8 +627,7 @@
             const t = translations[lang];
             
             for (const key in t) {
-                const elementId = key.replace(/([A-Z])/g, "-$1").toLowerCase();
-                const element = document.getElementById(elementId);
+                const element = document.getElementById(key.replace(/([A-Z])/g, "-$1").toLowerCase());
                 if (element) {
                     element.innerHTML = t[key];
                 }
@@ -650,20 +636,20 @@
             document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
             
+            // Set social media links - replace '#' with your actual URLs
+            document.getElementById('facebook-link').href = "https://www.facebook.com/your-page-url";
+            document.getElementById('instagram-link').href = "https://www.instagram.com/your-profile-url";
+
             createPovertyChart(lang);
             createReturnChart(lang);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
-            document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
-            
-            // This section is intentionally left blank to ensure the link works.
-            // The modal logic has been removed.
-            
-            updateContent('ja');
-        });
+        document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
+        document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
+
+        updateContent('ja');
     </script>
 
 </body>
 </html>
+
