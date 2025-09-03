@@ -21,6 +21,11 @@
             max-width: 400px;
             margin: auto;
         }
+        .financial-chart-container {
+            position: relative;
+            height: 450px;
+            width: 100%;
+        }
         .kpi-card {
             background-color: #004AAD;
             color: white;
@@ -71,19 +76,21 @@
                 width: 4rem;
             }
         }
-        .lang-btn {
+        .lang-btn, .scenario-btn {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            border: 1px solid #d1d5db;
         }
-        .lang-btn.active {
+        .lang-btn.active, .scenario-btn.active {
             background-color: #004AAD;
             color: white;
+            border-color: #004AAD;
         }
-        .lang-btn:not(.active) {
-            background-color: #e5e7eb;
+        .lang-btn:not(.active), .scenario-btn:not(.active) {
+            background-color: #f9fafb;
             color: #4b5563;
         }
     </style>
@@ -250,12 +257,21 @@
             </div>
         </section>
 
-        <section id="investment">
+        <section id="investment" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
                 <h2 id="investment-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
                 <p id="investment-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
                 <div class="text-center mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
                     <div class="bg-blue-50 p-4 rounded-lg">
+                        <p id="vessel-inv-title" class="text-gray-600 font-bold"></p>
+                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black text-[#004AAD]"></p>
+                        <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
+                            <p id="vessel-inv-item1"></p>
+                            <p id="vessel-inv-item2"></p>
+                            <p id="vessel-inv-item3" class="font-bold mt-1"></p>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg flex flex-col justify-center">
                         <p id="facility-inv-title" class="text-gray-600 font-bold"></p>
                         <p class="text-4xl md:text-5xl font-black text-[#004AAD]">$437,098</p>
                         <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
@@ -264,15 +280,6 @@
                             <p id="facility-inv-item3"></p>
                             <p id="facility-inv-item4"></p>
                             <p id="facility-inv-item5"></p>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg flex flex-col justify-center">
-                        <p id="vessel-inv-title" class="text-gray-600 font-bold"></p>
-                        <p id="vessel-inv-value" class="text-4xl md:text-5xl font-black text-[#004AAD]"></p>
-                        <div class="text-left text-sm mt-2 space-y-1 text-gray-700 pl-2">
-                            <p id="vessel-inv-item1"></p>
-                            <p id="vessel-inv-item2"></p>
-                            <p id="vessel-inv-item3" class="font-bold mt-1"></p>
                         </div>
                     </div>
                 </div>
@@ -312,6 +319,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="financials" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h2 id="financials-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <p id="financials-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="flex justify-center space-x-2 mb-6">
+                    <button id="scenario-base" class="scenario-btn"></button>
+                    <button id="scenario-pessimistic" class="scenario-btn"></button>
+                    <button id="scenario-optimistic" class="scenario-btn"></button>
+                </div>
+                <div class="financial-chart-container">
+                    <canvas id="financialProjectionChart"></canvas>
+                </div>
+                 <p id="financials-note" class="text-center text-sm text-gray-500 mt-4"></p>
             </div>
         </section>
 
@@ -422,7 +445,15 @@
                 returnTargetTitle: "目標リターン（7年後）",
                 returnTargetUnit: "倍",
                 returnTargetDesc: "IRR（内部収益率）<span class='font-bold'>15-20%</span>相当<br>安定した事業配当と将来の資産価値上昇を含む",
-                newsTitle: "5. News & Updates",
+                financialsTitle: "5. 財務予測とリスク分析",
+                financialsSubtitle: "小規模モデルにおける収益性と投資回収の見通し",
+                scenarioBase: "ベースライン計画",
+                scenarioPessimistic: "悲観シナリオ",
+                scenarioOptimistic: "楽観シナリオ",
+                financialsNote: "※悲観シナリオは売上80%、楽観シナリオは売上120%で算出。初期投資は含みません。",
+                opProfitLabel: "年間営業利益",
+                cumulativeCFLabel: "累計キャッシュフロー",
+                newsTitle: "6. News & Updates",
                 newsSubtitle: "最新の活動状況は、公式SNSでご覧いただけます。",
                 footerText: "あなたの投資が、一国の産業を創り、人々の生活を豊かにする力になります。",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
@@ -508,14 +539,24 @@
                 returnTargetTitle: "Target Return (After 7 years)",
                 returnTargetUnit: "x",
                 returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
-                newsTitle: "5. News & Updates",
+                financialsTitle: "5. Financial Projections & Risk Analysis",
+                financialsSubtitle: "Profitability and investment recovery outlook for the small-scale model",
+                scenarioBase: "Baseline",
+                scenarioPessimistic: "Pessimistic",
+                scenarioOptimistic: "Optimistic",
+                financialsNote: "※ Pessimistic scenario assumes 80% of revenue, Optimistic assumes 120%. Initial investment is not included in the annual profit.",
+                opProfitLabel: "Annual Operating Profit",
+                cumulativeCFLabel: "Cumulative Cash Flow",
+                newsTitle: "6. News & Updates",
                 newsSubtitle: "Follow our progress on our official social media channels.",
                 footerText: "Your investment has the power to build a nation's industry and enrich people's lives.",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
             }
         };
 
-        let povertyChart, returnChart;
+        let povertyChart, returnChart, financialChart;
+        let currentLang = 'ja';
+        let currentScenario = 'base';
         
         Chart.register(ChartDataLabels);
 
@@ -622,14 +663,126 @@
             });
         }
 
+        const financialData = {
+            base: {
+                opProfit: [-3593, 67272, 166186, 367196, 399158, 623383, 649881],
+                cumulativeCF: [-437098, -369826, -203640, 163556, 562714, 1186097, 1835978]
+            },
+            pessimistic: {
+                opProfit: [-3593*1.2, 67272*0.8, 166186*0.8, 367196*0.8, 399158*0.8, 623383*0.8, 649881*0.8],
+                cumulativeCF: [-437098]
+            },
+            optimistic: {
+                opProfit: [-3593*0.8, 67272*1.2, 166186*1.2, 367196*1.2, 399158*1.2, 623383*1.2, 649881*1.2],
+                cumulativeCF: [-437098]
+            }
+        };
+
+        function calculateCumulativeCF(initial, profits) {
+            let cumulative = initial;
+            return profits.map(profit => {
+                cumulative += profit;
+                return cumulative;
+            });
+        }
+
+        financialData.pessimistic.cumulativeCF = [-437098, ...calculateCumulativeCF(-437098, financialData.pessimistic.opProfit)].slice(0, 7);
+        financialData.optimistic.cumulativeCF = [-437098, ...calculateCumulativeCF(-437098, financialData.optimistic.opProfit)].slice(0, 7);
+
+
+        function createFinancialChart(lang, scenario = 'base') {
+            if (financialChart) financialChart.destroy();
+            const ctx = document.getElementById('financialProjectionChart').getContext('2d');
+            const data = financialData[scenario];
+            const t = translations[lang];
+
+            financialChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7'],
+                    datasets: [
+                        {
+                            label: t.opProfitLabel,
+                            data: data.opProfit,
+                            backgroundColor: '#80BFFF',
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: t.cumulativeCFLabel,
+                            data: data.cumulativeCF,
+                            type: 'line',
+                            borderColor: '#004AAD',
+                            backgroundColor: '#004AAD',
+                            tension: 0.1,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...defaultChartOptions.plugins,
+                        datalabels: {
+                           display: false
+                        },
+                         tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: t.opProfitLabel
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false, 
+                            },
+                            title: {
+                                display: true,
+                                text: t.cumulativeCFLabel
+                            }
+                        }
+                    }
+                }
+            });
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.id.includes(scenario));
+            });
+        }
+
         function updateContent(lang) {
+            currentLang = lang;
             document.documentElement.lang = lang;
             const t = translations[lang];
             
             for (const key in t) {
                 const element = document.getElementById(key.replace(/([A-Z])/g, "-$1").toLowerCase());
                 if (element) {
-                    element.innerHTML = t[key];
+                     element.innerHTML = t[key];
                 }
             }
 
@@ -642,10 +795,15 @@
 
             createPovertyChart(lang);
             createReturnChart(lang);
+            createFinancialChart(lang, currentScenario);
         }
-
+        
         document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
         document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
+        
+        document.getElementById('scenario-base').addEventListener('click', () => { currentScenario = 'base'; createFinancialChart(currentLang, 'base'); });
+        document.getElementById('scenario-pessimistic').addEventListener('click', () => { currentScenario = 'pessimistic'; createFinancialChart(currentLang, 'pessimistic'); });
+        document.getElementById('scenario-optimistic').addEventListener('click', () => { currentScenario = 'optimistic'; createFinancialChart(currentLang, 'optimistic'); });
 
         updateContent('ja');
     </script>
