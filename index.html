@@ -337,6 +337,31 @@
                  <p id="financials-note" class="text-center text-sm text-gray-500 mt-4"></p>
             </div>
         </section>
+        
+        <section id="risks" class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h2 id="risks-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
+                <p id="risks-subtitle" class="text-xl text-center text-gray-700 mb-8"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-5 rounded-lg border">
+                        <h4 id="risk1-title" class="text-lg font-bold text-gray-800 mb-2"></h4>
+                        <p id="risk1-desc" class="text-sm text-gray-600"></p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-lg border">
+                        <h4 id="risk2-title" class="text-lg font-bold text-gray-800 mb-2"></h4>
+                        <p id="risk2-desc" class="text-sm text-gray-600"></p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-lg border">
+                        <h4 id="risk3-title" class="text-lg font-bold text-gray-800 mb-2"></h4>
+                        <p id="risk3-desc" class="text-sm text-gray-600"></p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-lg border">
+                        <h4 id="risk4-title" class="text-lg font-bold text-gray-800 mb-2"></h4>
+                        <p id="risk4-desc" class="text-sm text-gray-600"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section id="news" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
@@ -445,15 +470,25 @@
                 returnTargetTitle: "目標リターン（7年後）",
                 returnTargetUnit: "倍",
                 returnTargetDesc: "IRR（内部収益率）<span class='font-bold'>15-20%</span>相当<br>安定した事業配当と将来の資産価値上昇を含む",
-                financialsTitle: "5. 財務予測とリスク分析",
+                financialsTitle: "5. 財務予測",
                 financialsSubtitle: "小規模モデルにおける収益性と投資回収の見通し",
                 scenarioBase: "ベースライン計画",
                 scenarioPessimistic: "悲観シナリオ",
                 scenarioOptimistic: "楽観シナリオ",
-                financialsNote: "※悲観シナリオは売上80%、楽観シナリオは売上120%で算出。初期投資は含みません。",
+                financialsNote: "※悲観シナリオはご提示の複数リスク（魚価-10%、漁獲量-20%等）を織り込んだものです。初期投資は含みません。",
                 opProfitLabel: "年間営業利益",
                 cumulativeCFLabel: "累計キャッシュフロー",
-                newsTitle: "6. News & Updates",
+                risksTitle: "6. 主なリスクと緩和策",
+                risksSubtitle: "計画の堅牢性と事業遂行能力への信頼",
+                risk1Title: "【市場リスク】魚価・需要の変動",
+                risk1Desc: "缶詰などの加工品開発による付加価値向上と価格安定化。国内外の複数販路（卸売、レストラン、輸出）の開拓。主要バイヤーとの長期買取契約の推進。",
+                risk2Title: "【運営リスク】技術習得の遅れ",
+                risk2Desc: "JICAと連携した専門家派遣による実践的な研修プログラムの実施。現地の中核人材を「トレーナー」として育成し、知識の定着を図る。操作がシンプルな日本製の中古漁船・設備の選定。",
+                risk3Title: "【地政学・環境リスク】近隣国との関係、異常気象",
+                risk3Desc: "ADBやカンボジア政府との連携による、国家レベルでの事業安定化への働きかけ。気候変動に強いインフラ設計の採用。漁獲量データの管理による、持続可能な漁業計画の策定。",
+                risk4Title: "【資金調達リスク】追加資金の必要性",
+                risk4Desc: "ADB、JICAとの連携による公的資金へのアクセス。民間投資家向けの多様な投資パッケージの提供。事業収益からの内部留保と再投資計画の策定。",
+                newsTitle: "7. News & Updates",
                 newsSubtitle: "最新の活動状況は、公式SNSでご覧いただけます。",
                 footerText: "あなたの投資が、一国の産業を創り、人々の生活を豊かにする力になります。",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
@@ -539,15 +574,25 @@
                 returnTargetTitle: "Target Return (After 7 years)",
                 returnTargetUnit: "x",
                 returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
-                financialsTitle: "5. Financial Projections & Risk Analysis",
+                financialsTitle: "5. Financial Projections",
                 financialsSubtitle: "Profitability and investment recovery outlook for the small-scale model",
                 scenarioBase: "Baseline",
                 scenarioPessimistic: "Pessimistic",
                 scenarioOptimistic: "Optimistic",
-                financialsNote: "※ Pessimistic scenario assumes 80% of revenue, Optimistic assumes 120%. Initial investment is not included in the annual profit.",
+                financialsNote: "※ Pessimistic scenario incorporates multiple specified risks (e.g., fish price -10%, catch volume -20%). Initial investment not included.",
                 opProfitLabel: "Annual Operating Profit",
                 cumulativeCFLabel: "Cumulative Cash Flow",
-                newsTitle: "6. News & Updates",
+                risksTitle: "6. Key Risks & Mitigation Strategies",
+                risksSubtitle: "Confidence in Plan Robustness and Execution Capability",
+                risk1Title: "【Market Risk】Fluctuations in Fish Price & Demand",
+                risk1Desc: "Enhance value and stabilize prices through processed goods (e.g., canned products). Develop multiple sales channels (wholesale, restaurants, export). Pursue long-term contracts with key buyers.",
+                risk2Title: "【Operational Risk】Delays in Technology Adoption",
+                risk2Desc: "Implement practical training programs with experts dispatched via JICA. Foster local talent as 'trainers' to ensure knowledge retention. Select user-friendly Japanese used vessels and equipment.",
+                risk3Title: "【Geopolitical & Environmental Risk】Neighboring Country Relations, Extreme Weather",
+                risk3Desc: "Advocate for project stability at a national level through collaboration with ADB and the Cambodian government. Adopt climate-resilient infrastructure design. Formulate sustainable fishing plans based on catch data management.",
+                risk4Title: "【Financing Risk】Need for Additional Capital",
+                risk4Desc: "Access public funds through partnerships with ADB and JICA. Offer diverse investment packages for private investors. Formulate plans for retaining and reinvesting earnings.",
+                newsTitle: "7. News & Updates",
                 newsSubtitle: "Follow our progress on our official social media channels.",
                 footerText: "Your investment has the power to build a nation's industry and enrich people's lives.",
                 footerCopyright: "&copy; 2025 Cambodia Fishery Reform Project. All Rights Reserved."
@@ -671,12 +716,12 @@
                 cumulativeCF: [-437098, -369826, -203640, 163556, 562714, 1186097, 1835978]
             },
             pessimistic: {
-                opProfit: [-3593*1.2, 67272*0.8, 166186*0.8, 367196*0.8, 399158*0.8, 623383*0.8, 649881*0.8],
-                cumulativeCF: [-437098]
+                opProfit: [-43085, -34543, 39430, 194881, 221290, 401837, 424116],
+                cumulativeCF: [-480183, -514726, -475296, -280415, -59125, 342712, 766828]
             },
             optimistic: {
                 opProfit: [-3593*0.8, 67272*1.2, 166186*1.2, 367196*1.2, 399158*1.2, 623383*1.2, 649881*1.2],
-                cumulativeCF: [-437098]
+                cumulativeCF: []
             }
         };
 
@@ -688,8 +733,7 @@
             });
         }
 
-        financialData.pessimistic.cumulativeCF = [-437098, ...calculateCumulativeCF(-437098, financialData.pessimistic.opProfit)].slice(0, 7);
-        financialData.optimistic.cumulativeCF = [-437098, ...calculateCumulativeCF(-437098, financialData.optimistic.opProfit)].slice(0, 7);
+        financialData.optimistic.cumulativeCF = calculateCumulativeCF(-437098, financialData.optimistic.opProfit);
 
 
         function createFinancialChart(lang, scenario = 'base') {
