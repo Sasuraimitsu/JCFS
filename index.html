@@ -471,13 +471,13 @@
                 returnTargetUnit: "倍",
                 returnTargetDesc: "IRR（内部収益率）<span class='font-bold'>15-20%</span>相当<br>安定した事業配当と将来の資産価値上昇を含む",
                 financialsTitle: "5. 財務予測",
-                financialsSubtitle: "小規模モデルにおける収益性と投資回収の見通し",
-                scenarioBase: "ベースライン計画",
+                financialsSubtitle: "半期ごとの売上・利益予測",
+                scenarioBase: "ベースライン",
                 scenarioPessimistic: "悲観シナリオ",
                 scenarioOptimistic: "楽観シナリオ",
-                financialsNote: "※悲観シナリオはご提示の複数リスク（魚価-10%、漁獲量-20%等）を織り込んだものです。初期投資は含みません。",
-                opProfitLabel: "年間営業利益",
-                cumulativeCFLabel: "累計キャッシュフロー",
+                financialsNote: "※各シナリオは事業計画書に基づき算出。楽観シナリオは1拠点目の計画値を参照。",
+                revenueLabel: "半期売上 (ドル)",
+                profitLabel: "半期利益 (ドル)",
                 risksTitle: "6. 主なリスクと緩和策",
                 risksSubtitle: "計画の堅牢性と事業遂行能力への信頼",
                 risk1Title: "【市場リスク】魚価・需要の変動",
@@ -575,13 +575,13 @@
                 returnTargetUnit: "x",
                 returnTargetDesc: "Equivalent to IRR of <span class='font-bold'>15-20%</span><br>Includes stable business dividends and future asset appreciation.",
                 financialsTitle: "5. Financial Projections",
-                financialsSubtitle: "Profitability and investment recovery outlook for the small-scale model",
+                financialsSubtitle: "Semi-Annual Revenue and Profit Forecast",
                 scenarioBase: "Baseline",
                 scenarioPessimistic: "Pessimistic",
                 scenarioOptimistic: "Optimistic",
-                financialsNote: "※ Pessimistic scenario incorporates multiple specified risks (e.g., fish price -10%, catch volume -20%). Initial investment not included.",
-                opProfitLabel: "Annual Operating Profit",
-                cumulativeCFLabel: "Cumulative Cash Flow",
+                financialsNote: "※ Scenarios are calculated based on the business plan. The optimistic scenario refers to the projections for the first hub model.",
+                revenueLabel: "Semi-Annual Revenue (USD)",
+                profitLabel: "Semi-Annual Profit (USD)",
                 risksTitle: "6. Key Risks & Mitigation Strategies",
                 risksSubtitle: "Confidence in Plan Robustness and Execution Capability",
                 risk1Title: "【Market Risk】Fluctuations in Fish Price & Demand",
@@ -712,55 +712,49 @@
 
         const financialData = {
             base: {
-                opProfit: [-3593, 67272, 166186, 367196, 399158, 623383, 649881],
-                cumulativeCF: [-437098, -369826, -203640, 163556, 562714, 1186097, 1835978]
+                revenue: [11160, 29088, 110160, 196848, 434880, 521568, 597120, 683808, 770160, 856848, 977520, 1064208, 1178880, 1265568],
+                profit: [-21558, 17965, 3036, 64236, 73548, 92638, 168948, 198248, 181290, 217868, 292195, 331188, 306913, 342968]
             },
             pessimistic: {
-                opProfit: [-43085, -34543, 39430, 194881, 221290, 401837, 424116],
-                cumulativeCF: [-480183, -514726, -475296, -280415, -59125, 342712, 766828]
+                revenue: [8928, 23270, 88128, 157478, 347904, 417254, 477696, 547046, 616128, 685478, 782016, 851366, 943104, 1012454],
+                profit: [-24006, 12052, -1891, 48869, 56390, 71662, 132710, 156150, 142584, 171846, 231308, 262494, 243082, 271894]
             },
             optimistic: {
-                opProfit: [-3593*0.8, 67272*1.2, 166186*1.2, 367196*1.2, 399158*1.2, 623383*1.2, 649881*1.2],
-                cumulativeCF: []
+                revenue: [13392, 34906, 132192, 236218, 521856, 625882, 716544, 820570, 924192, 1028218, 1173024, 1277050, 1414656, 1518682],
+                profit: [-20334, 21438, 5429, 74023, 85126, 107998, 195202, 229442, 209096, 250310, 338302, 384814, 355046, 398182]
             }
         };
-
-        function calculateCumulativeCF(initial, profits) {
-            let cumulative = initial;
-            return profits.map(profit => {
-                cumulative += profit;
-                return cumulative;
-            });
-        }
-
-        financialData.optimistic.cumulativeCF = calculateCumulativeCF(-437098, financialData.optimistic.opProfit);
-
 
         function createFinancialChart(lang, scenario = 'base') {
             if (financialChart) financialChart.destroy();
             const ctx = document.getElementById('financialProjectionChart').getContext('2d');
             const data = financialData[scenario];
             const t = translations[lang];
+            
+            const labels_ja = Array.from({length: 7}, (_, i) => [`${i+1}年目 上半期`, `${i+1}年目 下半期`]).flat();
+            const labels_en = Array.from({length: 7}, (_, i) => [`Y${i+1}-H1`, `Y${i+1}-H2`]).flat();
 
             financialChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7'],
+                    labels: lang === 'ja' ? labels_ja : labels_en,
                     datasets: [
                         {
-                            label: t.opProfitLabel,
-                            data: data.opProfit,
+                            label: t.revenueLabel,
+                            data: data.revenue,
                             backgroundColor: '#80BFFF',
                             yAxisID: 'y',
+                            order: 2
                         },
                         {
-                            label: t.cumulativeCFLabel,
-                            data: data.cumulativeCF,
+                            label: t.profitLabel,
+                            data: data.profit,
                             type: 'line',
                             borderColor: '#004AAD',
                             backgroundColor: '#004AAD',
                             tension: 0.1,
-                            yAxisID: 'y1',
+                            yAxisID: 'y',
+                            order: 1
                         }
                     ]
                 },
@@ -773,14 +767,16 @@
                            display: false
                         },
                          tooltip: {
-                            callbacks: {
+                             mode: 'index',
+                             intersect: false,
+                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) {
                                         label += ': ';
                                     }
                                     if (context.parsed.y !== null) {
-                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(context.parsed.y);
                                     }
                                     return label;
                                 }
@@ -788,28 +784,14 @@
                         }
                     },
                     scales: {
-                        x: {
-                            stacked: true,
-                        },
                         y: {
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            title: {
-                                display: true,
-                                text: t.opProfitLabel
-                            }
-                        },
-                        y1: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            grid: {
-                                drawOnChartArea: false, 
-                            },
-                            title: {
-                                display: true,
-                                text: t.cumulativeCFLabel
+                             ticks: {
+                                callback: function(value, index, values) {
+                                    return '$' + (value / 1000) + 'k';
+                                }
                             }
                         }
                     }
@@ -835,7 +817,6 @@
             document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('lang-en').classList.toggle('active', lang === 'en');
             
-            // Set social media links - replace '#' with your actual URLs
             document.getElementById('facebook-link').href = "https://www.facebook.com/your-page-url";
             document.getElementById('instagram-link').href = "https://www.instagram.com/your-profile-url";
 
