@@ -1023,6 +1023,10 @@
             createPovertyChart(lang);
             createReturnChart(lang);
             createFinancialChart(lang, currentScenario);
+             
+            window.dispatchEvent(new CustomEvent('app:langchange', { detail: { lang } }));
+        }
+
         }
         
         document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
