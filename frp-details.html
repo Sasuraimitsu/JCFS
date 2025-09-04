@@ -673,55 +673,45 @@
  if (t?.modelsButton) modelsBtn.setAttribute('aria-label', t.modelsButton);
  }
         
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('lang-ja').addEventListener('click', () => setLang('ja'));
-            document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
-            
-            // Modal control
-            const modal = document.getElementById('coming-soon-modal');
-            const openBtn = document.getElementById('models-button');
-            const closeBtn = document.getElementById('modal-close-btn');
+         document.addEventListener('DOMContentLoaded', () => {
+    // 言語切替
+    document.getElementById('lang-ja').addEventListener('click', () => setLang('ja'));
+    document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
 
-              // Modal control
-  const modal = document.getElementById('coming-soon-modal');
-  const openBtn = document.getElementById('models-button');
-  const closeBtn = document.getElementById('modal-close-btn');
+    // Modal control（プレースホルダ時のみ有効化）
+    const modal   = document.getElementById('coming-soon-modal');
+    const openBtn = document.getElementById('models-button');
+    const closeBtn= document.getElementById('modal-close-btn');
 
- // プレースホルダ時だけモーダルを開く
- if (
-   openBtn &&
-   (openBtn.getAttribute('href') === 'javascript:void(0);' || openBtn.dataset.mode === 'modal')
- ) {
-   openBtn.addEventListener('click', (e) => {
-     e.preventDefault();
-     const lang = document.documentElement.lang || 'ja';
-     document.getElementById('modal-title').innerText = translations[lang].modalTitle;
-     document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
-     document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
-     modal.classList.remove('hidden');
-   });
- }
+    if (
+      openBtn &&
+      (openBtn.getAttribute('href') === 'javascript:void(0);' || openBtn.dataset.mode === 'modal')
+    ) {
+      openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const lang = document.documentElement.lang || 'ja';
+        document.getElementById('modal-title').innerText = translations[lang].modalTitle;
+        document.getElementById('modal-desc').innerText  = translations[lang].modalDesc;
+        document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
+        modal.classList.remove('hidden');
+      });
+    }
 
-            }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
+    }
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+      });
+    }
 
-            if(closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    modal.classList.add('hidden');
-                });
-            }
-
-            if(modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.add('hidden');
-                    }
-                });
-            }
-            
-              // 旧: updateContent('ja');
-  const initLang = getInitialLang();
-  setLang(initLang, { persist: true, updateUrl: true });
-});
+    // 初期適用
+    const initLang = getInitialLang();
+    setLang(initLang, { persist: true, updateUrl: true });
+  });
 </script>
 
 </body>
