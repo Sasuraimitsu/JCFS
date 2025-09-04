@@ -1,0 +1,480 @@
+<!-- models.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>モデルラインナップ - JCFS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans JP','Inter',sans-serif; background:#f8f9fa; }
+    .lang-btn { padding:.5rem 1rem; border-radius:.375rem; font-weight:600; border:1px solid #d1d5db; }
+    .lang-btn.active { background:#005A9C; color:#fff; border-color:#005A9C; }
+    .gallery-main { aspect-ratio: 16 / 9; object-fit:cover; width:100%; border-radius:.75rem; }
+    .thumb { aspect-ratio: 16 / 9; object-fit:cover; width:100%; border-radius:.5rem; cursor:pointer; border:2px solid transparent; }
+    .thumb[aria-current="true"] { border-color:#005A9C; }
+    .chip { display:inline-flex; align-items:center; gap:.4rem; border:1px solid #dbe3ef; background:#eef5ff; padding:.25rem .5rem; border-radius:999px; font-size:.8rem; color:#0d3b86; }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto max-w-7xl px-4">
+      <div class="flex justify-between items-center py-4">
+        <a href="https://sasuraimitsu.github.io/JCFS/" id="brand" class="text-2xl font-bold text-[#002D4F]">JCFS</a>
+        <nav class="flex items-center space-x-3">
+          <a id="nav-back" href="frp-details.html" class="text-gray-600 hover:text-[#005A9C] font-semibold"></a>
+          <div class="flex items-center gap-1">
+            <button id="lang-ja" class="lang-btn">JP</button>
+            <button id="lang-en" class="lang-btn">EN</button>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto max-w-7xl px-4 py-8">
+    <!-- Page title & filters -->
+    <section id="topbar" class="mb-6">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h1 id="page-title" class="text-3xl md:text-4xl font-bold text-[#002D4F]"></h1>
+          <p id="page-subtitle" class="text-lg text-[#005A9C] mt-1"></p>
+        </div>
+        <div class="flex flex-col md:flex-row gap-3 md:items-center">
+          <div>
+            <label for="fishery-filter" id="label-fishery" class="block text-sm font-semibold text-gray-600 mb-1"></label>
+            <select id="fishery-filter" class="w-full md:w-56 rounded-md border-gray-300">
+              <option value="all">All</option>
+            </select>
+          </div>
+          <div>
+            <label for="search" id="label-search" class="block text-sm font-semibold text-gray-600 mb-1"></label>
+            <input id="search" type="search" class="w-full md:w-64 rounded-md border-gray-300" placeholder="">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- List view -->
+    <section id="list-view" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></section>
+
+    <!-- Detail view -->
+    <section id="detail-view" class="hidden">
+      <button id="back-to-list" class="mb-4 inline-flex items-center gap-2 text-[#005A9C] hover:underline">
+        ← <span id="back-label"></span>
+      </button>
+
+      <div id="detail-card" class="bg-white rounded-xl shadow p-6 grid lg:grid-cols-2 gap-6">
+        <!-- Gallery -->
+        <div>
+          <img id="gallery-main" src="" alt="" class="gallery-main mb-3">
+          <div id="thumbs" class="grid grid-cols-4 md:grid-cols-6 gap-2"></div>
+        </div>
+
+        <!-- Meta -->
+        <div>
+          <h2 id="model-name" class="text-2xl font-bold text-[#002D4F]"></h2>
+          <div id="chips" class="mt-2 flex flex-wrap gap-2"></div>
+
+          <h3 id="specs-title" class="text-xl font-bold mt-6 mb-2 text-[#005A9C]"></h3>
+          <dl class="grid grid-cols-[10rem_1fr] gap-x-4 gap-y-2 text-sm">
+            <dt id="gt-label" class="font-semibold text-gray-600"></dt>
+            <dd id="gt-value"></dd>
+
+            <dt id="size-label" class="font-semibold text-gray-600"></dt>
+            <dd id="size-value"></dd>
+
+            <dt id="engine-label" class="font-semibold text-gray-600"></dt>
+            <dd id="engine-value"></dd>
+
+            <dt id="yard-label" class="font-semibold text-gray-600"></dt>
+            <dd id="yard-value"></dd>
+
+            <dt id="equip-label" class="font-semibold text-gray-600"></dt>
+            <dd id="equip-value"></dd>
+          </dl>
+
+          <div class="mt-6 p-3 rounded-lg bg-blue-50 text-sm text-blue-900">
+            <p id="note-fill"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white mt-10 py-6">
+    <div class="container mx-auto max-w-7xl px-4 text-center text-gray-500">
+      <p id="footer-copy">&copy; 2025 JCFS. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ========= i18n =========
+    const T = {
+      ja: {
+        back: "一覧へ戻る",
+        pageTitle: "モデルラインナップ",
+        pageSubtitle: "日本の中古FRP漁船を、用途別に最適化してご提案します。",
+        navBack: "詳細ページへ戻る",
+        labels: {
+          fisheryFilter: "漁業種類で絞り込む",
+          search: "検索（名称・用途・装備など）",
+          specs: "船体情報",
+          gt: "総トン数",
+          size: "サイズ",
+          engine: "エンジン",
+          yard: "検査 / 造船所",
+          equip: "付帯設備",
+        },
+        placeholders: { search: "例）イケス、延縄、ヤンマー 120hp" },
+        noteFill: "※ 掲載の仕様・装備は代表例です。個体により差異があります。",
+        chips: { use: "用途", type: "漁業種類" },
+        listCTA: "詳細を見る",
+        copy: "&copy; 2025 JCFS. All Rights Reserved."
+      },
+      en: {
+        back: "Back to list",
+        pageTitle: "Model Lineup",
+        pageSubtitle: "Pre-owned Japanese FRP fishing vessels tailored to each use case.",
+        navBack: "Back to details page",
+        labels: {
+          fisheryFilter: "Filter by Fishery Type",
+          search: "Search (name, use, equipment)",
+          specs: "Specifications",
+          gt: "Gross Tonnage",
+          size: "Dimensions",
+          engine: "Engine",
+          yard: "Inspection / Shipyard",
+          equip: "Equipment",
+        },
+        placeholders: { search: "e.g., ikesu, longline, Yanmar 120hp" },
+        noteFill: "※ Specifications/equipment shown are examples and may vary by unit.",
+        chips: { use: "Use", type: "Fishery" },
+        listCTA: "View details",
+        copy: "&copy; 2025 JCFS. All Rights Reserved."
+      }
+    };
+
+    // ========= Data (5隻のダミー。画像パスを実データに差し替え) =========
+    const BOATS = [
+      {
+        id: "frp-28-ikesu",
+        name: { ja: "FRP 28ft イケス搭載", en: "FRP 28ft w/ Ikesu" },
+        fisheryTypes: { ja: ["一本釣り","延縄"], en: ["Pole & Line","Longline"] },
+        use: { ja: "沿岸〜近海（活魚輸送対応）", en: "Coastal–nearshore (live fish capable)" },
+        specs: {
+          gt: "1.9t",
+          size: { ja: "全長 8.6m × 幅 2.3m × 喫水 0.6m", en: "L 8.6m × B 2.3m × D 0.6m" },
+          engine: { ja: "ヤンマー 120hp ディーゼル", en: "Yanmar 120hp diesel" },
+          yard: { ja: "小型船舶検査 / 〇〇造船", en: "Small Vessels Inspection / XX Shipyard" },
+          equip: {
+            ja: ["イケス","GPS魚探","オートパイロット","電動ウインチ"],
+            en: ["Ikesu (live well)","GPS & sounder","Autopilot","Electric winch"]
+          }
+        },
+        images: Array.from({length: 8}, (_,i)=>`assets/boats/frp-28-ikesu/${i+1}.jpg`)
+      },
+      {
+        id: "frp-32-longrange",
+        name: { ja: "FRP 32ft ロングレンジ", en: "FRP 32ft Long Range" },
+        fisheryTypes: { ja: ["延縄","刺し網"], en: ["Longline","Gillnet"] },
+        use: { ja: "近海（2〜3日操業）", en: "Nearshore (2–3 day trips)" },
+        specs: {
+          gt: "4.9t",
+          size: { ja: "全長 9.8m × 幅 2.8m × 喫水 0.9m", en: "L 9.8m × B 2.8m × D 0.9m" },
+          engine: { ja: "イスズ 230hp ディーゼル", en: "Isuzu 230hp diesel" },
+          yard: { ja: "小型船舶検査 / △△造船", en: "Small Vessels Inspection / YY Shipyard" },
+          equip: {
+            ja: ["大型イケス","油圧ハンドローラー","ソナー","航海灯一式"],
+            en: ["Large ikesu","Hydraulic hauler","Sonar","Navigation lights"]
+          }
+        },
+        images: Array.from({length: 9}, (_,i)=>`assets/boats/frp-32-longrange/${i+1}.jpg`)
+      },
+      {
+        id: "frp-24-coastal",
+        name: { ja: "FRP 24ft 沿岸モデル", en: "FRP 24ft Coastal" },
+        fisheryTypes: { ja: ["一本釣り","刺し網"], en: ["Pole & Line","Gillnet"] },
+        use: { ja: "沿岸（日帰り）", en: "Coastal (day trips)" },
+        specs: {
+          gt: "0.9t",
+          size: { ja: "全長 7.2m × 幅 2.0m × 喫水 0.5m", en: "L 7.2m × B 2.0m × D 0.5m" },
+          engine: { ja: "トヨタ 90hp ディーゼル", en: "Toyota 90hp diesel" },
+          yard: { ja: "小型船舶検査 / □□造船", en: "Small Vessels Inspection / ZZ Shipyard" },
+          equip: {
+            ja: ["簡易イケス","GPS魚探","手巻きリール台"],
+            en: ["Compact ikesu","GPS & sounder","Manual reel base"]
+          }
+        },
+        images: Array.from({length: 8}, (_,i)=>`assets/boats/frp-24-coastal/${i+1}.jpg`)
+      },
+      {
+        id: "frp-36-processor",
+        name: { ja: "FRP 36ft 加工前提モデル", en: "FRP 36ft Processing-Oriented" },
+        fisheryTypes: { ja: ["底曳き","延縄"], en: ["Trawl","Longline"] },
+        use: { ja: "近海（鮮度保持重視）", en: "Nearshore (quality-first)" },
+        specs: {
+          gt: "7.2t",
+          size: { ja: "全長 11.0m × 幅 3.2m × 喫水 1.1m", en: "L 11.0m × B 3.2m × D 1.1m" },
+          engine: { ja: "ヤンマー 330hp ディーゼル", en: "Yanmar 330hp diesel" },
+          yard: { ja: "小型船舶検査 / ☆☆造船", en: "Small Vessels Inspection / Star Shipyard" },
+          equip: {
+            ja: ["大型イケス","アイスメーカー","油圧操舵","オートパイロット","AIS"],
+            en: ["Large ikesu","Ice maker","Hydraulic steering","Autopilot","AIS"]
+          }
+        },
+        images: Array.from({length: 10}, (_,i)=>`assets/boats/frp-36-processor/${i+1}.jpg`)
+      },
+      {
+        id: "frp-30-multi",
+        name: { ja: "FRP 30ft マルチユース", en: "FRP 30ft Multi-use" },
+        fisheryTypes: { ja: ["一本釣り","はえ縄","小型底曳"], en: ["Pole & Line","Longline","Small Trawl"] },
+        use: { ja: "沿岸〜近海（汎用）", en: "Coastal–nearshore (versatile)" },
+        specs: {
+          gt: "3.3t",
+          size: { ja: "全長 9.2m × 幅 2.6m × 喫水 0.8m", en: "L 9.2m × B 2.6m × D 0.8m" },
+          engine: { ja: "三菱 200hp ディーゼル", en: "Mitsubishi 200hp diesel" },
+          yard: { ja: "小型船舶検査 / ▲▲造船", en: "Small Vessels Inspection / Triangle Shipyard" },
+          equip: {
+            ja: ["イケス","GPS魚探","ウインチ","デッキライト"],
+            en: ["Ikesu","GPS & sounder","Winch","Deck lights"]
+          }
+        },
+        images: Array.from({length: 8}, (_,i)=>`assets/boats/frp-30-multi/${i+1}.jpg`)
+      }
+    ];
+
+    // ========= Language helpers (共通パターン) =========
+    function getInitialLang() {
+      const urlLang = new URLSearchParams(location.search).get('lang');
+      const store = localStorage.getItem('siteLang') || localStorage.getItem('bannerLang');
+      const nav = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+      return (urlLang === 'ja' || urlLang === 'en') ? urlLang : (store || nav);
+    }
+    function setLang(lang, {persist=true, updateUrl=true}={}) {
+      if (persist) { localStorage.setItem('siteLang', lang); localStorage.setItem('bannerLang', lang); }
+      if (updateUrl) {
+        const p = new URLSearchParams(location.search);
+        p.set('lang', lang);
+        history.replaceState(null,'', `${location.pathname}?${p}${location.hash}`);
+      }
+      // 同期
+      document.getElementById('lang-ja').classList.toggle('active', lang==='ja');
+      document.getElementById('lang-en').classList.toggle('active', lang==='en');
+      // frp-details へ戻るリンクも lang 維持
+      const back = document.getElementById('nav-back');
+      if (back) back.href = `frp-details.html?lang=${lang}`;
+      render(lang);
+    }
+
+    // ========= State =========
+    let STATE = {
+      lang: getInitialLang(),
+      filter: 'all',
+      q: '',
+      model: new URLSearchParams(location.search).get('model') || null
+    };
+
+    // ========= Rendering =========
+    function render(lang) {
+      applyStaticText(lang);
+      // フィルタUIの初期化/更新
+      hydrateFisheryFilter(lang);
+      document.getElementById('search').placeholder = T[lang].placeholders.search;
+
+      if (STATE.model) {
+        renderDetail(lang, STATE.model);
+      } else {
+        renderList(lang);
+      }
+      // フッター
+      document.getElementById('footer-copy').innerHTML = T[lang].copy;
+    }
+
+    function applyStaticText(lang) {
+      document.documentElement.lang = lang;
+      document.getElementById('page-title').textContent = T[lang].pageTitle;
+      document.getElementById('page-subtitle').textContent = T[lang].pageSubtitle;
+      document.getElementById('nav-back').textContent = T[lang].navBack;
+      document.getElementById('label-fishery').textContent = T[lang].labels.fisheryFilter;
+      document.getElementById('label-search').textContent = T[lang].labels.search;
+      document.getElementById('back-label').textContent = T[lang].back;
+      document.getElementById('gt-label').textContent = T[lang].labels.gt;
+      document.getElementById('size-label').textContent = T[lang].labels.size;
+      document.getElementById('engine-label').textContent = T[lang].labels.engine;
+      document.getElementById('yard-label').textContent = T[lang].labels.yard;
+      document.getElementById('equip-label').textContent = T[lang].labels.equip;
+      document.getElementById('specs-title').textContent = T[lang].labels.specs;
+      document.getElementById('note-fill').textContent = T[lang].noteFill;
+    }
+
+    function hydrateFisheryFilter(lang) {
+      const sel = document.getElementById('fishery-filter');
+      const prev = sel.value || STATE.filter;
+      // ユニークな漁業種類を抽出
+      const set = new Set();
+      BOATS.forEach(b => b.fisheryTypes[lang].forEach(t => set.add(t)));
+      // 先頭 All + options
+      sel.innerHTML = `<option value="all">${lang==='ja'?'すべて':'All'}</option>` +
+        Array.from(set).sort().map(t=>`<option value="${t}">${t}</option>`).join('');
+      sel.value = prev;
+    }
+
+    function filteredList(lang) {
+      const term = STATE.q.trim().toLowerCase();
+      return BOATS.filter(b => {
+        const passType = (STATE.filter==='all') || b.fisheryTypes[lang].includes(STATE.filter);
+        if (!term) return passType;
+        const hay = [
+          b.name[lang],
+          b.use[lang],
+          b.specs.gt,
+          b.specs.size[lang],
+          b.specs.engine[lang],
+          b.specs.yard[lang],
+          ...(b.specs.equip[lang]||[])
+        ].join(' ').toLowerCase();
+        return passType && hay.includes(term);
+      });
+    }
+
+    function renderList(lang) {
+      const list = document.getElementById('list-view');
+      const detail = document.getElementById('detail-view');
+      list.classList.remove('hidden');
+      detail.classList.add('hidden');
+
+      const data = filteredList(lang);
+      if (data.length === 0) {
+        list.innerHTML = `<div class="col-span-full p-8 text-center text-gray-500">No results.</div>`;
+        return;
+      }
+
+      list.innerHTML = data.map(b => {
+        const hero = (b.images && b.images[0]) || '';
+        const equip = (b.specs.equip[lang]||[]).slice(0,3).join(' / ');
+        const ton = b.specs.gt;
+        const sz  = b.specs.size[lang];
+        const eng = b.specs.engine[lang];
+        const types = b.fisheryTypes[lang].map(t=>`<span class="chip">${t}</span>`).join(' ');
+        const to = linkToModel(b.id, lang);
+        return `
+          <article class="bg-white rounded-xl shadow p-4 flex flex-col">
+            <img src="${hero}" alt="${b.name[lang]}" class="w-full aspect-video object-cover rounded-lg mb-3">
+            <h3 class="text-xl font-bold text-[#002D4F]">${b.name[lang]}</h3>
+            <p class="text-sm text-gray-600 mt-1">${b.use[lang]}</p>
+            <div class="mt-2 flex flex-wrap gap-2">${types}</div>
+            <dl class="mt-3 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-1 text-sm text-gray-700">
+              <dt>${T[lang].labels.gt}</dt><dd>${ton}</dd>
+              <dt>${T[lang].labels.size}</dt><dd>${sz}</dd>
+              <dt>${T[lang].labels.engine}</dt><dd>${eng}</dd>
+            </dl>
+            <p class="text-xs text-gray-500 mt-2 line-clamp-1">${equip}</p>
+            <a href="${to}" class="mt-3 inline-flex items-center gap-2 text-[#005A9C] font-semibold hover:underline">${T[lang].listCTA} →</a>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function linkToModel(id, lang) {
+      const p = new URLSearchParams(location.search);
+      p.set('lang', lang);
+      p.set('model', id);
+      return `${location.pathname}?${p}`;
+    }
+
+    function renderDetail(lang, modelId) {
+      const list = document.getElementById('list-view');
+      const detail = document.getElementById('detail-view');
+      list.classList.add('hidden');
+      detail.classList.remove('hidden');
+
+      const boat = BOATS.find(b => b.id === modelId);
+      if (!boat) {
+        detail.innerHTML = `<div class="p-8 bg-white rounded-xl shadow">Not found.</div>`;
+        return;
+      }
+      // texts
+      document.getElementById('model-name').textContent = boat.name[lang];
+
+      // chips
+      const chips = [
+        ...boat.fisheryTypes[lang].map(t=>`<span class="chip">${t}</span>`),
+        `<span class="chip">🏷️ ${T[lang].chips.use}: ${boat.use[lang]}</span>`
+      ].join(' ');
+      document.getElementById('chips').innerHTML = chips;
+
+      // specs
+      document.getElementById('gt-value').textContent = boat.specs.gt;
+      document.getElementById('size-value').textContent = boat.specs.size[lang];
+      document.getElementById('engine-value').textContent = boat.specs.engine[lang];
+      document.getElementById('yard-value').textContent = boat.specs.yard[lang];
+      document.getElementById('equip-value').innerHTML = (boat.specs.equip[lang]||[]).map(x=>`<span class="chip">${x}</span>`).join(' ');
+
+      // gallery
+      const main = document.getElementById('gallery-main');
+      const thumbs = document.getElementById('thumbs');
+      const imgs = boat.images || [];
+      const first = imgs[0] || '';
+      main.src = first; main.alt = boat.name[lang];
+      thumbs.innerHTML = imgs.map((src,idx)=>`
+        <button class="block" aria-current="${idx===0?'true':'false'}" data-src="${src}">
+          <img class="thumb" src="${src}" alt="${boat.name[lang]} thumbnail ${idx+1}">
+        </button>
+      `).join('');
+      thumbs.querySelectorAll('button').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          thumbs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-current','false'));
+          btn.setAttribute('aria-current','true');
+          main.src = btn.dataset.src;
+        });
+      });
+    }
+
+    // ========= Events =========
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // Lang buttons
+      document.getElementById('lang-ja').addEventListener('click', ()=> setLang('ja'));
+      document.getElementById('lang-en').addEventListener('click', ()=> setLang('en'));
+
+      // Filters
+      document.getElementById('fishery-filter').addEventListener('change', (e)=>{
+        STATE.filter = e.target.value;
+        render(STATE.lang);
+      });
+      document.getElementById('search').addEventListener('input', (e)=>{
+        STATE.q = e.target.value;
+        render(STATE.lang);
+      });
+
+      // Back to list
+      document.getElementById('back-to-list').addEventListener('click', ()=>{
+        const p = new URLSearchParams(location.search);
+        p.delete('model');
+        history.replaceState(null,'', `${location.pathname}?${p}`);
+        STATE.model = null;
+        render(STATE.lang);
+      });
+
+      // popstate (ブラウザ戻る対応)
+      window.addEventListener('popstate', ()=>{
+        STATE.lang = getInitialLang();
+        STATE.model = new URLSearchParams(location.search).get('model');
+        render(STATE.lang);
+      });
+
+      // 初期表示
+      STATE.lang = getInitialLang();
+      setLang(STATE.lang, {persist:true, updateUrl:true});
+      // model パラメータがあるなら詳細へ
+      STATE.model = new URLSearchParams(location.search).get('model');
+      render(STATE.lang);
+    });
+  </script>
+</body>
+</html>
