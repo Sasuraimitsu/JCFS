@@ -331,8 +331,8 @@
             </div>
         </section>
 
-<!-- ===== 導入漁船について：2言語リンクバナー (CTA) START ===== -->
-<section id="intro-fleet-banner" class="" role="region" aria-label="導入漁船について / About FRP Fleet">
+<!-- ===== 導入漁船バナー（言語トグル＆「導入漁船について」削除版） START ===== -->
+<section id="intro-fleet-banner" class="" role="region" aria-label="FRP漁船のご案内 / About FRP Fleet">
   <style>
     /* --- base layout --- */
     #intro-fleet-banner { margin: 28px auto 18px; padding: 0 16px; max-width: 1120px; box-sizing: border-box; }
@@ -349,20 +349,8 @@
       padding: clamp(18px, 2.4vw, 26px) clamp(18px, 3vw, 32px);
     }
 
-    /* lang toggle */
-    #intro-fleet-banner .lang-toggle {
-      display:inline-flex; gap:4px; margin:12px 0 8px; background:rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:4px;
-    }
-    #intro-fleet-banner .lang-toggle button {
-      appearance:none; border:0; border-radius:999px; padding:6px 10px; font-weight:700; font-size:12px; color:#0d3b86;
-      background:#fff; opacity:.65; cursor:pointer; transition:opacity .15s ease, transform .15s ease;
-    }
-    #intro-fleet-banner .lang-toggle button[aria-pressed="true"] { opacity:1; transform:translateY(-1px); }
-    #intro-fleet-banner .eyebrow {
-      display:inline-flex; align-items:center; gap:8px; font-size:13px; letter-spacing:.08em; text-transform:uppercase;
-      background: rgba(255,255,255,.18); padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.25); margin:0 0 8px 0;
-    }
+    /* （削除）.lang-toggle / .eyebrow のスタイルは不要 */
+
     #intro-fleet-banner .text-wrap { display:flex; align-items:center; gap:12px; }
     #intro-fleet-banner .boat-icon { width:42px; height:42px; flex:0 0 auto; margin-right:10px; opacity:.95; }
     #intro-fleet-banner h3 { margin:0; font-size:clamp(18px, 2.2vw, 24px); line-height:1.35; font-weight:700; letter-spacing:.01em; }
@@ -382,13 +370,13 @@
       mix-blend-mode: soft-light; opacity:.9;
     }
 
-    /* ④-1: スクロール追従（sticky） … このclassを付けるだけ */
+    /* ④-1: スクロール追従（sticky） */
     #intro-fleet-banner.sticky-announce { position: sticky; top: 8px; z-index: 30; }
 
-    /* ④-2: 常時固定（fixed） … このclassを付けるだけ（bodyに余白を付与するJSを下に用意） */
+    /* ④-2: 常時固定（fixed） */
     #intro-fleet-banner.fixed-announce { position: fixed; left:0; right:0; top:0; z-index: 999; width:100%; padding: 8px 16px; }
 
-    /* ④-3: 画像を右カラムに追加する場合 … .with-photo を付け、下の .photo-col を使う */
+    /* ④-3: 写真を右カラムに追加 */
     #intro-fleet-banner.with-photo .cta-content { grid-template-columns: 1.3fr .7fr; }
     #intro-fleet-banner .photo-col img { width:100%; height:100%; object-fit:cover; border-radius:14px; min-height:140px; }
 
@@ -402,18 +390,13 @@
     }
   </style>
 
-  <!-- ▼ ここに .sticky-announce / .fixed-announce / .with-photo を必要に応じてクラスとして追加 -->
-  <!-- 例）<section id="intro-fleet-banner" class="sticky-announce with-photo"> に書き換え -->
+  <!-- ▼ sticky / fixed / with-photo は必要に応じてクラスを追加 -->
   <a class="cta-link" href="frp-details.html">
     <div class="cta-content">
       <div class="text-col">
-        <!-- 言語切替トグル -->
-        <div class="lang-toggle" role="radiogroup" aria-label="Language">
-          <button class="lang" data-lang="ja" aria-pressed="true">日本語</button>
-          <button class="lang" data-lang="en" aria-pressed="false">EN</button>
-        </div>
 
-        <div class="eyebrow" data-i18n data-ja="導入漁船について" data-en="About Our FRP Fleet"></div>
+        <!-- ↑ 言語トグル削除済み -->
+        <!-- ↑ 「導入漁船について」（eyebrow）削除済み -->
 
         <div class="text-wrap">
           <!-- アイコン -->
@@ -439,7 +422,7 @@
         </span>
       </div>
 
-      <!-- ④-3: 写真を出したい場合は、この.photo-colブロックのコメントアウトを外して画像パスを差し替え -->
+      <!-- ④-3: 右側に写真を出す場合は下を有効化 -->
       <!--
       <div class="photo-col">
         <img src="assets/boats/your-image.webp" alt="FRP漁船の導入モデルイメージ">
@@ -450,66 +433,64 @@
   </a>
 
   <script>
-(function(){
-  const ROOT = document.getElementById('intro-fleet-banner');
-  const $langBtns = ROOT.querySelectorAll('.lang-toggle .lang');
-  const els = ROOT.querySelectorAll('[data-i18n]');
-  const link = ROOT.querySelector('a.cta-link');
+    (function(){
+      const ROOT = document.getElementById('intro-fleet-banner');
+      const els  = ROOT.querySelectorAll('[data-i18n]');
+      const link = ROOT.querySelector('a.cta-link');
 
-  const getInitialLang = () => {
-    const urlLang = new URLSearchParams(location.search).get('lang');
-    const store = localStorage.getItem('bannerLang');
-    const nav = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
-    return (urlLang === 'ja' || urlLang === 'en') ? urlLang : (store || nav);
-  };
+      // 初期言語は URL ?lang= / localStorage / document.lang の順で判定
+      const getInitialLang = () => {
+        const urlLang = new URLSearchParams(location.search).get('lang');
+        const store   = localStorage.getItem('bannerLang');
+        const htmlLang = (document.documentElement.lang || 'en').toLowerCase();
+        if (urlLang === 'ja' || urlLang === 'en') return urlLang;
+        if (store === 'ja' || store === 'en') return store;
+        return htmlLang.startsWith('ja') ? 'ja' : 'en';
+      };
 
-  const setLang = (lang) => {
-    els.forEach(el => {
-      const t = el.dataset[lang];
-      if (t != null) el.textContent = t;
-    });
-    ROOT.setAttribute('lang', lang);
-    $langBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
-    localStorage.setItem('bannerLang', lang);
-    // ▼ 追加：CTAリンクも言語引き継ぎ
-    if (link) link.href = `frp-details.html?lang=${lang}`;
-  };
+      const setLang = (lang) => {
+        els.forEach(el => {
+          const t = el.dataset[lang];
+          if (t != null) el.textContent = t;
+        });
+        ROOT.setAttribute('lang', lang);
+        localStorage.setItem('bannerLang', lang);
+        // CTAリンクに ?lang= を引き継ぎ
+        if (link) link.href = `frp-details.html?lang=${lang}`;
+      };
 
-  $langBtns.forEach(btn => btn.addEventListener('click', e => {
-    e.preventDefault(); setLang(btn.dataset.lang);
-  }));
+      // ページ側（ヘッダーのJP/EN）からの変更を受け取る
+      window.addEventListener('app:langchange', (e) => {
+        const lang = e.detail && e.detail.lang;
+        if (lang === 'ja' || lang === 'en') setLang(lang);
+      });
 
-  setLang(getInitialLang());
+      // 初期描画
+      setLang(getInitialLang());
 
-  // ヘッダーからの言語切替イベントを受け取って同期
-  window.addEventListener('app:langchange', (e) => {
-    const lang = e.detail && e.detail.lang;
-    if (lang === 'ja' || lang === 'en') setLang(lang);
-  });
+      // ④-2: fixed-announce のとき、ヘッダー高さを考慮して重なり防止
+      const applyFixedOffset = () => {
+        if (!ROOT.classList.contains('fixed-announce')) return;
 
-  // fixed-announce のとき、ヘッダー高さを考慮して重なり回避
-  const applyFixedOffset = () => {
-    if (!ROOT.classList.contains('fixed-announce')) return;
+        const calc = () => {
+          const header  = document.querySelector('header');
+          const headerH = header ? header.getBoundingClientRect().height : 0;
+          const gap = 8;
+          ROOT.style.top = (headerH + gap) + 'px';
 
-    const calc = () => {
-      const header = document.querySelector('header');
-      const headerH = header ? header.getBoundingClientRect().height : 0;
-      const gap = 8;
-      ROOT.style.top = (headerH + gap) + 'px';
+          const bannerH = ROOT.getBoundingClientRect().height;
+          document.body.style.paddingTop = (headerH + gap + bannerH + gap) + 'px';
+        };
 
-      const bannerH = ROOT.getBoundingClientRect().height;
-      document.body.style.paddingTop = (headerH + gap + bannerH + gap) + 'px';
-    };
-
-    calc();
-    window.addEventListener('resize', calc);
-  };
-  applyFixedOffset();
-})();
-</script>
-
+        calc();
+        window.addEventListener('resize', calc);
+      };
+      applyFixedOffset();
+    })();
+  </script>
 </section>
-<!-- ===== 導入漁船について：2言語リンクバナー (CTA) END ===== -->
+<!-- ===== 導入漁船バナー（言語トグル＆「導入漁船について」削除版） END ===== -->
+
 
         
         <section id="financials" class="mb-12">
