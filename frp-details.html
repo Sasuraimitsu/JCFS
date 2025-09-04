@@ -655,8 +655,8 @@
 
         
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
-            document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
+            document.getElementById('lang-ja').addEventListener('click', () => setLang('ja'));
+            document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
             
             // Modal control
             const modal = document.getElementById('coming-soon-modal');
