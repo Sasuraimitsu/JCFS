@@ -1008,7 +1008,7 @@
             });
         }
 
-        function updateContent(lang) {
+                function updateContent(lang) {
             currentLang = lang;
             document.documentElement.lang = lang;
             const t = translations[lang];
@@ -1029,12 +1029,15 @@
             createPovertyChart(lang);
             createReturnChart(lang);
             createFinancialChart(lang, currentScenario);
-             
+
+            // ▼ 追加：ヘッダーの「導入漁船について」リンクも言語を引き継ぐ
+            const navVessels = document.getElementById('nav-vessels');
+            if (navVessels) navVessels.href = `./frp-details.html?lang=${lang}`;
+
+            // ▼ 追加：バナーへ言語変更イベントを通知（同期）
             window.dispatchEvent(new CustomEvent('app:langchange', { detail: { lang } }));
         }
 
-        }
-        
         document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
         document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
         
@@ -1043,6 +1046,7 @@
         document.getElementById('scenario-optimistic').addEventListener('click', () => { currentScenario = 'optimistic'; createFinancialChart(currentLang, 'optimistic'); });
 
         updateContent('ja');
+
     </script>
 
 </body>
