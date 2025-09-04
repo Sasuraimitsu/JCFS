@@ -487,6 +487,12 @@
       };
       applyFixedOffset();
     })();
+  // ヘッダー側からの言語切替イベントを受けて同期
+  window.addEventListener('app:langchange', (e) => {
+    const lang = e.detail && e.detail.lang;
+    if (lang === 'ja' || lang === 'en') setLang(lang);
+  });
+     
   </script>
 </section>
 <!-- ===== 導入漁船について：2言語リンクバナー (CTA) END ===== -->
