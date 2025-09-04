@@ -346,7 +346,164 @@
                  <p id="financials-note" class="text-center text-sm text-gray-500 mt-4"></p>
             </div>
         </section>
-        
+       <!-- ===== 導入漁船について：リンクバナー（CTA） START ===== -->
+<section id="intro-fleet-banner" role="region" aria-label="導入漁船についてのご案内">
+  <style>
+    /* --- banner base --- */
+    #intro-fleet-banner {
+      margin: 28px auto 18px;
+      padding: 0 16px;
+      max-width: 1120px;
+      box-sizing: border-box;
+    }
+    #intro-fleet-banner a.cta-link {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      text-decoration: none;
+      /* 海×技術のイメージ：青〜群青のグラデーション */
+      background: radial-gradient(120% 120% at 100% 0%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 30%),
+                  linear-gradient(135deg, #1f7ae0 0%, #0e4aa6 55%, #0a3478 100%);
+      color: #fff;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    #intro-fleet-banner a.cta-link:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+    #intro-fleet-banner a.cta-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+    }
+
+    /* --- content layout --- */
+    #intro-fleet-banner .cta-content {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: clamp(18px, 2.4vw, 26px) clamp(18px, 3vw, 32px);
+    }
+    #intro-fleet-banner .boat-icon {
+      width: 42px; height: 42px; flex: 0 0 auto;
+      margin-right: 10px;
+      opacity: .95;
+    }
+    #intro-fleet-banner .text-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    #intro-fleet-banner .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.25);
+      margin: 0 0 8px 0;
+    }
+    #intro-fleet-banner h3 {
+      margin: 0;
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.35;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+    #intro-fleet-banner p.sub {
+      margin: 6px 0 0;
+      font-size: clamp(13px, 1.6vw, 15px);
+      opacity: .95;
+    }
+
+    /* --- action button --- */
+    #intro-fleet-banner .cta-action {
+      display: flex; align-items: center; justify-content: center;
+    }
+    #intro-fleet-banner .cta-button {
+      display: inline-flex;
+      align-items: center; gap: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fff; color: #0d3b86;
+      font-weight: 700;
+      font-size: 14px;
+      border: 1px solid rgba(13,59,134,.12);
+      box-shadow: 0 6px 16px rgba(0,0,0,.12);
+      transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+      white-space: nowrap;
+    }
+    #intro-fleet-banner .cta-button svg {
+      width: 18px; height: 18px;
+    }
+    #intro-fleet-banner a.cta-link:hover .cta-button {
+      transform: translateX(2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.16);
+      background: #f7faff;
+    }
+
+    /* --- subtle decorative waves --- */
+    #intro-fleet-banner .decor {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(40% 60% at 85% 50%, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 70%),
+        radial-gradient(30% 40% at 20% 0%, rgba(0,0,0,.10) 0%, rgba(0,0,0,0) 60%);
+      mix-blend-mode: soft-light;
+      opacity: .9;
+    }
+
+    /* --- responsive --- */
+    @media (max-width: 720px) {
+      #intro-fleet-banner .cta-content {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      #intro-fleet-banner .text-wrap {
+        align-items: flex-start;
+      }
+      #intro-fleet-banner .cta-action {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+
+  <a class="cta-link" href="frp-details.html">
+    <div class="cta-content">
+      <div class="text-col">
+        <div class="eyebrow">導入漁船について</div>
+        <div class="text-wrap">
+          <!-- シンプルなボートのアイコン（SVG） -->
+          <svg class="boat-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <path fill="#ffffff" opacity=".92" d="M6 40h10l6-12h14l6 12h16c-1 7-9 12-22 12S9 47 6 40z"/>
+            <path fill="#bcd7ff" d="M24 28l4-10h8l4 10z"/>
+            <path fill="#e9f2ff" d="M14 40c2 6 12 10 26 10s20-4 22-10H14z"/>
+          </svg>
+          <div>
+            <h3>日本のFRP漁船が拓く新時代</h3>
+            <p class="sub">仕様・導入モデル・コスト・効果を3分で確認。現場目線の導入ポイントをまとめました。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-action">
+        <span class="cta-button">
+          詳しく見る
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 5l7 7-7 7-1.4-1.4 4.6-4.6H3v-2h13.7l-4.6-4.6z"/></svg>
+        </span>
+      </div>
+    </div>
+    <span class="decor" aria-hidden="true"></span>
+  </a>
+</section>
+<!-- ===== 導入漁船について：リンクバナー（CTA） END ===== -->
+
+
         <section id="risks" class="mb-12">
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
                 <h2 id="risks-title" class="text-3xl font-bold text-[#004AAD] text-center mb-2"></h2>
