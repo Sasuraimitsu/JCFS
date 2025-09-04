@@ -663,15 +663,26 @@
             const openBtn = document.getElementById('models-button');
             const closeBtn = document.getElementById('modal-close-btn');
 
-            if (openBtn) {
-                openBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const lang = document.documentElement.lang || 'ja';
-                    document.getElementById('modal-title').innerText = translations[lang].modalTitle;
-                    document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
-                    document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
-                    modal.classList.remove('hidden');
-                });
+              // Modal control
+  const modal = document.getElementById('coming-soon-modal');
+  const openBtn = document.getElementById('models-button');
+  const closeBtn = document.getElementById('modal-close-btn');
+
+ // プレースホルダ時だけモーダルを開く
+ if (
+   openBtn &&
+   (openBtn.getAttribute('href') === 'javascript:void(0);' || openBtn.dataset.mode === 'modal')
+ ) {
+   openBtn.addEventListener('click', (e) => {
+     e.preventDefault();
+     const lang = document.documentElement.lang || 'ja';
+     document.getElementById('modal-title').innerText = translations[lang].modalTitle;
+     document.getElementById('modal-desc').innerText = translations[lang].modalDesc;
+     document.getElementById('modal-close-btn').innerText = translations[lang].modalCloseBtn;
+     modal.classList.remove('hidden');
+   });
+ }
+
             }
 
             if(closeBtn) {
