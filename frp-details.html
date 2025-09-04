@@ -658,15 +658,6 @@
     const home = document.getElementById('nav-home');
     if (home) home.href = `https://sasuraimitsu.github.io/JCFS/?lang=${lang}`;
 
-    // ▼ モデル詳細ボタンの遷移先と言語・アクセシビリティ同期
-    const modelsBtn = document.getElementById('models-button');
-    if (modelsBtn) {
-      modelsBtn.href = `models.html?lang=${lang}`;
-      modelsBtn.removeAttribute('data-mode'); // 念のためモーダルモード解除
-      const t = translations[lang];
-      if (t?.modelsButton) modelsBtn.setAttribute('aria-label', t.modelsButton);
-    }
-  }
 
    // ボタンのテキストをそのまま aria-label に
  const t = translations[lang];
