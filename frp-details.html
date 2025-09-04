@@ -640,7 +640,7 @@
   <script>
   // ...（translations / chart 関数 / applyTranslations / createXxxChart / updateContent / getInitialLang はそのまま）
 
-  // 表示更新 + 永続化 + URL同期 + ホーム/CTA同期をひとまとめ
+    // 表示更新 + 永続化 + URL同期 + ホーム/CTA同期をひとまとめ
   function setLang(lang, { persist = true, updateUrl = true } = {}) {
     updateContent(lang);
 
@@ -658,21 +658,24 @@
     const home = document.getElementById('nav-home');
     if (home) home.href = `https://sasuraimitsu.github.io/JCFS/?lang=${lang}`;
 
+    // ▼ モデル詳細ボタンの遷移先と言語・アクセシビリティ同期
+    const modelsBtn = document.getElementById('models-button');
+    if (modelsBtn) {
+      const t = translations[lang];
+      modelsBtn.href = `models.html?lang=${lang}`;
+      if (t?.modelsButton) modelsBtn.setAttribute('aria-label', t.modelsButton);
+    }
+  }
 
-   // ボタンのテキストをそのまま aria-label に
- const t = translations[lang];
- if (t?.modelsButton) modelsBtn.setAttribute('aria-label', t.modelsButton);
- }
-        
-         document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     // 言語切替
     document.getElementById('lang-ja').addEventListener('click', () => setLang('ja'));
     document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
 
     // Modal control（プレースホルダ時のみ有効化）
-    const modal   = document.getElementById('coming-soon-modal');
-    const openBtn = document.getElementById('models-button');
-    const closeBtn= document.getElementById('modal-close-btn');
+    const modal    = document.getElementById('coming-soon-modal');
+    const openBtn  = document.getElementById('models-button');
+    const closeBtn = document.getElementById('modal-close-btn');
 
     if (
       openBtn &&
@@ -689,9 +692,7 @@
     }
 
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-      });
+      closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
     }
     if (modal) {
       modal.addEventListener('click', (e) => {
@@ -703,6 +704,7 @@
     const initLang = getInitialLang();
     setLang(initLang, { persist: true, updateUrl: true });
   });
+
 
 </body>
 </html>
