@@ -450,56 +450,64 @@
   </a>
 
   <script>
-    (function(){
-      const ROOT = document.getElementById('intro-fleet-banner');
-      const $langBtns = ROOT.querySelectorAll('.lang-toggle .lang');
-      const els = ROOT.querySelectorAll('[data-i18n]');
-      const getInitialLang = () => {
-        const urlLang = new URLSearchParams(location.search).get('lang');
-        const store = localStorage.getItem('bannerLang');
-        const nav = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
-        return (urlLang === 'ja' || urlLang === 'en') ? urlLang : (store || nav);
-      };
-      const setLang = (lang) => {
-        els.forEach(el => {
-          const t = el.dataset[lang];
-          if (t != null) el.textContent = t;
-        });
-        ROOT.setAttribute('lang', lang);
-        $langBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
-        localStorage.setItem('bannerLang', lang);
-      };
-      $langBtns.forEach(btn => btn.addEventListener('click', e => {
-        e.preventDefault(); setLang(btn.dataset.lang);
-      }));
-      setLang(getInitialLang());
-      
-      // ★追加：ヘッダーからの言語切替イベントを受け取る
-      window.addEventListener('app:langchange', (e) => {
-        const lang = e.detail && e.detail.lang;
-        if (lang === 'ja' || lang === 'en') setLang(lang);
-      });
+(function(){
+  const ROOT = document.getElementById('intro-fleet-banner');
+  const $langBtns = ROOT.querySelectorAll('.lang-toggle .lang');
+  const els = ROOT.querySelectorAll('[data-i18n]');
+  const link = ROOT.querySelector('a.cta-link');
 
-      // ④-2: fixed-announce のとき、重なり防止で上余白を自動付与
-      const applyFixedOffset = () => {
-        if (ROOT.classList.contains('fixed-announce')) {
-          const h = ROOT.getBoundingClientRect().height;
-          document.body.style.paddingTop = h + 8 + 'px';
-          window.addEventListener('resize', ()=> {
-            const nh = ROOT.getBoundingClientRect().height;
-            document.body.style.paddingTop = nh + 8 + 'px';
-          });
-        }
-      };
-      applyFixedOffset();
-    })();
-  // ヘッダー側からの言語切替イベントを受けて同期
+  const getInitialLang = () => {
+    const urlLang = new URLSearchParams(location.search).get('lang');
+    const store = localStorage.getItem('bannerLang');
+    const nav = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+    return (urlLang === 'ja' || urlLang === 'en') ? urlLang : (store || nav);
+  };
+
+  const setLang = (lang) => {
+    els.forEach(el => {
+      const t = el.dataset[lang];
+      if (t != null) el.textContent = t;
+    });
+    ROOT.setAttribute('lang', lang);
+    $langBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
+    localStorage.setItem('bannerLang', lang);
+    // ▼ 追加：CTAリンクも言語引き継ぎ
+    if (link) link.href = `frp-details.html?lang=${lang}`;
+  };
+
+  $langBtns.forEach(btn => btn.addEventListener('click', e => {
+    e.preventDefault(); setLang(btn.dataset.lang);
+  }));
+
+  setLang(getInitialLang());
+
+  // ヘッダーからの言語切替イベントを受け取って同期
   window.addEventListener('app:langchange', (e) => {
     const lang = e.detail && e.detail.lang;
     if (lang === 'ja' || lang === 'en') setLang(lang);
   });
-     
-  </script>
+
+  // fixed-announce のとき、ヘッダー高さを考慮して重なり回避
+  const applyFixedOffset = () => {
+    if (!ROOT.classList.contains('fixed-announce')) return;
+
+    const calc = () => {
+      const header = document.querySelector('header');
+      const headerH = header ? header.getBoundingClientRect().height : 0;
+      const gap = 8;
+      ROOT.style.top = (headerH + gap) + 'px';
+
+      const bannerH = ROOT.getBoundingClientRect().height;
+      document.body.style.paddingTop = (headerH + gap + bannerH + gap) + 'px';
+    };
+
+    calc();
+    window.addEventListener('resize', calc);
+  };
+  applyFixedOffset();
+})();
+</script>
+
 </section>
 <!-- ===== 導入漁船について：2言語リンクバナー (CTA) END ===== -->
 
