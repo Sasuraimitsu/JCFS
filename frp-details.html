@@ -637,28 +637,37 @@
     return (urlLang === 'ja' || urlLang === 'en') ? urlLang : (store || nav);
   }
 
-  // 表示更新 + 永続化 + URL同期 + ホームリンク同期をひとまとめ
+  <script>
+  // ...（translations / chart 関数 / applyTranslations / createXxxChart / updateContent / getInitialLang はそのまま）
+
+  // 表示更新 + 永続化 + URL同期 + ホーム/CTA同期をひとまとめ
   function setLang(lang, { persist = true, updateUrl = true } = {}) {
-    updateContent(lang);                                // 既存の関数をそのまま利用
+    updateContent(lang);
+
     if (persist) {
-      localStorage.setItem('bannerLang', lang);         // index側バナーと同じキーに保存
-      localStorage.setItem('siteLang', lang);           // 念のためサイト用にも保存
+      localStorage.setItem('bannerLang', lang);
+      localStorage.setItem('siteLang', lang);
     }
     if (updateUrl) {
       const params = new URLSearchParams(location.search);
       params.set('lang', lang);
       history.replaceState(null, '', `${location.pathname}?${params}`);
     }
-    // 「ホームへ戻る」リンクにも ?lang= を付与しておくと遷移後も言語維持
+
+    // 「ホームへ戻る」リンクにも ?lang= を付与
     const home = document.getElementById('nav-home');
     if (home) home.href = `https://sasuraimitsu.github.io/JCFS/?lang=${lang}`;
+
+    // ▼ モデル詳細ボタンの遷移先と言語・アクセシビリティ同期
+    const modelsBtn = document.getElementById('models-button');
+    if (modelsBtn) {
+      modelsBtn.href = `models.html?lang=${lang}`;
+      modelsBtn.removeAttribute('data-mode'); // 念のためモーダルモード解除
+      const t = translations[lang];
+      if (t?.modelsButton) modelsBtn.setAttribute('aria-label', t.modelsButton);
+    }
   }
 
-    // ▼ 追加：モデル詳細ボタンの遷移先と言語・アクセシビリティ同期
-const modelsBtn = document.getElementById('models-button');
-if (modelsBtn) {
- modelsBtn.href = `models.html?lang=${lang}`;
- modelsBtn.removeAttribute('data-mode'); // 念のためモーダルモード解除
    // ボタンのテキストをそのまま aria-label に
  const t = translations[lang];
  if (t?.modelsButton) modelsBtn.setAttribute('aria-label', t.modelsButton);
