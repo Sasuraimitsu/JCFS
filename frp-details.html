@@ -76,6 +76,26 @@
             background-color: #e5e7eb;
             color: #4b5563;
         }
+
+        /* --- CTA 強化 --- */
+#models-button { position: relative; overflow: hidden; padding-right: 3.5rem; }
+#models-button::after {
+  content: '→';
+  position: absolute; right: 1.1rem; top: 50%;
+  transform: translate(0,-50%); font-weight: 900; font-size: 1.25rem; opacity: .95;
+  transition: transform .2s ease;
+}
+#models-button:hover::after { transform: translate(.25rem,-50%); }
+
+/* シャイン効果 */
+.cta-big::before{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0));
+  transform: translateX(-150%) skewX(-20deg);
+}
+#models-button:hover.cta-big::before{ animation: cta-shine 1.2s ease; }
+@keyframes cta-shine { to { transform: translateX(150%) skewX(-20deg); } }
+
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
