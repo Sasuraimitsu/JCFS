@@ -598,6 +598,35 @@
             createRevenueChart(lang);
         }
 
+<script>
+  /* 既存の translations / chart 関数などの下に追加 */
+
+  // URL > localStorage > ブラウザ言語 の優先順
+  function getInitialLang() {
+    const urlLang = new URLSearchParams(location.search).get('lang');
+    const store = localStorage.getItem('bannerLang') || localStorage.getItem('siteLang');
+    const nav = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+    return (urlLang === 'ja' || urlLang === 'en') ? urlLang : (store || nav);
+  }
+
+  // 表示更新 + 永続化 + URL同期 + ホームリンク同期をひとまとめ
+  function setLang(lang, { persist = true, updateUrl = true } = {}) {
+    updateContent(lang);                                // 既存の関数をそのまま利用
+    if (persist) {
+      localStorage.setItem('bannerLang', lang);         // index側バナーと同じキーに保存
+      localStorage.setItem('siteLang', lang);           // 念のためサイト用にも保存
+    }
+    if (updateUrl) {
+      const params = new URLSearchParams(location.search);
+      params.set('lang', lang);
+      history.replaceState(null, '', `${location.pathname}?${params}`);
+    }
+    // 「ホームへ戻る」リンクにも ?lang= を付与しておくと遷移後も言語維持
+    const home = document.getElementById('nav-home');
+    if (home) home.href = `https://sasuraimitsu.github.io/JCFS/?lang=${lang}`;
+  }
+
+        
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('lang-ja').addEventListener('click', () => updateContent('ja'));
             document.getElementById('lang-en').addEventListener('click', () => updateContent('en'));
