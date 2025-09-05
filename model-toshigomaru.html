@@ -314,15 +314,18 @@
         [i18n.labels.depth, vessel.hull.depth],
         [i18n.labels.builder, vessel.hull.builder],
       ]);
-      byId('engine-title').textContent = i18n.engine;
-      fillTable('engine-spec', [
-        [i18n.labels.engType, vessel.engine.type],
-        [i18n.labels.maker, vessel.engine.maker],
-        [i18n.labels.model, vessel.engine.model],
-        [i18n.labels.power, vessel.engine.maxOutput],
-        [i18n.labels.rpm, vessel.engine.maxRpm],
-        [i18n.labels.note, vessel.engine.note],
-      ]);
+      // --- エンジン表（rpmなし、出力はフォールバック付き） ---
+byId('engine-title').textContent = i18n.engine;
+fillTable('engine-spec', [
+  [i18n.labels.engType, vessel.engine.type],
+  [i18n.labels.maker,   vessel.engine.maker],
+  [i18n.labels.model,   vessel.engine.model],
+  // power → Power → maxOutput の順で拾う
+  [i18n.labels.power,   vessel.engine.power ?? vessel.engine.Power ?? vessel.engine.maxOutput ?? '-'],
+  // 備考があるときだけ表示
+  vessel.engine.note ? [i18n.labels.note, vessel.engine.note] : null,
+].filter(Boolean));
+
 
       byId('equipment-title').textContent = i18n.equipment;
       const el = byId('equipment-list'); el.innerHTML='';
