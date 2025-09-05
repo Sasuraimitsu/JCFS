@@ -3,197 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>モデルラインナップ - JCFS</title>
+  <title>モデル一覧 - JCFS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body{font-family:'Noto Sans JP','Inter',sans-serif;background:#f8fafc}
-    .jcfs-blue-dark{color:#002D4F}.jcfs-blue-primary{color:#005A9C}
-    .bg-jcfs-blue-dark{background:#002D4F}.bg-jcfs-blue-primary{background:#005A9C}
-    .lang-btn{padding:.5rem 1rem;border-radius:.375rem;font-weight:600;transition:.2s}
-    .lang-btn.active{background:#005A9C;color:#fff}.lang-btn:not(.active){background:#e5e7eb;color:#4b5563}
-    /* 画像のアスペクト比をそろえる */
-    .thumb{aspect-ratio:16/9;object-fit:cover}
-    /* カードのホバー */
-    .card{transition:transform .2s, box-shadow .2s}
-    .card:hover{transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(0,0,0,.25)}
-    /* CTA */
-    .cta{position:relative;overflow:hidden}
-    .cta::after{content:'→';position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-weight:900}
+    body { font-family: 'Noto Sans JP', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .jcfs-blue-dark { color:#002D4F } .jcfs-blue-primary{ color:#005A9C }
+    .bg-jcfs-blue-dark{ background:#002D4F } .bg-jcfs-blue-primary{ background:#005A9C }
   </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-gray-100 text-gray-800">
 
   <!-- Header -->
-  <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="https://sasuraimitsu.github.io/JCFS/" id="nav-home" class="text-2xl font-bold jcfs-blue-dark">JCFS</a>
+  <header class="bg-white shadow sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a id="nav-home" href="index.html" class="text-2xl font-bold jcfs-blue-dark">JCFS</a>
       <div class="flex items-center gap-2">
-        <button id="lang-ja" class="lang-btn">JP</button>
-        <button id="lang-en" class="lang-btn">EN</button>
+        <button id="lang-ja" class="px-3 py-1.5 rounded bg-gray-200 font-semibold">JP</button>
+        <button id="lang-en" class="px-3 py-1.5 rounded bg-gray-200 font-semibold">EN</button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-10">
-    <div class="text-center mb-10">
-      <h1 id="page-title" class="text-4xl md:text-5xl font-bold jcfs-blue-dark mb-3"></h1>
-      <p id="page-subtitle" class="text-lg md:text-xl text-gray-600"></p>
-    </div>
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-8">
+    <h1 id="page-title" class="text-3xl md:text-4xl font-bold jcfs-blue-dark mb-2"></h1>
+    <p id="page-desc" class="text-lg text-gray-600 mb-8"></p>
 
-    <!-- Cards -->
-    <div id="cards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <!-- スマホ：カード表示 -->
+    <div id="cards" class="grid gap-6 md:hidden"></div>
+
+    <!-- PC：テーブル表示 -->
+    <div class="hidden md:block bg-white rounded-lg shadow">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead class="bg-jcfs-blue-primary text-white">
+            <tr>
+              <th class="px-4 py-3 w-[120px]" id="th-photo"></th>
+              <th class="px-4 py-3" id="th-name"></th>
+              <th class="px-4 py-3" id="th-size"></th>
+              <th class="px-4 py-3" id="th-engine"></th>
+              <th class="px-4 py-3" id="th-equip"></th>
+              <th class="px-4 py-3 w-[120px]"></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
   </main>
 
-  <!-- Modal (coming soon) -->
-  <div id="coming-soon" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
-    <div class="bg-white max-w-sm w-full rounded-lg p-6 text-center">
-      <h3 id="modal-title" class="text-2xl font-bold jcfs-blue-dark mb-2"></h3>
-      <p id="modal-desc" class="text-gray-700 mb-6"></p>
-      <button id="modal-close" class="bg-jcfs-blue-primary text-white font-bold px-6 py-2 rounded-lg">OK</button>
-    </div>
-  </div>
+  <footer class="bg-white mt-12 py-6">
+    <p class="text-center text-gray-500 text-sm">&copy; 2024 JCFS. All Rights Reserved.</p>
+  </footer>
 
   <script>
-  // =======================
-  // 1) 文言（多言語）
-  // =======================
-  const i18n = {
-    ja: {
-      title: "導入モデルラインナップ",
-      subtitle: "現在準備中の船から順次公開します。各カードの「詳細を見る」から個別ページへ移動できます。",
-      seeDetail: "詳細を見る",
-      comingTitle: "準備中",
-      comingDesc: "このモデルの詳細ページは準備中です。公開まで今しばらくお待ちください。"
-    },
-    en: {
-      title: "Model Lineup",
-      subtitle: "We will publish each boat page as it becomes ready. Click “View details” on a card to open the individual page.",
-      seeDetail: "View details",
-      comingTitle: "Coming Soon",
-      comingDesc: "The detail page for this model is under construction. Please check back soon."
-    }
-  };
+    // ===== 言語テキスト =====
+    const I18N = {
+      ja: {
+        pageTitle: "モデル一覧",
+        pageDesc: "カンボジアの漁業スタイルに合わせたFRP船モデルの一覧です。各モデルの詳細ページでは、写真・仕様・装備をより詳しくご覧いただけます。",
+        thPhoto: "写真",
+        thName: "船名",
+        thSize: "サイズ",
+        thEngine: "エンジン",
+        thEquip: "装備品",
+        seeDetail: "詳細を見る"
+      },
+      en: {
+        pageTitle: "Model Lineup",
+        pageDesc: "A lineup of FRP fishing vessels tailored to Cambodian fisheries. See each detail page for photos, specifications, and equipment.",
+        thPhoto: "Photo",
+        thName: "Vessel",
+        thSize: "Size",
+        thEngine: "Engine",
+        thEquip: "Equipment",
+        seeDetail: "View details"
+      }
+    };
 
-  // =======================
-  // 2) データ（ここを増やすだけ）
-  // =======================
-  const models = [
-    {
-      id: "toshigomaru",                    // 詳細ページ: model-bingo.html
-      nameJa: "敏五丸",
-      nameEn: "Toshigomaru",
-      hero: "assets/boats/toshigomaru/01.jpg",   // サムネイル（なければ自動でプレースホルダ）
-      tagsJa: ["FRP", "沿岸", "実証船"],
-      tagsEn: ["FRP", "Coastal", "Pilot"],
-      // comingSoon: true にすると「準備中」モーダルで止める
-      comingSoon: false
-    },
-    // 追加例:
-    // {
-    //   id: "example",
-    //   nameJa: "○○丸",
-    //   nameEn: "Example-maru",
-    //   hero: "assets/boats/example/01.jpg",
-    //   tagsJa: ["FRP","～用途～"],
-    //   tagsEn: ["FRP","Use case"],
-    //   comingSoon: true
-    // },
-  ];
+    // ===== 一覧データ（ここに増やすだけ！）=====
+    // 画像パスはご自身の配置に合わせて変更してください。
+    const SHIPS = [
+      {
+        id: "bin5maru",
+        name_ja: "敏五丸",
+        name_en: "Bin 5 Maru",
+        // 表示用の簡易まとめ文字列。詳細ページはもっと詳細に。
+        size_ja: "総トン数: 4.9t / 全長: 約11.0m / 幅: 約2.8m",
+        size_en: "GT: 4.9t / LOA: ~11.0 m / Beam: ~2.8 m",
+        engine_ja: "ヤンマー ディーゼル（例）150–300HP 級",
+        engine_en: "YANMAR Diesel (example) 150–300 HP class",
+        equip_ja: ["イケス", "魚群探知機", "GPS", "ウインチ"],
+        equip_en: ["Live well", "Fish finder", "GPS", "Winch"],
+        thumb: "assets/models/bin5maru/thumb.jpg",   // ←サムネ画像
+        detailUrl: "models/bin5maru.html"            // ←詳細ページへのリンク
+      }
+      // 追加例：
+      // ,{
+      //   id: "xxx",
+      //   name_ja: "〇〇丸",
+      //   name_en: "Sample Maru",
+      //   size_ja: "総トン数: x.xt / 全長: xx.xm / 幅: xx.xm",
+      //   size_en: "GT: x.xt / LOA: xx.x m / Beam: xx.x m",
+      //   engine_ja: "エンジン名・出力",
+      //   engine_en: "Engine & output",
+      //   equip_ja: ["装備A", "装備B"],
+      //   equip_en: ["Equip A", "Equip B"],
+      //   thumb: "assets/models/xxx/thumb.jpg",
+      //   detailUrl: "models/xxx.html"
+      // }
+    ];
 
-  // =======================
-  // 3) 言語の決定
-  // =======================
-  function getInitialLang() {
-    const url = new URLSearchParams(location.search).get("lang");
-    const store = localStorage.getItem("siteLang");
-    const nav = (navigator.language || "en").toLowerCase().startsWith("ja") ? "ja":"en";
-    return (url==="ja"||url==="en") ? url : (store || nav);
-  }
-  function setLang(lang, {persist=true, updateUrl=true}={}) {
-    document.documentElement.lang = lang;
-    document.getElementById("lang-ja").classList.toggle("active", lang==="ja");
-    document.getElementById("lang-en").classList.toggle("active", lang==="en");
-
-    const t = i18n[lang];
-    document.getElementById("page-title").textContent = t.title;
-    document.getElementById("page-subtitle").textContent = t.subtitle;
-
-    if (persist) localStorage.setItem("siteLang", lang);
-    if (updateUrl) {
-      const p = new URLSearchParams(location.search);
-      p.set("lang", lang);
-      history.replaceState(null, "", `${location.pathname}?${p}`);
+    // ===== 言語選択（?lang= > localStorage > ブラウザ）=====
+    function getInitialLang() {
+      const qp = new URLSearchParams(location.search).get("lang");
+      if (qp === "ja" || qp === "en") return qp;
+      const ls = localStorage.getItem("siteLang");
+      if (ls === "ja" || ls === "en") return ls;
+      return (navigator.language || "en").toLowerCase().startsWith("ja") ? "ja" : "en";
     }
 
-    // ホームリンクも言語維持
-    const home = document.getElementById("nav-home");
-    if (home) home.href = `https://sasuraimitsu.github.io/JCFS/?lang=${lang}`;
+    function setLang(lang, {persist=true, updateUrl=true}={}) {
+      const t = I18N[lang] || I18N.ja;
+      document.documentElement.lang = lang;
+      // ヘッダのホームリンクに ?lang を付与
+      const home = document.getElementById("nav-home");
+      if (home) {
+        const path = home.getAttribute("href") || "index.html";
+        const u = new URL(path, location.origin);
+        u.searchParams.set("lang", lang);
+        home.setAttribute("href", u.pathname + u.search);
+      }
+      // 表示更新
+      document.getElementById("page-title").textContent = t.pageTitle;
+      document.getElementById("page-desc").textContent = t.pageDesc;
+      document.getElementById("th-photo").textContent = t.thPhoto;
+      document.getElementById("th-name").textContent  = t.thName;
+      document.getElementById("th-size").textContent  = t.thSize;
+      document.getElementById("th-engine").textContent= t.thEngine;
+      document.getElementById("th-equip").textContent = t.thEquip;
 
-    renderCards(lang);
-  }
+      // ボタンのアクティブ表示
+      document.getElementById("lang-ja").classList.toggle("bg-jcfs-blue-primary", lang === "ja");
+      document.getElementById("lang-ja").classList.toggle("text-white", lang === "ja");
+      document.getElementById("lang-en").classList.toggle("bg-jcfs-blue-primary", lang === "en");
+      document.getElementById("lang-en").classList.toggle("text-white", lang === "en");
 
-  // =======================
-  // 4) カード表示
-  // =======================
-  function renderCards(lang){
-    const t = i18n[lang];
-    const box = document.getElementById("cards");
-    box.innerHTML = "";
+      renderList(lang);
 
-    models.forEach(m => {
-      const name = lang==="ja" ? m.nameJa : (m.nameEn || m.nameJa);
-      const tags = (lang==="ja" ? m.tagsJa : m.tagsEn) || [];
-      const img = m.hero || "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450'><rect width='100%' height='100%' fill='%23e5e7eb'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%236b7280' font-size='24'>No Image</text></svg>`);
+      if (persist) localStorage.setItem("siteLang", lang);
+      if (updateUrl) {
+        const p = new URLSearchParams(location.search);
+        p.set("lang", lang);
+        history.replaceState(null, "", location.pathname + "?" + p.toString());
+      }
+    }
 
-      const card = document.createElement("article");
-      card.className = "card bg-white rounded-xl overflow-hidden border border-gray-200";
-      card.innerHTML = `
-        <img src="${img}" alt="${name}" class="thumb w-full">
-        <div class="p-4 space-y-3">
-          <h3 class="text-xl font-bold jcfs-blue-dark">${name}</h3>
-          ${tags.length ? `<div class="flex flex-wrap gap-2">${tags.map(tag=>`<span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">${tag}</span>`).join("")}</div>`:""}
-          <a href="${m.comingSoon ? 'javascript:void(0);' : `model-${m.id}.html?lang=${lang}`}"
-             data-mode="${m.comingSoon ? 'modal' : ''}"
-             class="cta block w-full text-center bg-gradient-to-r from-[#0e4aa6] via-[#005A9C] to-[#002D4F] text-white font-extrabold py-3 rounded-lg">
-             ${t.seeDetail}
-          </a>
-        </div>
-      `;
-      box.appendChild(card);
-    });
+    // ===== 一覧描画 =====
+    function renderList(lang="ja") {
+      const t = I18N[lang] || I18N.ja;
 
-    // 「準備中」モーダル
-    const modal = document.getElementById("coming-soon");
-    const openers = document.querySelectorAll('a[data-mode="modal"]');
-    openers.forEach(a=>{
-      a.addEventListener("click", (e)=>{
-        e.preventDefault();
-        document.getElementById("modal-title").textContent = i18n[lang].comingTitle;
-        document.getElementById("modal-desc").textContent  = i18n[lang].comingDesc;
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
+      // カード（スマホ）
+      const cards = document.getElementById("cards");
+      cards.innerHTML = "";
+      SHIPS.forEach(v => {
+        const name = (lang === "en" ? v.name_en : v.name_ja) || v.name_ja;
+        const size = (lang === "en" ? v.size_en : v.size_ja) || v.size_ja;
+        const eng  = (lang === "en" ? v.engine_en : v.engine_ja) || v.engine_ja;
+        const eq   = (lang === "en" ? v.equip_en  : v.equip_ja)  || v.equip_ja;
+        const detailUrl = appendLang(v.detailUrl, lang);
+
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-lg shadow overflow-hidden";
+
+        card.innerHTML = `
+          <img src="${v.thumb}" alt="${name} thumbnail" class="w-full h-48 object-cover">
+          <div class="p-4 space-y-2">
+            <h3 class="text-xl font-bold jcfs-blue-dark">${name}</h3>
+            <p class="text-sm text-gray-500">${size}</p>
+            <p class="text-sm"><span class="font-semibold">${t.thEngine}:</span> ${eng}</p>
+            <p class="text-sm"><span class="font-semibold">${t.thEquip}:</span> ${eq.join(" / ")}</p>
+            <div class="pt-2">
+              <a href="${detailUrl}"
+                 class="inline-flex items-center px-4 py-2 rounded-lg text-white bg-gradient-to-r from-[#0e4aa6] via-[#005A9C] to-[#002D4F] font-bold">
+                ${t.seeDetail}
+              </a>
+            </div>
+          </div>
+        `;
+        cards.appendChild(card);
       });
+
+      // テーブル（PC）
+      const rows = document.getElementById("rows");
+      rows.innerHTML = "";
+      SHIPS.forEach(v => {
+        const name = (lang === "en" ? v.name_en : v.name_ja) || v.name_ja;
+        const size = (lang === "en" ? v.size_en : v.size_ja) || v.size_ja;
+        const eng  = (lang === "en" ? v.engine_en : v.engine_ja) || v.engine_ja;
+        const eq   = (lang === "en" ? v.equip_en  : v.equip_ja)  || v.equip_ja;
+        const detailUrl = appendLang(v.detailUrl, lang);
+
+        const tr = document.createElement("tr");
+        tr.className = "border-b hover:bg-gray-50";
+        tr.innerHTML = `
+          <td class="px-4 py-2">
+            <img src="${v.thumb}" alt="${name} thumbnail" class="w-24 h-16 object-cover rounded">
+          </td>
+          <td class="px-4 py-2 font-semibold">${name}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${size}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${eng}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${eq.join(" / ")}</td>
+          <td class="px-4 py-2">
+            <a href="${detailUrl}"
+               class="inline-flex items-center px-3 py-2 rounded-lg text-white bg-jcfs-blue-primary hover:bg-jcfs-blue-dark font-bold text-sm">
+              ${t.seeDetail}
+            </a>
+          </td>
+        `;
+        rows.appendChild(tr);
+      });
+    }
+
+    function appendLang(url, lang) {
+      try {
+        const u = new URL(url, location.origin);
+        u.searchParams.set("lang", lang);
+        return u.pathname + u.search;
+      } catch {
+        // 相対パス想定
+        const hasQuery = url.includes("?");
+        return url + (hasQuery ? "&" : "?") + "lang=" + lang;
+      }
+    }
+
+    // 初期化
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("lang-ja").addEventListener("click", () => setLang("ja"));
+      document.getElementById("lang-en").addEventListener("click", () => setLang("en"));
+      const initLang = getInitialLang();
+      setLang(initLang, { persist:true, updateUrl:true });
     });
-  }
-
-  // =======================
-  // 5) 起動
-  // =======================
-  document.getElementById("lang-ja").addEventListener("click", ()=>setLang("ja"));
-  document.getElementById("lang-en").addEventListener("click", ()=>setLang("en"));
-  document.getElementById("modal-close").addEventListener("click", ()=>{
-    const m = document.getElementById("coming-soon");
-    m.classList.add("hidden"); m.classList.remove("flex");
-  });
-  document.getElementById("coming-soon").addEventListener("click", (e)=>{
-    if(e.target.id==="coming-soon"){ e.currentTarget.classList.add("hidden"); e.currentTarget.classList.remove("flex"); }
-  });
-
-  const initLang = getInitialLang();
-  setLang(initLang,{persist:true,updateUrl:true});
   </script>
 </body>
 </html>
