@@ -231,11 +231,12 @@ if (home) {
     }
 
     function appendLang(url, lang) {
-      try {
-        const u = new URL(url, location.origin);
-        u.searchParams.set("lang", lang);
-        return u.pathname + u.search;
-      } catch {
+  // 変更前は location.origin を使っていた
+  const u = new URL(url, document.baseURI);   // ← 相対パスを現在のページ基準で解決
+  u.searchParams.set("lang", lang);
+  return u.pathname + u.search;
+}
+ catch {
         // 相対パス想定
         const hasQuery = url.includes("?");
         return url + (hasQuery ? "&" : "?") + "lang=" + lang;
