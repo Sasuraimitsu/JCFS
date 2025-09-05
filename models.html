@@ -74,22 +74,14 @@
       ja: {
         pageTitle: "モデル一覧",
         pageDesc: "カンボジアの漁業スタイルに合わせたFRP船モデルの一覧です。各モデルの詳細ページでは、写真・仕様・装備をより詳しくご覧いただけます。",
-        thPhoto: "写真",
-        thName: "船名",
-        thSize: "サイズ",
-        thEngine: "エンジン",
-        thEquip: "装備品",
-        seeDetail: "詳細を見る"
+        thPhoto: "写真", thName: "船名", thSize: "サイズ",
+        thEngine: "エンジン", thEquip: "装備品", seeDetail: "詳細を見る"
       },
       en: {
         pageTitle: "Model Lineup",
         pageDesc: "A lineup of FRP fishing vessels tailored to Cambodian fisheries. See each detail page for photos, specifications, and equipment.",
-        thPhoto: "Photo",
-        thName: "Vessel",
-        thSize: "Size",
-        thEngine: "Engine",
-        thEquip: "Equipment",
-        seeDetail: "View details"
+        thPhoto: "Photo", thName: "Vessel", thSize: "Size",
+        thEngine: "Engine", thEquip: "Equipment", seeDetail: "View details"
       }
     };
 
@@ -107,25 +99,22 @@
         equip_en: ["Fish tank", "Fish finder", "GPS", "Direction finder"],
         thumb: "assets/boats/toshigomaru/01.jpg",
         detailUrl: "model-toshigomaru.html"
-      }
+      }, // ← ここが重要：カンマ
       {
-  id: "daiichikazumaru",
-  name_ja: "第1和丸",
-  name_en: "Daiichi Kazu Maru",
-  size_ja: "サイズ：調査中（登録票参照）",
-  size_en: "Size: TBU (see sheet)",
-  engine_ja: "エンジン：調査中",
-  engine_en: "Engine: TBU",
-  equip_ja: ["イケス", "船首ウインチ", "FURUNO 魚探", "無線機"],
-  equip_en: ["Live well", "Bow winch", "FURUNO fish finder", "Radio"],
-  thumb: "assets/boats/daiichikazumaru/01.jpg",
-  detailUrl: "model-daiichikazumaru.html"
-}
-
+        id: "daiichikazumaru",
+        name_ja: "第1和丸",
+        name_en: "Daiichi Kazu Maru",
+        size_ja: "サイズ：調査中（登録票参照）",
+        size_en: "Size: TBU (see sheet)",
+        engine_ja: "エンジン：調査中",
+        engine_en: "Engine: TBU",
+        equip_ja: ["イケス", "船首ウインチ", "FURUNO 魚探", "無線機"],
+        equip_en: ["Live well", "Bow winch", "FURUNO fish finder", "Radio"],
+        thumb: "assets/boats/daiichikazumaru/01.jpg",
+        detailUrl: "model-daiichikazumaru.html"
+      }
     ];
 
-
-    
     // ===== 言語選択（?lang= > localStorage > ブラウザ）=====
     function getInitialLang() {
       const qp = new URLSearchParams(location.search).get("lang");
