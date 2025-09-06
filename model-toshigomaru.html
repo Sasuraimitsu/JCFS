@@ -257,6 +257,14 @@ const vessel = {
     };
 
     /* ---------- Helpers ---------- */
+    // 言語がenなら *_en を優先して返す。なければ元の値
+const pick = (obj, key, lang) =>
+  (lang === 'en' && obj?.[key + '_en']) ? obj[key + '_en'] : obj?.[key];
+
+// 配列が言語別 {ja:[...], en:[...]} の場合に現在言語の配列を取り出す
+const arrByLang = (maybe, lang) =>
+  Array.isArray(maybe) ? maybe : (maybe?.[lang] || []);
+
     const qs = (s) => document.querySelector(s);
     const byId = (id) => document.getElementById(id);
     const getLang = () => {
