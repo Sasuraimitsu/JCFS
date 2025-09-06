@@ -13,9 +13,11 @@
     .jcfs-blue-dark { color:#002D4F } .bg-jcfs-blue-dark { background:#002D4F }
     .jcfs-blue-primary { color:#005A9C } .bg-jcfs-blue-primary { background:#005A9C }
     .badge { background:#E6F0F9; color:#005A9C; padding:.25rem .6rem; border-radius:.5rem; font-weight:700; font-size:.85rem }
+    /* image modal */
     .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50; }
     .lightbox-backdrop.show{ display:flex }
     .lightbox-img{ max-width:92vw; max-height:86vh; box-shadow:0 10px 30px rgba(0,0,0,.4); border-radius:.5rem }
+    /* CTA shine */
     .cta{ position:relative; overflow:hidden }
     .cta::before{ content:''; position:absolute; inset:0; background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent); transform:translateX(-150%) skewX(-20deg) }
     .cta:hover::before{ animation:shine 1.1s ease }
@@ -113,7 +115,7 @@
   <!-- Footer -->
   <footer class="bg-white mt-12">
     <div class="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
-      &copy; 2024 JCFS.
+      &copy; <span id="year"></span> JCFS.
     </div>
   </footer>
 
@@ -123,245 +125,317 @@
   </div>
 
   <script>
-    /* ---------- DATA（第1和丸）---------- */
-    const vessel = {
-      id: "daiichikazumaru",
-      name_ja: "第1和丸",
-      name_en: "Daiichi Kazu Maru",
-      registerNo: "ME3-65342",                     // 登録票写真より
-      // 画面上のピル表示。分かる範囲でOK／あとで差し替え可能
-      badges: ["FRP", "キャビン付", "魚槽", "船首ウインチ"],
-      // 想定用途（調整可）
-      use: ["刺網", "延縄", "一本釣り","採介藻", "雑"],
-      // ギャラリー（配置したファイル名に合わせて変更）
-      gallery: [
-        "assets/boats/kazumaru/01.jpg",
-        "assets/boats/kazumaru/02.jpg",
-        "assets/boats/kazumaru/03.jpg",
-        "assets/boats/kazumaru/04.jpg",
-        "assets/boats/kazumaru/05.jpg",
-        "assets/boats/kazumaru/m01.jpg",
-        "assets/boats/kazumaru/m02.jpg",
-        "assets/boats/kazumaru/m03.jpg",
-        "assets/boats/kazumaru/m04.jpg",
-        "assets/boats/kazumaru/m05.jpg"
-      ],
-      sheetImage: "assets/boats/kazumaru/10.jpg",
+/* =========================
+   1) データ（第1和丸）
+   ========================= */
+const vessel = {
+  id: "daiichikazumaru",
+  name_ja: "第1和丸",
+  name_en: "Daiichi Kazu Maru",
+  registerNo: "ME3-65342",
 
-      /* 船体情報（分かるところだけ入力、空文字は非表示になります） */
-      hull: {
-        material: "FRP",
-        grossTonnage: "2.25t",                           // 不明なら空のまま
-        length: "9.30m",                                 // 例: "9.30 m"（確定後に記入）
-        beam: "1.70m",
-        depth: "0.65m",
-        builder: "井上芳造船所"                                 // 建造所不明なら空
-      },
+  // 言語別バッジ
+  badges: {
+    ja: ["FRP", "キャビン付", "魚槽", "船首ウインチ"],
+    en: ["FRP", "Cabin", "Fish hold", "Bow winch"]
+  },
 
-      /* エンジン（写真では三菱のメーターパネル、UNIKASリモコン、FURUNO機器が確認できます） */
-      engine: {
-        type: "船内機",
-        maker: "三菱重工業",                                  // 例: "三菱" など確定したら記入
-        model: "M6H-MTK",
-        power: "70PS",                                  // 例: "70 PS" など確定したら記入
-        note: "エンジンリモコン UNIKAS ER-700（写真）"
-      },
+  // 言語別 用途タグ
+  use: {
+    ja: ["刺網", "延縄", "一本釣り", "採介藻", "雑"],
+    en: ["Gillnet", "Longline", "Handline", "Shellfish/Seaweed harvest", "Misc."]
+  },
 
-      /* 装備（写真から読み取れたもの） */
-      equipment: [
-        "FURUNO 魚群探知機（2台/写真）",
-        "FURUNO DR-82（27 MHz 1W DSB）無線機（写真）",
-        "UNIKAS エンジンリモコン ER-700（写真）",
-        "MITSUBISHI メーターパネル（写真）",
-        "船首ウインチ（写真）",
-        "魚槽"
-      ]
-    };
+  // ギャラリー
+  gallery: [
+    "assets/boats/kazumaru/01.jpg",
+    "assets/boats/kazumaru/02.jpg",
+    "assets/boats/kazumaru/03.jpg",
+    "assets/boats/kazumaru/04.jpg",
+    "assets/boats/kazumaru/05.jpg",
+    "assets/boats/kazumaru/m01.jpg",
+    "assets/boats/kazumaru/m02.jpg",
+    "assets/boats/kazumaru/m03.jpg",
+    "assets/boats/kazumaru/m04.jpg",
+    "assets/boats/kazumaru/m05.jpg"
+  ],
 
-    /* ---------- 多言語ラベル（rpmなし） ---------- */
-    const t = {
-      ja: {
-        breadcrumb: "導入モデルラインナップ › モデル詳細",
-        back: "一覧へ戻る",
-        quick: "クイックスペック",
-        use: "想定される漁業種類 / 用途",
-        contact: "この船について相談",
-        download: "漁船登録票を見る",
-        disclaimer: "※ 一部は写真からの読み取りに基づく暫定値です。最終仕様は現物・最新検査記録を優先します。",
-        detail: "詳細スペック",
-        hull: "船体情報",
-        engine: "機関情報",
-        equipment: "主な装備",
-        galleryNote: "画像をクリックすると拡大表示します。",
-        labels: {
-          name: "船名",
-          reg: "登録番号",
-          material: "材質",
-          tonnage: "総トン数",
-          length: "長さ",
-          beam: "幅",
-          depth: "深さ",
-          builder: "建造所",
-          engType: "機関種別",
-          maker: "製造者",
-          model: "型式",
-          power: "エンジン出力",
-          note: "備考"
-        }
-      },
-      en: {
-        breadcrumb: "Model Lineup › Detail",
-        back: "Back to List",
-        quick: "Quick Specs",
-        use: "Likely Fishery / Use",
-        contact: "Inquire about this boat",
-        download: "View Inspection Sheet",
-        disclaimer: "Numbers are provisional from photos. Final specs subject to actual inspection.",
-        detail: "Detailed Specifications",
-        hull: "Hull",
-        engine: "Engine",
-        equipment: "Key Equipment",
-        galleryNote: "Click a photo to enlarge.",
-        labels: {
-          name: "Vessel",
-          reg: "Registration No.",
-          material: "Material",
-          tonnage: "Gross Tonnage",
-          length: "Length",
-          beam: "Beam",
-          depth: "Depth",
-          builder: "Builder",
-          engType: "Engine Type",
-          maker: "Maker",
-          model: "Model",
-          power: "Engine power",
-          note: "Note"
-        }
-      }
-    };
+  // 登録票など（任意）
+  sheetImage: "assets/boats/kazumaru/10.jpg",
 
-    /* ---------- 共通スクリプト（空欄は自動で非表示） ---------- */
-    const byId = (id) => document.getElementById(id);
-    const getLang = () => {
-      const urlLang = new URLSearchParams(location.search).get('lang');
-      const store = localStorage.getItem('siteLang');
-      const nav = (navigator.language||'en').toLowerCase().startsWith('ja')?'ja':'en';
-      return (urlLang==='ja'||urlLang==='en')?urlLang:(store||nav);
-    };
+  // 船体情報（builder は *_en あり）
+  hull: {
+    material: "FRP",
+    grossTonnage: "2.25 t",
+    length: "9.30 m",
+    beam: "1.70 m",
+    depth: "0.65 m",
+    builder: "井上芳造船所",
+    builder_en: "Inoue Shipyard"
+  },
 
-    function fillTable(id, rows){
-      const tb = byId(id); tb.innerHTML='';
-      rows.filter(([,v]) => v && String(v).trim() !== "")
-          .forEach(([k,v])=>{
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td class="w-40 text-gray-500">${k}</td><td class="font-semibold">${v}</td>`;
-            tb.appendChild(tr);
-          });
+  // 機関情報（type/maker は *_en あり）
+  engine: {
+    type: "船内機",
+    type_en: "Inboard engine",
+    maker: "三菱重工業",
+    maker_en: "Mitsubishi Heavy Industries",
+    model: "M6H-MTK",
+    power: "70 PS",
+    note: "エンジンリモコン UNIKAS ER-700（写真）"
+  },
+
+  // 装備（言語別）
+  equipment: {
+    ja: [
+      "FURUNO 魚群探知機（2台/写真）",
+      "FURUNO DR-82（27 MHz 1W DSB）無線機（写真）",
+      "UNIKAS エンジンリモコン ER-700（写真）",
+      "MITSUBISHI メーターパネル（写真）",
+      "船首ウインチ（写真）",
+      "魚槽"
+    ],
+    en: [
+      "FURUNO fish finder (2 units / per photo)",
+      "FURUNO DR-82 (27 MHz 1W DSB) radio (per photo)",
+      "UNIKAS engine remote ER-700 (per photo)",
+      "MITSUBISHI meter panel (per photo)",
+      "Bow winch (per photo)",
+      "Fish hold"
+    ]
+  }
+};
+
+/* =========================
+   2) UIテキスト（i18n）
+   ========================= */
+const t = {
+  ja: {
+    breadcrumb: "導入モデルラインナップ › モデル詳細",
+    back: "一覧へ戻る",
+    quick: "クイックスペック",
+    use: "想定される漁業種類 / 用途",
+    contact: "この船について相談",
+    download: "漁船登録票を見る",
+    disclaimer: "※ 一部は写真からの読み取りに基づく暫定値です。最終仕様は現物・最新検査記録を優先します。",
+    detail: "詳細スペック",
+    hull: "船体情報",
+    engine: "機関情報",
+    equipment: "主な装備",
+    galleryNote: "画像をクリックすると拡大表示します。",
+    labels: {
+      name: "船名",
+      reg: "登録番号",
+      material: "材質",
+      tonnage: "総トン数",
+      length: "長さ",
+      beam: "幅",
+      depth: "深さ",
+      builder: "建造所",
+      engType: "機関種別",
+      maker: "製造者",
+      model: "型式",
+      power: "エンジン出力",
+      note: "備考"
     }
+  },
+  en: {
+    breadcrumb: "Model Lineup › Detail",
+    back: "Back to List",
+    quick: "Quick Specs",
+    use: "Likely Fishery / Use",
+    contact: "Inquire about this boat",
+    download: "View Inspection Sheet",
+    disclaimer: "Numbers are provisional from photos. Final specs subject to actual inspection.",
+    detail: "Detailed Specifications",
+    hull: "Hull",
+    engine: "Engine",
+    equipment: "Key Equipment",
+    galleryNote: "Click a photo to enlarge.",
+    labels: {
+      name: "Vessel",
+      reg: "Registration No.",
+      material: "Material",
+      tonnage: "Gross Tonnage",
+      length: "Length",
+      beam: "Beam",
+      depth: "Depth",
+      builder: "Builder",
+      engType: "Engine Type",
+      maker: "Maker",
+      model: "Model",
+      power: "Engine power",
+      note: "Note"
+    }
+  }
+};
 
-    function setLang(lang){
-      localStorage.setItem('siteLang', lang);
-      const i18n = t[lang];
-
-      // header
-      const home = byId('nav-home');
-      if(home){ const u = new URL(home.href); u.searchParams.set('lang', lang); home.href = u.toString(); }
-
-      // hero
-      byId('breadcrumb').textContent = i18n.breadcrumb;
-      byId('vessel-name').textContent = (lang==='ja'?vessel.name_ja:vessel.name_en)+'（'+vessel.registerNo+'）';
-      const badges = byId('badges'); badges.innerHTML='';
-      vessel.badges.forEach(b=>{ const s=document.createElement('span'); s.className='badge'; s.textContent=b; badges.appendChild(s) });
-
-      // back button
-      const back = byId('back-to-list');
-      back.textContent = i18n.back;
-      back.href = `models.html?lang=${lang}`;
-
-      // gallery
-      const g = byId('gallery'); g.innerHTML='';
-      vessel.gallery.forEach((src,idx)=>{
-        const w = document.createElement('button');
-        w.className = 'group relative rounded overflow-hidden bg-gray-100';
-        w.innerHTML = `<img src="${src}" alt="photo ${idx+1}" class="w-full h-40 md:h-44 object-cover transition group-hover:scale-105">`;
-        w.addEventListener('click',()=>openLightbox(src));
-        g.appendChild(w);
+/* =========================
+   3) ヘルパー
+   ========================= */
+const byId = (id) => document.getElementById(id);
+const getLang = () => {
+  const urlLang = new URLSearchParams(location.search).get('lang');
+  const store = localStorage.getItem('siteLang');
+  const nav = (navigator.language||'en').toLowerCase().startsWith('ja')?'ja':'en';
+  return (urlLang==='ja'||urlLang==='en') ? urlLang : (store || nav);
+};
+// 言語がenなら *_en を優先
+const pick = (obj, key, lang) =>
+  (lang === 'en' && obj?.[key + '_en']) ? obj[key + '_en'] : obj?.[key];
+// 配列 or {ja:[], en:[]} 双方に対応
+const arrByLang = (maybe, lang) =>
+  Array.isArray(maybe) ? maybe : (maybe?.[lang] || []);
+// 表埋め
+function fillTable(id, rows){
+  const tb = byId(id); tb.innerHTML='';
+  rows.filter(([,v]) => v != null && String(v).trim() !== "")
+      .forEach(([k,v])=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="w-40 text-gray-500">${k}</td><td class="font-semibold break-words">${v}</td>`;
+        tb.appendChild(tr);
       });
-      byId('gallery-note').textContent = i18n.galleryNote;
+}
 
-      // quick spec
-      byId('quick-spec-title').textContent = i18n.quick;
-      const qsWrap = byId('quick-spec'); qsWrap.innerHTML='';
-      const add = (label, val) => {
-        if(!val || String(val).trim()==="") return;
-        const tr=document.createElement('div'); tr.className='grid grid-cols-5 gap-2';
-        tr.innerHTML = `<dt class="col-span-2 text-gray-500">${label}</dt><dd class="col-span-3 font-semibold">${val}</dd>`;
-        qsWrap.appendChild(tr);
-      };
-      add(i18n.labels.name, lang==='ja'?vessel.name_ja:vessel.name_en);
-      add(i18n.labels.reg, vessel.registerNo);
-      add(i18n.labels.length, vessel.hull.length);
-      add(i18n.labels.beam, vessel.hull.beam);
-      add(i18n.labels.tonnage, vessel.hull.grossTonnage);
+/* =========================
+   4) 描画
+   ========================= */
+function setLang(lang){
+  localStorage.setItem('siteLang', lang);
+  const i18n = t[lang];
 
-      // use tags
-      byId('use-title').textContent = i18n.use;
-      const ut = byId('use-tags'); ut.innerHTML='';
-      vessel.use.forEach(tag=>{ const s=document.createElement('span'); s.className='badge'; s.textContent=tag; ut.appendChild(s) });
+  // <title> も言語に合わせる
+  document.title = (lang==='ja' ? 'モデル詳細｜' + vessel.name_ja : 'Model Detail | ' + vessel.name_en) + ' - JCFS';
 
-      // CTAs
-      const contact = byId('contact-cta'); contact.textContent = i18n.contact; contact.href = `mailto:info@example.com?subject=${encodeURIComponent((lang==='ja'?'【問い合わせ】':'[Inquiry] ') + (lang==='ja'?vessel.name_ja:vessel.name_en))}`;
-      const dl = byId('download-sheet'); dl.textContent = i18n.download; dl.href = vessel.sheetImage || '#'; dl.target = vessel.sheetImage ? '_blank' : '';
-      byId('disclaimer').textContent = i18n.disclaimer;
+  // ヘッダーのホームリンクに ?lang を付与
+  const home = byId('nav-home');
+  if(home){ const u = new URL(home.href); u.searchParams.set('lang', lang); home.href = u.toString(); }
 
-      // tables
-      byId('detail-spec-title').textContent = i18n.detail;
-      byId('hull-title').textContent = i18n.hull;
-      fillTable('hull-spec', [
-        [i18n.labels.material, vessel.hull.material],
-        [i18n.labels.tonnage, vessel.hull.grossTonnage],
-        [i18n.labels.length, vessel.hull.length],
-        [i18n.labels.beam, vessel.hull.beam],
-        [i18n.labels.depth, vessel.hull.depth],
-        [i18n.labels.builder, vessel.hull.builder],
-      ]);
+  // パンくず・船名
+  byId('breadcrumb').textContent = i18n.breadcrumb;
+  byId('vessel-name').textContent =
+    (lang==='ja' ? vessel.name_ja : vessel.name_en) + '（' + vessel.registerNo + '）';
 
-      byId('engine-title').textContent = i18n.engine;
-      fillTable('engine-spec', [
-        [i18n.labels.engType, vessel.engine.type],
-        [i18n.labels.maker, vessel.engine.maker],
-        [i18n.labels.model, vessel.engine.model],
-        [i18n.labels.power, vessel.engine.power],
-        [i18n.labels.note, vessel.engine.note],
-      ]);
+  // バッジ
+  const badges = byId('badges'); badges.innerHTML = '';
+  arrByLang(vessel.badges, lang).forEach(b => {
+    const s = document.createElement('span');
+    s.className = 'badge';
+    s.textContent = b;
+    badges.appendChild(s);
+  });
 
-      // equipment
-      byId('equipment-title').textContent = i18n.equipment;
-      const el = byId('equipment-list'); el.innerHTML='';
-      vessel.equipment.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; el.appendChild(li); });
+  // 戻るボタン
+  const back = byId('back-to-list');
+  back.textContent = i18n.back;
+  back.href = `models.html?lang=${lang}`;
 
-      // active lang button
-      byId('lang-ja').classList.toggle('bg-jcfs-blue-primary', lang==='ja');
-      byId('lang-ja').classList.toggle('text-white', lang==='ja');
-      byId('lang-en').classList.toggle('bg-jcfs-blue-primary', lang==='en');
-      byId('lang-en').classList.toggle('text-white', lang==='en');
-    }
+  // ギャラリー
+  const g = byId('gallery'); g.innerHTML = '';
+  vessel.gallery.forEach((src,idx)=>{
+    const w = document.createElement('button');
+    w.className = 'group relative rounded overflow-hidden bg-gray-100';
+    w.innerHTML = `<img src="${src}" alt="photo ${idx+1}" class="w-full h-40 md:h-44 object-cover transition group-hover:scale-105">`;
+    w.addEventListener('click',()=>openLightbox(src));
+    g.appendChild(w);
+  });
+  byId('gallery-note').textContent = i18n.galleryNote;
 
-    // lightbox
-    function openLightbox(src){
-      const lb = byId('lightbox'), img = byId('lightbox-img');
-      img.src = src; img.alt = 'photo';
-      lb.classList.add('show');
-    }
-    byId('lightbox').addEventListener('click', (e)=>{ if(e.target.id==='lightbox'||e.target.id==='lightbox-img') e.currentTarget.classList.remove('show') });
+  // クイックスペック
+  byId('quick-spec-title').textContent = i18n.quick;
+  const qsWrap = byId('quick-spec'); qsWrap.innerHTML = '';
+  const add = (label, val) => {
+    const tr=document.createElement('div'); tr.className='grid grid-cols-5 gap-2';
+    tr.innerHTML = `<dt class="col-span-2 text-gray-500">${label}</dt><dd class="col-span-3 font-semibold break-words">${val||'-'}</dd>`;
+    qsWrap.appendChild(tr);
+  };
+  add(i18n.labels.name,   lang==='ja'?vessel.name_ja:vessel.name_en);
+  add(i18n.labels.reg,    vessel.registerNo);
+  add(i18n.labels.length, vessel.hull.length);
+  add(i18n.labels.beam,   vessel.hull.beam);
+  add(i18n.labels.tonnage, vessel.hull.grossTonnage);
 
-    // init
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const lang = getLang();
-      setLang(lang);
-      byId('lang-ja').addEventListener('click', ()=> setLang('ja'));
-      byId('lang-en').addEventListener('click', ()=> setLang('en'));
-    });
+  // 用途タグ
+  byId('use-title').textContent = i18n.use;
+  const ut = byId('use-tags'); ut.innerHTML = '';
+  arrByLang(vessel.use, lang).forEach(tag=>{
+    const s = document.createElement('span');
+    s.className = 'badge';
+    s.textContent = tag;
+    ut.appendChild(s);
+  });
+
+  // CTA
+  const contact = byId('contact-cta');
+  contact.textContent = i18n.contact;
+  contact.href = `mailto:info@example.com?subject=${encodeURIComponent((lang==='ja'?'【問い合わせ】':'[Inquiry] ') + (lang==='ja'?vessel.name_ja:vessel.name_en))}`;
+  const dl = byId('download-sheet');
+  dl.textContent = i18n.download;
+  dl.href = vessel.sheetImage || '#';
+  dl.target = vessel.sheetImage ? '_blank' : '';
+  byId('disclaimer').textContent = i18n.disclaimer;
+
+  // テーブル：Hull / Engine
+  byId('detail-spec-title').textContent = i18n.detail;
+  byId('hull-title').textContent = i18n.hull;
+  fillTable('hull-spec', [
+    [i18n.labels.material, vessel.hull.material],
+    [i18n.labels.tonnage,  vessel.hull.grossTonnage],
+    [i18n.labels.length,   vessel.hull.length],
+    [i18n.labels.beam,     vessel.hull.beam],
+    [i18n.labels.depth,    vessel.hull.depth],
+    [i18n.labels.builder,  pick(vessel.hull, 'builder', lang)],
+  ]);
+
+  byId('engine-title').textContent = i18n.engine;
+  fillTable('engine-spec', [
+    [i18n.labels.engType, pick(vessel.engine, 'type',  lang)],
+    [i18n.labels.maker,   pick(vessel.engine, 'maker', lang)],
+    [i18n.labels.model,   vessel.engine.model],
+    [i18n.labels.power,   vessel.engine.power ?? vessel.engine.Power ?? vessel.engine.maxOutput ?? '-'],
+    vessel.engine.note ? [i18n.labels.note, vessel.engine.note] : null,
+  ].filter(Boolean));
+
+  // 装備
+  byId('equipment-title').textContent = i18n.equipment;
+  const el = byId('equipment-list'); el.innerHTML='';
+  arrByLang(vessel.equipment, lang).forEach(x=>{
+    const li=document.createElement('li'); li.textContent=x; el.appendChild(li);
+  });
+
+  // 言語ボタンの見た目
+  ['ja','en'].forEach(k=>{
+    const el = byId('lang-'+k);
+    el.classList.remove('bg-jcfs-blue-primary','text-white');
+    el.classList.add('bg-gray-200');
+  });
+  const active = byId('lang-'+lang);
+  active.classList.remove('bg-gray-200');
+  active.classList.add('bg-jcfs-blue-primary','text-white');
+}
+
+/* =========================
+   5) 画像ライトボックス
+   ========================= */
+function openLightbox(src){
+  const lb = byId('lightbox'), img = byId('lightbox-img');
+  img.src = src; img.alt = 'photo';
+  lb.classList.add('show');
+}
+byId('lightbox').addEventListener('click', (e)=>{
+  if(e.target.id==='lightbox'||e.target.id==='lightbox-img') e.currentTarget.classList.remove('show')
+});
+
+/* =========================
+   6) 初期化
+   ========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  byId('year').textContent = new Date().getFullYear();
+  const lang = getLang();
+  setLang(lang);
+  byId('lang-ja').addEventListener('click', ()=> setLang('ja'));
+  byId('lang-en').addEventListener('click', ()=> setLang('en'));
+});
   </script>
 </body>
 </html>
