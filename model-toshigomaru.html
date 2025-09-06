@@ -382,8 +382,20 @@ fillTable('engine-spec', [
     document.addEventListener('DOMContentLoaded', ()=>{
       const lang = getLang();
       setLang(lang);
-      byId('lang-ja').addEventListener('click', ()=> setLang('ja'));
-      byId('lang-en').addEventListener('click', ()=> setLang('en'));
+      // hero / badges
+byId('breadcrumb').textContent = i18n.breadcrumb;
+byId('vessel-name').textContent =
+  (lang==='ja' ? vessel.name_ja : vessel.name_en) + '（' + vessel.registerNo + '）';
+
+const badges = byId('badges'); badges.innerHTML = '';
+const badgesArr = arrByLang(vessel.badges, lang);   // ← ここがポイント
+badgesArr.forEach(b => {
+  const s = document.createElement('span');
+  s.className = 'badge';
+  s.textContent = b;
+  badges.appendChild(s);
+});
+
     });
   </script>
 </body>
