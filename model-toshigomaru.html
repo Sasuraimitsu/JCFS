@@ -116,7 +116,7 @@
   <!-- Footer -->
   <footer class="bg-white mt-12">
     <div class="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
-      &copy; 2024 JCFS.
+      &copy; <span id="year"></span> JCFS.
     </div>
   </footer>
 
@@ -126,23 +126,28 @@
   </div>
 
   <script>
-    /* ---------- DATA (敏五丸) 置き換え ---------- */
+/* =========================
+   1) データ（敏五丸）
+   ========================= */
 const vessel = {
   id: "toshigomaru",
   name_ja: "敏五丸",
   name_en: "Toshigomaru",
   registerNo: "ME3-52006",
 
-  // ← 配列を言語別に
+  // 言語別バッジ
   badges: {
     ja: ["FRP", "約2トン", "全長約9.15m", "活魚槽"],
     en: ["FRP", "Approx. 2 tons", "LOA ~9.15 m", "Live fish tank"]
   },
+
+  // 言語別 用途タグ
   use: {
     ja: ["刺網", "採介藻", "一本釣り", "雑"],
     en: ["Gillnet", "Shellfish/Seaweed harvest", "Handline", "Misc."]
   },
 
+  // ギャラリー画像（相対パス推奨）
   gallery: [
     "assets/boats/toshigomaru/01.jpg",
     "assets/boats/toshigomaru/02.jpg",
@@ -161,9 +166,11 @@ const vessel = {
     "assets/boats/toshigomaru/m08.jpg",
     "assets/boats/toshigomaru/m09.jpg",
   ],
+
+  // 旧動力漁船登録票の写真など（任意）
   sheetImage: "assets/boats/toshigomaru/10.jpg",
 
-  // 船体情報（英語表記のフォールバック用 *_en を追加可能）
+  // 船体情報（builder は *_en あり）
   hull: {
     material: "FRP",
     grossTonnage: "2 t",
@@ -174,7 +181,7 @@ const vessel = {
     builder_en: "Hakkou Shipbuilding Industry Co., Ltd."
   },
 
-  // エンジン（*_en で英語名を用意）
+  // 機関情報（type/maker は *_en あり）
   engine: {
     type: "船内機",
     type_en: "Inboard engine",
@@ -184,236 +191,255 @@ const vessel = {
     power: "60 PS"
   },
 
-  equipment: [
-    "レーダー（KODEN系ラドーム／写真）",
-    "魚探：HONDEX（写真）",
-    "オートパイロット：marol CB-88（写真）",
-    "エンジンメーターパネル：YANMAR（写真）",
-    "活魚槽",
-    "アウトリガー一式",
-  ],
+  // 装備（英語が無ければ ja のままでもOK）
+  equipment: {
+    ja: [
+      "レーダー（KODEN系ラドーム／写真）",
+      "魚探：HONDEX（写真）",
+      "オートパイロット：marol CB-88（写真）",
+      "エンジンメーターパネル：YANMAR（写真）",
+      "活魚槽",
+      "アウトリガー一式"
+    ],
+    en: [
+      "Radar (KODEN radome / per photo)",
+      "Fish finder: HONDEX (per photo)",
+      "Autopilot: marol CB-88 (per photo)",
+      "Engine meter panel: YANMAR (per photo)",
+      "Live fish tank",
+      "Outrigger set"
+    ]
+  }
 };
 
-    /* ---------- 多言語ラベル ---------- */
-    const t = {
-      ja: {
-        breadcrumb: "導入モデルラインナップ › モデル詳細",
-        back: "一覧へ戻る",
-        quick: "クイックスペック",
-        use: "想定される漁業種類 / 用途",
-        contact: "この船について相談",
-        download: "漁船登録票を見る",
-        disclaimer: "※ 表示値の一部は写真からの読み取りに基づく概数です。最終仕様は現物・最新検査記録を優先します。",
-        detail: "詳細スペック",
-        hull: "船体情報",
-        engine: "機関情報",
-        equipment: "主な装備",
-        galleryNote: "画像をクリックすると拡大表示します。",
-        labels: {
-          name: "船名",
-          reg: "登録番号",
-          material: "材質",
-          tonnage: "総トン数",
-          length: "長さ",
-          beam: "幅",
-          depth: "深さ",
-          builder: "建造所",
-          engType: "機関種別",
-          maker: "製造者",
-          model: "型式",
-          power: "エンジン出力",
-          note: "備考"
-        }
-      },
-      en: {
-        breadcrumb: "Model Lineup › Detail",
-        back: "Back to List",
-        quick: "Quick Specs",
-        use: "Likely Fishery / Use",
-        contact: "Inquire about this boat",
-        download: "View Inspection Sheet",
-        disclaimer: "Numbers include OCR from the sheet photo and may vary. Final specs subject to actual inspection.",
-        detail: "Detailed Specifications",
-        hull: "Hull",
-        engine: "Engine",
-        equipment: "Key Equipment",
-        galleryNote: "Click a photo to enlarge.",
-        labels: {
-          name: "Vessel",
-          reg: "Registration No.",
-          material: "Material",
-          tonnage: "Gross Tonnage",
-          length: "Length",
-          beam: "Beam",
-          depth: "Depth",
-          builder: "Builder",
-          engType: "Engine Type",
-          maker: "Maker",
-          model: "Model",
-          power: "Engine power",
-          note: "Note"
-        }
-      }
-    };
+/* =========================
+   2) UIテキスト（i18n）
+   ========================= */
+const t = {
+  ja: {
+    breadcrumb: "導入モデルラインナップ › モデル詳細",
+    back: "一覧へ戻る",
+    quick: "クイックスペック",
+    use: "想定される漁業種類 / 用途",
+    contact: "この船について相談",
+    download: "漁船登録票を見る",
+    disclaimer: "※ 表示値の一部は写真からの読み取りに基づく概数です。最終仕様は現物・最新検査記録を優先します。",
+    detail: "詳細スペック",
+    hull: "船体情報",
+    engine: "機関情報",
+    equipment: "主な装備",
+    galleryNote: "画像をクリックすると拡大表示します。",
+    labels: {
+      name: "船名",
+      reg: "登録番号",
+      material: "材質",
+      tonnage: "総トン数",
+      length: "長さ",
+      beam: "幅",
+      depth: "深さ",
+      builder: "建造所",
+      engType: "機関種別",
+      maker: "製造者",
+      model: "型式",
+      power: "エンジン出力",
+      note: "備考"
+    }
+  },
+  en: {
+    breadcrumb: "Model Lineup › Detail",
+    back: "Back to List",
+    quick: "Quick Specs",
+    use: "Likely Fishery / Use",
+    contact: "Inquire about this boat",
+    download: "View Inspection Sheet",
+    disclaimer: "Numbers include OCR from the sheet photo and may vary. Final specs subject to actual inspection.",
+    detail: "Detailed Specifications",
+    hull: "Hull",
+    engine: "Engine",
+    equipment: "Key Equipment",
+    galleryNote: "Click a photo to enlarge.",
+    labels: {
+      name: "Vessel",
+      reg: "Registration No.",
+      material: "Material",
+      tonnage: "Gross Tonnage",
+      length: "Length",
+      beam: "Beam",
+      depth: "Depth",
+      builder: "Builder",
+      engType: "Engine Type",
+      maker: "Maker",
+      model: "Model",
+      power: "Engine power",
+      note: "Note"
+    }
+  }
+};
 
-    /* ---------- Helpers ---------- */
-    // 言語がenなら *_en を優先して返す。なければ元の値
+/* =========================
+   3) ヘルパー
+   ========================= */
+const byId = (id) => document.getElementById(id);
+const getLang = () => {
+  const urlLang = new URLSearchParams(location.search).get('lang');
+  const store = localStorage.getItem('siteLang');
+  const nav = (navigator.language||'en').toLowerCase().startsWith('ja')?'ja':'en';
+  return (urlLang==='ja'||urlLang==='en') ? urlLang : (store || nav);
+};
+// 言語がenなら *_en を優先
 const pick = (obj, key, lang) =>
   (lang === 'en' && obj?.[key + '_en']) ? obj[key + '_en'] : obj?.[key];
-
-// 配列が言語別 {ja:[...], en:[...]} の場合に現在言語の配列を取り出す
+// 配列 or {ja:[], en:[]} 双方に対応
 const arrByLang = (maybe, lang) =>
   Array.isArray(maybe) ? maybe : (maybe?.[lang] || []);
+// 表埋め
+function fillTable(id, rows){
+  const tb = byId(id); tb.innerHTML='';
+  rows.forEach(([k,v])=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="w-40 text-gray-500">${k}</td><td class="font-semibold">${v||'-'}</td>`;
+    tb.appendChild(tr);
+  });
+}
 
-    const qs = (s) => document.querySelector(s);
-    const byId = (id) => document.getElementById(id);
-    const getLang = () => {
-      const urlLang = new URLSearchParams(location.search).get('lang');
-      const store = localStorage.getItem('siteLang');
-      const nav = (navigator.language||'en').toLowerCase().startsWith('ja')?'ja':'en';
-      return (urlLang==='ja'||urlLang==='en')?urlLang:(store||nav);
-    };
-    function setLang(lang){
-      localStorage.setItem('siteLang', lang);
-      const i18n = t[lang];
+/* =========================
+   4) 描画
+   ========================= */
+function setLang(lang){
+  localStorage.setItem('siteLang', lang);
+  const i18n = t[lang];
 
-      // header links
-      const home = byId('nav-home');
-      if(home){ const u = new URL(home.href); u.searchParams.set('lang', lang); home.href = u.toString(); }
+  // <title> も言語に合わせる
+  document.title = (lang==='ja' ? 'モデル詳細｜' + vessel.name_ja : 'Model Detail | ' + vessel.name_en) + ' - JCFS';
 
-      // hero / badges
-      byId('breadcrumb').textContent = i18n.breadcrumb;
-      byId('vessel-name').textContent = (lang==='ja'?vessel.name_ja:vessel.name_en)+'（'+vessel.registerNo+'）';
-      const badges = byId('badges'); badges.innerHTML='';
-      vessel.badges.forEach(b=>{ const s=document.createElement('span'); s.className='badge'; s.textContent=b; badges.appendChild(s) });
+  // ヘッダーのホームリンクに ?lang を付与
+  const home = byId('nav-home');
+  if(home){ const u = new URL(home.href); u.searchParams.set('lang', lang); home.href = u.toString(); }
 
-      // back button
-      const back = byId('back-to-list');
-      back.textContent = i18n.back;
-      back.href = `models.html?lang=${lang}`;
+  // パンくず・船名
+  byId('breadcrumb').textContent = i18n.breadcrumb;
+  byId('vessel-name').textContent =
+    (lang==='ja' ? vessel.name_ja : vessel.name_en) + '（' + vessel.registerNo + '）';
 
-      // gallery
-      const g = byId('gallery'); g.innerHTML='';
-      vessel.gallery.forEach((src,idx)=>{
-        const w = document.createElement('button');
-        w.className = 'group relative rounded overflow-hidden bg-gray-100';
-        w.innerHTML = `<img src="${src}" alt="photo ${idx+1}" class="w-full h-40 md:h-44 object-cover transition group-hover:scale-105">`;
-        w.addEventListener('click',()=>openLightbox(src));
-        g.appendChild(w);
-      });
-      byId('gallery-note').textContent = i18n.galleryNote;
+  // バッジ
+  const badges = byId('badges'); badges.innerHTML = '';
+  arrByLang(vessel.badges, lang).forEach(b => {
+    const s = document.createElement('span');
+    s.className = 'badge';
+    s.textContent = b;
+    badges.appendChild(s);
+  });
 
-      // quick spec
-      byId('quick-spec-title').textContent = i18n.quick;
-      const qsWrap = byId('quick-spec'); qsWrap.innerHTML='';
-      const add = (label, val) => { const tr=document.createElement('div'); tr.className='grid grid-cols-5 gap-2';
-        tr.innerHTML = `<dt class="col-span-2 text-gray-500">${label}</dt><dd class="col-span-3 font-semibold">${val||'-'}</dd>`;
-        qsWrap.appendChild(tr);
-      };
-      add(i18n.labels.name, lang==='ja'?vessel.name_ja:vessel.name_en);
-      add(i18n.labels.reg, vessel.registerNo);
-      add(i18n.labels.length, vessel.hull.length);
-      add(i18n.labels.beam, vessel.hull.beam);
-      add(i18n.labels.tonnage, vessel.hull.grossTonnage);
+  // 戻るボタン
+  const back = byId('back-to-list');
+  back.textContent = i18n.back;
+  back.href = `models.html?lang=${lang}`;
 
-      // use tags
-      // use tags
-byId('use-title').textContent = i18n.use;
-const ut = byId('use-tags'); ut.innerHTML = '';
-const useArr = arrByLang(vessel.use, lang);   // ← ここがポイント
-useArr.forEach(tag => {
-  const s = document.createElement('span');
-  s.className = 'badge';
-  s.textContent = tag;
-  ut.appendChild(s);
+  // ギャラリー
+  const g = byId('gallery'); g.innerHTML = '';
+  vessel.gallery.forEach((src,idx)=>{
+    const w = document.createElement('button');
+    w.className = 'group relative rounded overflow-hidden bg-gray-100';
+    w.innerHTML = `<img src="${src}" alt="photo ${idx+1}" class="w-full h-40 md:h-44 object-cover transition group-hover:scale-105">`;
+    w.addEventListener('click',()=>openLightbox(src));
+    g.appendChild(w);
+  });
+  byId('gallery-note').textContent = i18n.galleryNote;
+
+  // クイックスペック
+  byId('quick-spec-title').textContent = i18n.quick;
+  const qsWrap = byId('quick-spec'); qsWrap.innerHTML = '';
+  const add = (label, val) => {
+    const tr=document.createElement('div'); tr.className='grid grid-cols-5 gap-2';
+    tr.innerHTML = `<dt class="col-span-2 text-gray-500">${label}</dt><dd class="col-span-3 font-semibold">${val||'-'}</dd>`;
+    qsWrap.appendChild(tr);
+  };
+  add(i18n.labels.name,   lang==='ja'?vessel.name_ja:vessel.name_en);
+  add(i18n.labels.reg,    vessel.registerNo);
+  add(i18n.labels.length, vessel.hull.length);
+  add(i18n.labels.beam,   vessel.hull.beam);
+  add(i18n.labels.tonnage, vessel.hull.grossTonnage);
+
+  // 用途タグ
+  byId('use-title').textContent = i18n.use;
+  const ut = byId('use-tags'); ut.innerHTML = '';
+  arrByLang(vessel.use, lang).forEach(tag=>{
+    const s = document.createElement('span');
+    s.className = 'badge';
+    s.textContent = tag;
+    ut.appendChild(s);
+  });
+
+  // CTA
+  const contact = byId('contact-cta');
+  contact.textContent = i18n.contact;
+  contact.href = `mailto:info@example.com?subject=${encodeURIComponent((lang==='ja'?'【問い合わせ】':'[Inquiry] ') + (lang==='ja'?vessel.name_ja:vessel.name_en))}`;
+  const dl = byId('download-sheet');
+  dl.textContent = i18n.download;
+  dl.href = vessel.sheetImage || '#';
+  dl.target = vessel.sheetImage ? '_blank' : '';
+  byId('disclaimer').textContent = i18n.disclaimer;
+
+  // テーブル：Hull / Engine
+  byId('detail-spec-title').textContent = i18n.detail;
+  byId('hull-title').textContent = i18n.hull;
+  fillTable('hull-spec', [
+    [i18n.labels.material, vessel.hull.material],
+    [i18n.labels.tonnage,  vessel.hull.grossTonnage],
+    [i18n.labels.length,   vessel.hull.length],
+    [i18n.labels.beam,     vessel.hull.beam],
+    [i18n.labels.depth,    vessel.hull.depth],
+    [i18n.labels.builder,  pick(vessel.hull, 'builder', lang)],
+  ]);
+
+  byId('engine-title').textContent = i18n.engine;
+  fillTable('engine-spec', [
+    [i18n.labels.engType, pick(vessel.engine, 'type',  lang)],
+    [i18n.labels.maker,   pick(vessel.engine, 'maker', lang)],
+    [i18n.labels.model,   vessel.engine.model],
+    [i18n.labels.power,   vessel.engine.power ?? vessel.engine.Power ?? vessel.engine.maxOutput ?? '-'],
+  ]);
+
+  // 装備
+  byId('equipment-title').textContent = i18n.equipment;
+  const el = byId('equipment-list'); el.innerHTML='';
+  arrByLang(vessel.equipment, lang).forEach(x=>{
+    const li=document.createElement('li'); li.textContent=x; el.appendChild(li);
+  });
+
+  // 言語ボタンの見た目
+  ['ja','en'].forEach(k=>{
+    const el = byId('lang-'+k);
+    el.classList.remove('bg-jcfs-blue-primary','text-white');
+    el.classList.add('bg-gray-200');
+  });
+  const active = byId('lang-'+lang);
+  active.classList.remove('bg-gray-200');
+  active.classList.add('bg-jcfs-blue-primary','text-white');
+}
+
+/* =========================
+   5) 画像ライトボックス
+   ========================= */
+function openLightbox(src){
+  const lb = byId('lightbox'), img = byId('lightbox-img');
+  img.src = src; img.alt = 'photo';
+  lb.classList.add('show');
+}
+byId('lightbox').addEventListener('click', (e)=>{
+  if(e.target.id==='lightbox'||e.target.id==='lightbox-img') e.currentTarget.classList.remove('show')
 });
 
-      // CTAs
-      const contact = byId('contact-cta'); contact.textContent = i18n.contact; contact.href = `mailto:info@example.com?subject=${encodeURIComponent((lang==='ja'?'【問い合わせ】':'[Inquiry] ') + (lang==='ja'?vessel.name_ja:vessel.name_en))}`;
-      const dl = byId('download-sheet'); dl.textContent = i18n.download; dl.href = vessel.sheetImage || '#'; dl.target = vessel.sheetImage ? '_blank' : '';
-      byId('disclaimer').textContent = i18n.disclaimer;
-
-      // tables
-      byId('detail-spec-title').textContent = i18n.detail;
-      byId('hull-title').textContent = i18n.hull;
-      fillTable('hull-spec', [
-        [i18n.labels.material, vessel.hull.material],
-        [i18n.labels.tonnage, vessel.hull.grossTonnage],
-        [i18n.labels.length, vessel.hull.length],
-        [i18n.labels.beam, vessel.hull.beam],
-        [i18n.labels.depth, vessel.hull.depth],
-        [i18n.labels.builder, vessel.hull.builder],
-      ]);
-      // --- エンジン表（rpmなし、出力はフォールバック付き） ---
-byId('engine-title').textContent = i18n.engine;
-// Hull
-fillTable('hull-spec', [
-  [i18n.labels.material, vessel.hull.material],
-  [i18n.labels.tonnage,  vessel.hull.grossTonnage],
-  [i18n.labels.length,   vessel.hull.length],
-  [i18n.labels.beam,     vessel.hull.beam],
-  [i18n.labels.depth,    vessel.hull.depth],
-  [i18n.labels.builder,  pick(vessel.hull, 'builder', lang)], // ← ここ
-]);
-
-// Engine
-fillTable('engine-spec', [
-  [i18n.labels.engType, pick(vessel.engine, 'type',  lang)],  // ← ここ
-  [i18n.labels.maker,   pick(vessel.engine, 'maker', lang)],  // ← ここ
-  [i18n.labels.model,   vessel.engine.model],
-  [i18n.labels.power,   vessel.engine.power ?? vessel.engine.Power ?? vessel.engine.maxOutput ?? '-'],
-  vessel.engine.note ? [i18n.labels.note, vessel.engine.note] : null,
-].filter(Boolean));
-
-
-
-      byId('equipment-title').textContent = i18n.equipment;
-      const el = byId('equipment-list'); el.innerHTML='';
-      vessel.equipment.forEach(x=>{ const li=document.createElement('li'); li.textContent=x; el.appendChild(li); });
-
-      // active button style
-      byId('lang-ja').classList.toggle('bg-jcfs-blue-primary', lang==='ja');
-      byId('lang-ja').classList.toggle('text-white', lang==='ja');
-      byId('lang-en').classList.toggle('bg-jcfs-blue-primary', lang==='en');
-      byId('lang-en').classList.toggle('text-white', lang==='en');
-    }
-
-    function fillTable(id, rows){
-      const tb = byId(id); tb.innerHTML='';
-      rows.forEach(([k,v])=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td class="w-40 text-gray-500">${k}</td><td class="font-semibold">${v||'-'}</td>`;
-        tb.appendChild(tr);
-      });
-    }
-
-    // lightbox
-    function openLightbox(src){
-      const lb = byId('lightbox'), img = byId('lightbox-img');
-      img.src = src; img.alt = 'photo';
-      lb.classList.add('show');
-    }
-    byId('lightbox').addEventListener('click', (e)=>{ if(e.target.id==='lightbox'||e.target.id==='lightbox-img') e.currentTarget.classList.remove('show') });
-
-    // init
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const lang = getLang();
-      setLang(lang);
-      // hero / badges
-byId('breadcrumb').textContent = i18n.breadcrumb;
-byId('vessel-name').textContent =
-  (lang==='ja' ? vessel.name_ja : vessel.name_en) + '（' + vessel.registerNo + '）';
-
-const badges = byId('badges'); badges.innerHTML = '';
-const badgesArr = arrByLang(vessel.badges, lang);   // ← ここがポイント
-badgesArr.forEach(b => {
-  const s = document.createElement('span');
-  s.className = 'badge';
-  s.textContent = b;
-  badges.appendChild(s);
+/* =========================
+   6) 初期化
+   ========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  byId('year').textContent = new Date().getFullYear();
+  const lang = getLang();
+  setLang(lang);
+  byId('lang-ja').addEventListener('click', ()=> setLang('ja'));
+  byId('lang-en').addEventListener('click', ()=> setLang('en'));
 });
-
-    });
   </script>
 </body>
 </html>
