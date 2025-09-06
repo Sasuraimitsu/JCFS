@@ -346,15 +346,25 @@ useArr.forEach(tag => {
       ]);
       // --- エンジン表（rpmなし、出力はフォールバック付き） ---
 byId('engine-title').textContent = i18n.engine;
+// Hull
+fillTable('hull-spec', [
+  [i18n.labels.material, vessel.hull.material],
+  [i18n.labels.tonnage,  vessel.hull.grossTonnage],
+  [i18n.labels.length,   vessel.hull.length],
+  [i18n.labels.beam,     vessel.hull.beam],
+  [i18n.labels.depth,    vessel.hull.depth],
+  [i18n.labels.builder,  pick(vessel.hull, 'builder', lang)], // ← ここ
+]);
+
+// Engine
 fillTable('engine-spec', [
-  [i18n.labels.engType, vessel.engine.type],
-  [i18n.labels.maker,   vessel.engine.maker],
+  [i18n.labels.engType, pick(vessel.engine, 'type',  lang)],  // ← ここ
+  [i18n.labels.maker,   pick(vessel.engine, 'maker', lang)],  // ← ここ
   [i18n.labels.model,   vessel.engine.model],
-  // power → Power → maxOutput の順で拾う
   [i18n.labels.power,   vessel.engine.power ?? vessel.engine.Power ?? vessel.engine.maxOutput ?? '-'],
-  // 備考があるときだけ表示
   vessel.engine.note ? [i18n.labels.note, vessel.engine.note] : null,
 ].filter(Boolean));
+
 
 
       byId('equipment-title').textContent = i18n.equipment;
