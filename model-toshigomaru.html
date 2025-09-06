@@ -317,9 +317,16 @@ const arrByLang = (maybe, lang) =>
       add(i18n.labels.tonnage, vessel.hull.grossTonnage);
 
       // use tags
-      byId('use-title').textContent = i18n.use;
-      const ut = byId('use-tags'); ut.innerHTML='';
-      vessel.use.forEach(tag=>{ const s=document.createElement('span'); s.className='badge'; s.textContent=tag; ut.appendChild(s) });
+      // use tags
+byId('use-title').textContent = i18n.use;
+const ut = byId('use-tags'); ut.innerHTML = '';
+const useArr = arrByLang(vessel.use, lang);   // ← ここがポイント
+useArr.forEach(tag => {
+  const s = document.createElement('span');
+  s.className = 'badge';
+  s.textContent = tag;
+  ut.appendChild(s);
+});
 
       // CTAs
       const contact = byId('contact-cta'); contact.textContent = i18n.contact; contact.href = `mailto:info@example.com?subject=${encodeURIComponent((lang==='ja'?'【問い合わせ】':'[Inquiry] ') + (lang==='ja'?vessel.name_ja:vessel.name_en))}`;
