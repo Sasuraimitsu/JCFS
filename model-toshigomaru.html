@@ -126,58 +126,73 @@
   </div>
 
   <script>
-    /* ---------- DATA (敏五丸) ここを書き換えれば他の隻にも転用できます ---------- */
-    const vessel = {
-      id: "toshigomaru",
-      name_ja: "敏五丸",
-      name_en: "Toshigomaru",
-      registerNo: "ME3-52006",
-      badges: ["FRP", "約2トン", "全長約9.15m", "活魚槽"],
-      use: ["刺網", "採介藻","一本釣り","雑"],
-      gallery: [
-        "assets/boats/toshigomaru/01.jpg",
-        "assets/boats/toshigomaru/02.jpg",
-        "assets/boats/toshigomaru/04.jpg",
-        "assets/boats/toshigomaru/05.jpg",
-        "assets/boats/toshigomaru/06.jpg",
-        "assets/boats/toshigomaru/08.jpg",
-        "assets/boats/toshigomaru/09.jpg",
-        "assets/boats/toshigomaru/m01.jpg",
-        "assets/boats/toshigomaru/m02.jpg",
-        "assets/boats/toshigomaru/m03.jpg",
-        "assets/boats/toshigomaru/m04.jpg",
-        "assets/boats/toshigomaru/m05.jpg",
-        "assets/boats/toshigomaru/m06.jpg",
-        "assets/boats/toshigomaru/m07.jpg",
-        "assets/boats/toshigomaru/m08.jpg",
-        "assets/boats/toshigomaru/m09.jpg",
-      ],
-      sheetImage: "assets/boats/toshigomaru/10.jpg", // 旧動力漁船登録票（任意）
-      // 船体情報
-      hull: {
-        material: "FRP",
-        grossTonnage: "2 トン（推定）",
-        length: "9.15 m（登録長 L）",
-        beam: "2.28 m（B）",
-        depth: "0.65 m（D）",
-        builder: "八光船舶産業株式会社",
-      },
-      // エンジン
-      engine: {
-        type: "船内機",
-        maker: "ヤンマー",
-        model: "6PH-T（T,TH）,6PHS",
-        power: "60 PS",
-      },
-      equipment: [
-        "レーダー（KODEN系ラドーム／写真）",
-        "魚探：HONDEX（写真）",
-        "オートパイロット：marol CB-88（写真）",
-        "エンジンメーターパネル：YANMAR（写真）",
-        "活魚槽",
-        "アウトリガー一式",
-     ],
-    };
+    /* ---------- DATA (敏五丸) 置き換え ---------- */
+const vessel = {
+  id: "toshigomaru",
+  name_ja: "敏五丸",
+  name_en: "Toshigomaru",
+  registerNo: "ME3-52006",
+
+  // ← 配列を言語別に
+  badges: {
+    ja: ["FRP", "約2トン", "全長約9.15m", "活魚槽"],
+    en: ["FRP", "Approx. 2 tons", "LOA ~9.15 m", "Live fish tank"]
+  },
+  use: {
+    ja: ["刺網", "採介藻", "一本釣り", "雑"],
+    en: ["Gillnet", "Shellfish/Seaweed harvest", "Handline", "Misc."]
+  },
+
+  gallery: [
+    "assets/boats/toshigomaru/01.jpg",
+    "assets/boats/toshigomaru/02.jpg",
+    "assets/boats/toshigomaru/04.jpg",
+    "assets/boats/toshigomaru/05.jpg",
+    "assets/boats/toshigomaru/06.jpg",
+    "assets/boats/toshigomaru/08.jpg",
+    "assets/boats/toshigomaru/09.jpg",
+    "assets/boats/toshigomaru/m01.jpg",
+    "assets/boats/toshigomaru/m02.jpg",
+    "assets/boats/toshigomaru/m03.jpg",
+    "assets/boats/toshigomaru/m04.jpg",
+    "assets/boats/toshigomaru/m05.jpg",
+    "assets/boats/toshigomaru/m06.jpg",
+    "assets/boats/toshigomaru/m07.jpg",
+    "assets/boats/toshigomaru/m08.jpg",
+    "assets/boats/toshigomaru/m09.jpg",
+  ],
+  sheetImage: "assets/boats/toshigomaru/10.jpg",
+
+  // 船体情報（英語表記のフォールバック用 *_en を追加可能）
+  hull: {
+    material: "FRP",
+    grossTonnage: "2 トン（推定）",
+    length: "9.15 m（登録長 L）",
+    beam: "2.28 m（B）",
+    depth: "0.65 m（D）",
+    builder: "八光船舶産業株式会社",
+    builder_en: "Hakkou Shipbuilding Industry Co., Ltd."
+  },
+
+  // エンジン（*_en で英語名を用意）
+  engine: {
+    type: "船内機",
+    type_en: "Inboard engine",
+    maker: "ヤンマー",
+    maker_en: "YANMAR",
+    model: "6PH-T（T,TH）,6PHS",
+    power: "60 PS"
+  },
+
+  equipment: [
+    "レーダー（KODEN系ラドーム／写真）",
+    "魚探：HONDEX（写真）",
+    "オートパイロット：marol CB-88（写真）",
+    "エンジンメーターパネル：YANMAR（写真）",
+    "活魚槽",
+    "アウトリガー一式",
+  ],
+};
 
     /* ---------- 多言語ラベル ---------- */
     const t = {
