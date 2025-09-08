@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>モデル一覧 - JCFS</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 日本語Webフォントは重いので、必要なければ削除してOK
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  -->
   <style>
-    body { font-family: 'Noto Sans JP', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans JP', sans-serif; }
     .jcfs-blue-dark { color:#002D4F } .jcfs-blue-primary{ color:#005A9C }
     .bg-jcfs-blue-dark{ background:#002D4F } .bg-jcfs-blue-primary{ background:#005A9C }
   </style>
@@ -85,7 +87,7 @@
       }
     };
 
-    // ===== 一覧データ（ここに増やすだけ！）=====
+    // ===== 一覧データ =====
     const SHIPS = [
       {
         id: "toshigomaru",
@@ -99,7 +101,7 @@
         equip_en: ["Live Fish tank", "Fish finder", "GPS", "Direction finder"],
         thumb: "assets/boats/toshigomaru/01.jpg",
         detailUrl: "model-toshigomaru.html"
-      }, // ← ここが重要：カンマ
+      },
       {
         id: "Kazumaru",
         name_ja: "第1和丸",
@@ -107,7 +109,7 @@
         size_ja: "総トン数: 2.25t / 全長: 9.30m / 幅: 1.7m",
         size_en: "GT: 2.25t / LOA: 9.30 m / Beam: 1.7 m",
         engine_ja: "三菱重工業　M6H-MTK",
-        engine_en: "Mitsubisi Industry M6H-MTK",
+        engine_en: "Mitsubishi Heavy Industries M6H-MTK",
         equip_ja: ["活魚槽", "魚群探知機", "GPS","自動航行機", "無線機"],
         equip_en: ["Live Fish tank", "Fish finder", "GPS", "Auto pilot system","Radio"],
         thumb: "assets/boats/kazumaru/01.jpg",
@@ -119,40 +121,28 @@
         name_en: "Daisan Yusei Maru",
         size_ja: "総トン数: 4.07t / 全長: 9.16m / 幅: 2.42m",
         size_en: "GT: 4.07t / LOA: 9.16 m / Beam: 2.42 m",
-        engine_ja: "いすず自動車　UM6BG1TC",
-        engine_en: "Isuzu Auto UM6BG1TC",
+        engine_ja: "いすゞ自動車　UM6BG1TC",
+        engine_en: "ISUZU Motors UM6BG1TC",
         equip_ja: ["活魚槽", "魚群探知機", "GPS","方向探知機", "無線機"],
         equip_en: ["Live Fish tank", "Fish finder", "GPS", "Direction finder","Radio"],
         thumb: "assets/boats/yuseimaru/01.jpg",
         detailUrl: "model-yuseimaru.html"
-      },
-      {
-        id: "daiichikazumaru",
-        name_ja: "第1和丸",
-        name_en: "Daiichi Kazu Maru",
-        size_ja: "総トン数: 2.25t / 全長: 9.30m / 幅: 1.7m",
-        size_en: "GT: 2.25t / LOA: 9.30 m / Beam: 1.7 m",
-        engine_ja: "三菱重工業　M6H-MTK",
-        engine_en: "Mitsubisi Industry M6H-MTK",
-        equip_ja: ["魚槽", "魚群探知機", "GPS","自動航行機", "無線機"],
-        equip_en: ["Fish tank", "Fish finder", "GPS", "Auto pilot system","Radio"],
-        thumb: "assets/boats/kazumaru/01.jpg",
-        detailUrl: "model-kazumaru.html"
-      },
-      {
-        id: "daiichikazumaru",
-        name_ja: "第1和丸",
-        name_en: "Daiichi Kazu Maru",
-        size_ja: "総トン数: 2.25t / 全長: 9.30m / 幅: 1.7m",
-        size_en: "GT: 2.25t / LOA: 9.30 m / Beam: 1.7 m",
-        engine_ja: "三菱重工業　M6H-MTK",
-        engine_en: "Mitsubisi Industry M6H-MTK",
-        equip_ja: ["魚槽", "魚群探知機", "GPS","自動航行機", "無線機"],
-        equip_en: ["Fish tank", "Fish finder", "GPS", "Auto pilot system","Radio"],
-        thumb: "assets/boats/kazumaru/01.jpg",
-        detailUrl: "model-kazumaru.html"
       }
     ];
+
+    // ===== サムネ解決（320/640/1280）=====
+    // v.thumb のパスをそのまま使い、フォルダ名だけ差し替え。
+    // assets/boats/xxx.jpg → assets/boats_640/xxx.jpg 等
+    function resolveThumbs(src) {
+      // src が無い/不正でも落ちないように
+      if (!src || typeof src !== 'string') {
+        return { s320: NOIMG, s640: NOIMG, s1280: NOIMG };
+      }
+      const s320  = src.replace('/boats/', '/boats_320/');
+      const s640  = src.replace('/boats/', '/boats_640/');
+      const s1280 = src.replace('/boats/', '/boats_1280/');
+      return { s320, s640, s1280 };
+    }
 
     // ===== 言語選択（?lang= > localStorage > ブラウザ）=====
     function getInitialLang() {
@@ -167,7 +157,7 @@
       const t = I18N[lang] || I18N.ja;
       document.documentElement.lang = lang;
 
-      // ヘッダのホームリンクに ?lang を付与（document.baseURI を基準に解決）
+      // ヘッダのホームリンクに ?lang を付与
       const home = document.getElementById("nav-home");
       if (home) {
         const path = home.getAttribute("href") || "index.html";
@@ -201,32 +191,42 @@
       }
     }
 
-    // ===== 一覧描画 =====
+    // ===== 一覧描画（lazy + srcset + sizes）=====
     function renderList(lang="ja") {
       const t = I18N[lang] || I18N.ja;
 
       // カード（スマホ）
       const cards = document.getElementById("cards");
       cards.innerHTML = "";
-      SHIPS.forEach(v => {
+      SHIPS.forEach((v, index) => {
         const name = (lang === "en" ? v.name_en : v.name_ja) || v.name_ja;
         const size = (lang === "en" ? v.size_en : v.size_ja) || v.size_ja;
         const eng  = (lang === "en" ? v.engine_en : v.engine_ja) || v.engine_ja;
         const eq   = (lang === "en" ? v.equip_en  : v.equip_ja)  || v.equip_ja;
         const detailUrl = appendLang(v.detailUrl, lang);
+        const { s320, s640, s1280 } = resolveThumbs(v.thumb);
 
         const card = document.createElement("div");
         card.className = "bg-white rounded-lg shadow overflow-hidden";
 
+        // 先頭1枚は優先取得（LCP 改善）
+        const fetchPrio = index === 0 ? 'fetchpriority="high"' : '';
+
         card.innerHTML = `
-          <img src="${v.thumb}" alt="${name} thumbnail"
-               class="w-full h-48 object-cover"
-               onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=window.NOIMG;}">
+          <img
+            src="${s640}"
+            srcset="${s320} 320w, ${s640} 640w, ${s1280} 1280w"
+            sizes="(max-width: 768px) 100vw, 320px"
+            alt="${name} thumbnail"
+            class="w-full h-48 object-cover"
+            loading="lazy" decoding="async" width="640" height="360" ${fetchPrio}
+            onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=window.NOIMG;}"
+          >
           <div class="p-4 space-y-2">
             <h3 class="text-xl font-bold jcfs-blue-dark">${name}</h3>
             <p class="text-sm text-gray-500">${size}</p>
             <p class="text-sm"><span class="font-semibold">${t.thEngine}:</span> ${eng}</p>
-            <p class="text-sm"><span class="font-semibold">${t.thEquip}:</span> ${eq.join(" / ")}</p>
+            <p class="text-sm"><span class="font-semibold">${t.thEquip}:</span> ${Array.isArray(eq)?eq.join(" / "):eq}</p>
             <div class="pt-2">
               <a href="${detailUrl}"
                  class="inline-flex items-center px-4 py-2 rounded-lg text-white bg-gradient-to-r from-[#0e4aa6] via-[#005A9C] to-[#002D4F] font-bold">
@@ -241,25 +241,33 @@
       // テーブル（PC）
       const rows = document.getElementById("rows");
       rows.innerHTML = "";
-      SHIPS.forEach(v => {
+      SHIPS.forEach((v, index) => {
         const name = (lang === "en" ? v.name_en : v.name_ja) || v.name_ja;
         const size = (lang === "en" ? v.size_en : v.size_ja) || v.size_ja;
         const eng  = (lang === "en" ? v.engine_en : v.engine_ja) || v.engine_ja;
         const eq   = (lang === "en" ? v.equip_en  : v.equip_ja)  || v.equip_ja;
         const detailUrl = appendLang(v.detailUrl, lang);
+        const { s320, s640, s1280 } = resolveThumbs(v.thumb);
+        const fetchPrio = index === 0 ? 'fetchpriority="high"' : '';
 
         const tr = document.createElement("tr");
         tr.className = "border-b hover:bg-gray-50";
         tr.innerHTML = `
           <td class="px-4 py-2">
-            <img src="${v.thumb}" alt="${name} thumbnail"
-                 class="w-24 h-16 object-cover rounded"
-                 onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=window.NOIMG;}">
+            <img
+              src="${s640}"
+              srcset="${s320} 320w, ${s640} 640w, ${s1280} 1280w"
+              sizes="160px"
+              alt="${name} thumbnail"
+              class="w-24 h-16 object-cover rounded"
+              loading="lazy" decoding="async" width="320" height="180" ${fetchPrio}
+              onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=window.NOIMG;}"
+            >
           </td>
           <td class="px-4 py-2 font-semibold">${name}</td>
           <td class="px-4 py-2 text-sm text-gray-700">${size}</td>
           <td class="px-4 py-2 text-sm text-gray-700">${eng}</td>
-          <td class="px-4 py-2 text-sm text-gray-700">${eq.join(" / ")}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${Array.isArray(eq)?eq.join(" / "):eq}</td>
           <td class="px-4 py-2">
             <a href="${detailUrl}"
                class="inline-flex items-center px-3 py-2 rounded-lg text-white bg-jcfs-blue-primary hover:bg-jcfs-blue-dark font-bold text-sm">
@@ -287,6 +295,15 @@
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("lang-ja").addEventListener("click", () => setLang("ja"));
       document.getElementById("lang-en").addEventListener("click", () => setLang("en"));
+
+      // ファーストビュー画像を事前ロード（任意）
+      if (SHIPS[0]?.thumb) {
+        const { s640 } = resolveThumbs(SHIPS[0].thumb);
+        const link = document.createElement('link');
+        link.rel = 'preload'; link.as = 'image'; link.href = s640;
+        document.head.appendChild(link);
+      }
+
       const initLang = getInitialLang();
       setLang(initLang, { persist:true, updateUrl:true });
     });
