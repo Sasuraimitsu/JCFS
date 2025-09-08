@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>モデル詳細｜弥栄丸 - JCFS</title>
+  <title>モデル詳細｜幸栄丸 - JCFS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -127,47 +127,47 @@
    1) データ（弥栄丸） ※数値は登録票に合わせて適宜修正してください
    ========================= */
 const vessel = {
-  id: "iyasakimaru",
-  name_ja: "弥栄丸",                // 読み: やさか/いやさか（お好きな英表記でOK）
-  name_en: "Iyasaka Maru",
+  id: "koeimaru",
+  name_ja: "幸栄丸",               
+  name_en: "Koei Maru",
   registerNo: "ME3-44934",         // 登録票右上に記載
 
   // 言語別バッジ（控えめに。数値が確定したら追加してください）
   badges: {
-    ja: ["FRP"],
-    en: ["FRP"]
+    ja: ["FRP","FRP","FRP"],
+    en: ["FRP","FRP","FRP"]
   },
 
   // 用途（登録票の「漁業又は用途」に合わせて調整可）
   use: {
-    ja: ["刺網", "一本釣り", "採介藻", "雑"],   // TODO: 必要に応じて修正
-    en: ["Gillnet", "Handline", "Shellfish/Seaweed harvest", "Misc."]
+    ja: [ "一本釣り", "採介藻"],   // TODO: 必要に応じて修正
+    en: ["Handline", "Shellfish/Seaweed harvest"]
   },
 
   // ギャラリー
   gallery: [
-    "assets/boats/iyasakimaru/01.jpg",
-    "assets/boats/iyasakimaru/02.jpg",
-    "assets/boats/iyasakimaru/03.jpg",
-    "assets/boats/iyasakimaru/04.jpg",
-    "assets/boats/iyasakimaru/05.jpg",
-    "assets/boats/iyasakimaru/m01.jpg",
-    "assets/boats/iyasakimaru/m02.jpg",
-    "assets/boats/iyasakimaru/m03.jpg"
+    "assets/boats/koeimaru/01.jpg",
+    "assets/boats/koeimaru/02.jpg",
+    "assets/boats/koeimaru/03.jpg",
+    "assets/boats/koeimaru/04.jpg",
+    "assets/boats/koeimaru/05.jpg",
+    "assets/boats/koeimaru/m01.jpg",
+    "assets/boats/koeimaru/m02.jpg",
+    "assets/boats/koeimaru/m03.jpg"
   ],
 
   // 登録票画像
-  sheetImage: "assets/boats/iyasakimaru/10.jpg",
+  sheetImage: "assets/boats/koeimaru/10.jpg",
 
   // 船体情報（空欄は非表示）
   hull: {
     material: "FRP",
-    grossTonnage: "",          // 例: "2.7 t" など（要確認）
-    length: "",                // 例: "9.18 m"（要確認）
-    beam: "",                  // 例: "2.77 m"（要確認）
-    depth: "",                 // 例: "0.76 m"（要確認）
-    builder: "",               // 造船所名が判明したら記入
-    builder_en: ""
+    grossTonnage: "2.77 t",          // 例: "2.7 t" など（要確認）
+    length: "8.40 m",                // 例: "9.18 m"（要確認）
+    beam: "2.18 m",                  // 例: "2.77 m"（要確認）
+    depth: "0.89 m",                 // 例: "0.76 m"（要確認）
+    builder: "八光船舶産業株式会社",               // 造船所名が判明したら記入
+    builder_en: "Hakko ship Building company"
   },
 
   // 機関情報（登録票より）
@@ -175,16 +175,16 @@ const vessel = {
     type: "船内機",
     type_en: "Inboard engine",
     maker: "小松製作所",            // 読み取り：Komatsu（要確認）
-    maker_en: "Komatsu Ltd.",       // 要確認
-    model: "6ME836A-A",             // 画像からの推定（要確認）
-    power: "",                      // 例: "40 PS" など（要確認）
-    note: "推進装置 A3E-1W（要確認）"
+    maker_en: "Komatsu Industry Ltd.",       // 要確認
+    model: "EME636A-A",             // 画像からの推定（要確認）
+    power: "50 PS",                      // 例: "40 PS" など（要確認）
+    note: ""
   },
 
   // 装備（任意。写真に合わせて調整）
   equipment: {
-    ja: ["魚群探知機", "GPS", "無線機"],
-    en: ["Fish finder", "GPS", "Radio"]
+    ja: ["活魚槽","魚群探知機","魚群探知機", "GPS", "無線機"],
+    en: ["Live fish tank","魚群探知機","Fish finder", "GPS", "Radio"]
   }
 };
 
