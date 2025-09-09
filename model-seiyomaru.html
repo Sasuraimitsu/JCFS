@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>モデル詳細｜第二正洋丸 - JCFS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Noto Sans JP', system-ui, sans-serif; background:#f8fafc; }
+    .jcfs-blue-dark { color:#002D4F } .bg-jcfs-blue-dark { background:#002D4F }
+    .jcfs-blue-primary { color:#005A9C } .bg-jcfs-blue-primary { background:#005A9C }
+    .badge { background:#E6F0F9; color:#005A9C; padding:.25rem .6rem; border-radius:.5rem; font-weight:700; font-size:.85rem }
+    /* lightbox */
+    .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:50; }
+    .lightbox-backdrop.show{ display:flex }
+    .lightbox-img{ max-width:92vw; max-height:86vh; box-shadow:0 10px 30px rgba(0,0,0,.4); border-radius:.5rem }
+    /* CTA shine */
+    .cta{ position:relative; overflow:hidden }
+    .cta::before{ content:''; position:absolute; inset:0; background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent); transform:translateX(-150%) skewX(-20deg) }
+    .cta:hover::before{ animation:shine 1.1s ease }
+    @keyframes shine{ to{ transform:translateX(150%) skewX(-20deg) } }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Top bar -->
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a id="nav-home" href="https://sasuraimitsu.github.io/JCFS/" class="font-bold text-xl jcfs-blue-dark">JCFS</a>
+      <div class="space-x-2">
+        <button id="lang-ja" class="px-3 py-1 rounded-md bg-gray-200 font-semibold">JP</button>
+        <button id="lang-en" class="px-3 py-1 rounded-md bg-gray-200 font-semibold">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <p class="text-sm text-gray-500" id="breadcrumb"></p>
+          <h1 class="text-3xl md:text-4xl font-extrabold jcfs-blue-dark" id="vessel-name"></h1>
+          <div class="mt-3 flex flex-wrap gap-2" id="badges"></div>
+        </div>
+        <a id="back-to-list"
+           class="cta inline-flex items-center justify-center px-5 py-3 rounded-xl text-white font-bold bg-gradient-to-r from-[#0e4aa6] via-[#005A9C] to-[#002D4F] shadow hover:shadow-lg">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6">
+
+    <!-- Left: gallery -->
+    <section class="md:col-span-2">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="gallery"></div>
+      <p class="text-xs text-gray-500 mt-2" id="gallery-note"></p>
+    </section>
+
+    <!-- Right: quick spec -->
+    <aside class="md:col-span-1">
+      <div class="bg-white rounded-lg shadow p-5">
+        <h2 class="text-xl font-bold jcfs-blue-dark mb-3" id="quick-spec-title"></h2>
+        <dl class="text-sm space-y-2" id="quick-spec"></dl>
+        <div class="mt-5">
+          <h3 class="font-bold jcfs-blue-primary mb-2" id="use-title"></h3>
+          <div class="flex flex-wrap gap-2" id="use-tags"></div>
+        </div>
+        <div class="mt-6 flex gap-2">
+          <a id="contact-cta"
+             class="cta flex-1 text-center px-4 py-2 rounded-lg text-white font-bold bg-jcfs-blue-primary hover:bg-[#0e4aa6]"></a>
+          <a id="download-sheet"
+             class="flex-1 text-center px-4 py-2 rounded-lg font-bold border border-gray-300 bg-white hover:bg-gray-50"></a>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-3" id="disclaimer"></p>
+      </div>
+    </aside>
+
+    <!-- Spec table -->
+    <section class="md:col-span-3 bg-white rounded-lg shadow p-6">
+      <h2 class="text-2xl font-bold jcfs-blue-dark mb-4" id="detail-spec-title"></h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Hull -->
+        <div>
+          <h3 class="font-bold jcfs-blue-primary mb-2" id="hull-title"></h3>
+          <table class="w-full text-sm border-separate [border-spacing:0]">
+            <tbody id="hull-spec" class="[&>tr>td]:p-2 [&>tr:nth-child(odd)]:bg-gray-50"></tbody>
+          </table>
+        </div>
+
+        <!-- Engine -->
+        <div>
+          <h3 class="font-bold jcfs-blue-primary mb-2" id="engine-title"></h3>
+          <table class="w-full text-sm border-separate [border-spacing:0]">
+            <tbody id="engine-spec" class="[&>tr>td]:p-2 [&>tr:nth-child(odd)]:bg-gray-50"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Equipment -->
+      <div class="mt-6">
+        <h3 class="font-bold jcfs-blue-primary mb-2" id="equipment-title"></h3>
+        <ul id="equipment-list" class="grid md:grid-cols-2 gap-2 text-sm list-disc pl-5"></ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white mt-12">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
+      &copy; <span id="year"></span> JCFS.
+    </div>
+  </footer>
+
+  <!-- lightbox -->
+  <div id="lightbox" class="lightbox-backdrop">
+    <img id="lightbox-img" class="lightbox-img" alt="">
+  </div>
+
+  <script>
+/* =========================
+   1) データ（第二正洋丸）
+   ========================= */
+const vessel = {
+  id: "seiyomaru",
+  name_ja: "第二正洋丸",
+  name_en: "Daini Seiyo Maru",
+  registerNo: "ME3-52707",
+
+  // バッジ（表示用ピル）
+  badges: {
+    ja: ["FRP","活魚槽","約2.3トン", "全長約8.45m"],
+    en: ["FRP", "Live fish tank","Approx. 2.3 tons", "LOA 8.45 m"]
+  },
+
+  // 想定用途
+  use: {
+    ja: ["刺網", "雑"],
+    en: ["Gillnet", "Misc."]
+  },
+
+  // ギャラリー（必要に応じて差し替え）
+  gallery: [
+    "assets/boats/seiyomaru/01.jpg",
+    "assets/boats/seiyomaru/02.jpg",
+    "assets/boats/seiyomaru/03.jpg",
+    "assets/boats/seiyomaru/04.jpg",
+    "assets/boats/seiyomaru/05.jpg",
+    "assets/boats/seiyomaru/06.jpg",
+    "assets/boats/seiyomaru/m01.jpg",
+    "assets/boats/seiyomaru/m02.jpg",
+    "assets/boats/seiyomaru/m03.jpg",
+    "assets/boats/seiyomaru/m04.jpg",
+    "assets/boats/seiyomaru/m05.jpg"
+  ],
+
+  // 登録票画像（任意）
+  sheetImage: "assets/boats/seiyomaru/10.jpg",
+
+  // 船体
+  hull: {
+    material: "FRP",
+    grossTonnage: "2.3 t",
+    length: "8.45 m",
+    beam: "1.80 m",
+    depth: "0.70 m",
+    builder: "辻本造船所",
+    builder_en: "Tsujimoto Shipyard"
+  },
+
+  // 機関
+  engine: {
+    type: "船内機",
+    type_en: "Inboard engine",
+    maker: "いすゞ自動車",
+    maker_en: "Isuzu Motors",
+    model: "UM4BG1(TC,G)",
+    power: "50 PS",
+    note: ""
+  },
+
+  // 装備（写真があれば追加）
+  equipment: {
+    ja: ["魚群探知機", "無線機", "GPS"],
+    en: ["Fish finder", "Radio", "GPS"]
+  }
+};
+
+/* =========================
+   2) UIテキスト（i18n）
+   ========================= */
+const t = {
+  ja: {
+    breadcrumb: "導入モデルラインナップ › モデル詳細",
+    back: "一覧へ戻る",
+    quick: "クイックスペック",
+    use: "想定される漁業種類 / 用途",
+    contact: "この船について相談",
+    download: "漁船登録票を見る",
+    disclaimer: "※ 数値は登録票写真の読取りに基づく概数を含みます。最終仕様は現物・最新検査記録を優先します。",
+    detail: "詳細スペック",
+    hull: "船体情報",
+    engine: "機関情報",
+    equipment: "主な装備",
+    galleryNote: "画像をクリックすると拡大表示します。",
+    labels: {
+      name: "船名",
+      reg: "登録番号",
+      material: "材質",
+      tonnage: "総トン数",
+      length: "長さ",
+      beam: "幅",
+      depth: "深さ",
+      builder: "建造所",
+      engType: "機関種別",
+      maker: "製造者",
+      model: "型式",
+      power: "エンジン出力",
+      note: "備考"
+    }
+  },
+  en: {
+    breadcrumb: "Model Lineup › Detail",
+    back: "Back to List",
+    quick: "Quick Specs",
+    use: "Likely Fishery / Use",
+    contact: "Inquire about this boat",
+    download: "View Inspection Sheet",
+    disclaimer: "Numbers include OCR from the sheet photo and may vary. Final specs subject to actual inspection.",
+    detail: "Detailed Specifications",
+    hull: "Hull",
+    engine: "Engine",
+    equipment: "Key Equipment",
+    galleryNote: "Click a photo to enlarge.",
+    labels: {
+      name: "Vessel",
+      reg: "Registration No.",
+      material: "Material",
+      tonnage: "Gross Tonnage",
+      length: "Length",
+      beam: "Beam",
+      depth: "Depth",
+      builder: "Builder",
+      engType: "Engine Type",
+      maker: "Maker",
+      model: "Model",
+      power: "Engine power",
+      note: "Note"
+    }
+  }
+};
+
+/* =========================
+   3) ヘルパー
+   ========================= */
+const byId = (id) => document.getElementById(id);
+const getLang = () => {
+  const urlLang = new URLSearchParams(location.search).get('lang');
+  const store = localStorage.getItem('siteLang');
+  const nav = (navigator.language||'en').toLowerCase().startsWith('ja')?'ja':'en';
+  return (urlLang==='ja'||urlLang==='en') ? urlLang : (store || nav);
+};
+// enなら *_en を優先
+const pick = (obj, key, lang) =>
+  (lang === 'en' && obj?.[key + '_en']) ? obj[key + '_en'] : obj?.[key];
+// 配列 or {ja:[], en:[]} 双方に対応
+const arrByLang = (maybe, lang) =>
+  Array.isArray(maybe) ? maybe : (maybe?.[lang] || []);
+// 表埋め
+function fillTable(id, rows){
+  const tb = byId(id); tb.innerHTML='';
+  rows.filter(([,v]) => v != null && String(v).trim() !== "")
+      .forEach(([k,v])=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="w-40 text-gray-500">${k}</td><td class="font-semibold break-words">${v}</td>`;
+        tb.appendChild(tr);
+      });
+}
+
+/* =========================
+   4) 描画
+   ========================= */
+function setLang(lang){
+  localStorage.setItem('siteLang', lang);
+  const i18n = t[lang];
+
+  // <title>
+  document.title = (lang==='ja' ? 'モデル詳細｜' + vessel.name_ja : 'Model Detail | ' + vessel.name_en) + ' - JCFS';
+
+  // ヘッダのリンク
+  const home = byId('nav-home');
+  if(home){ const u = new URL(home.href); u.searchParams.set('lang', lang); home.href = u.toString(); }
+
+  // パンくず・船名
+  byId('breadcrumb').textContent = i18n.breadcrumb;
+  byId('vessel-name').textContent =
+    (lang==='ja' ? vessel.name_ja : vessel.name_en) + '（' + vessel.registerNo + '）';
+
+  // バッジ
+  const badges = byId('badges'); badges.innerHTML = '';
+  arrByLang(vessel.badges, lang).forEach(b => {
+    const s = document.createElement('span');
+    s.className = 'badge';
+    s.textContent = b;
+    badges.appendChild(s);
+  });
+
+  // 戻るボタン
+  const back = byId('back-to-list');
+  back.textContent = i18n.back;
+  back.href = `models.html?lang=${lang}`;
+
+  // ギャラリー
+  const g = byId('gallery'); g.innerHTML = '';
+  vessel.gallery.forEach((src,idx)=>{
+    const w = document.createElement('button');
+    w.className = 'group relative rounded overflow-hidden bg-gray-100';
+    w.innerHTML = `<img src="${src}" alt="photo ${idx+1}" class="w-full h-40 md:h-44 object-cover transition group-hover:scale-105">`;
+    w.addEventListener('click',()=>openLightbox(src));
+    g.appendChild(w);
+  });
+  byId('gallery-note').textContent = i18n.galleryNote;
+
+  // クイックスペック
+  byId('quick-spec-title').textContent = i18n.quick;
+  const qsWrap = byId('quick-spec'); qsWrap.innerHTML = '';
+  const add = (label, val) => {
+    const tr=document.createElement('div'); tr.className='grid grid-cols-5 gap-2';
+    tr.innerHTML = `<dt class="col-span-2 text-gray-500">${label}</dt><dd class="col-span-3 font-semibold break-words">${val||'-'}</dd>`;
+    qsWrap.appendChild(tr);
+  };
+  add(i18n.labels.name,   lang==='ja'?vessel.name_ja:vessel.name_en);
+  add(i18n.labels.reg,    vessel.registerNo);
+  add(i18n.labels.length, vessel.hull.length);
+  add(i18n.labels.beam,   vessel.hull.beam);
+  add(i18n.labels.tonnage, vessel.hull.grossTonnage);
+
+  // 用途タグ
+  byId('use-title').textContent = i18n.use;
+  const ut = byId('use-tags'); ut.innerHTML = '';
+  arrByLang(vessel.use, lang).forEach(tag=>{
+    const s = document.createElement('span');
+    s.className = 'badge';
+    s.textContent = tag;
+    ut.appendChild(s);
+  });
+
+  // CTA
+  const contact = byId('contact-cta');
+  contact.textContent = i18n.contact;
+  contact.href = `mailto:info@example.com?subject=${encodeURIComponent((lang==='ja'?'【問い合わせ】':'[Inquiry] ') + (lang==='ja'?vessel.name_ja:vessel.name_en))}`;
+  const dl = byId('download-sheet');
+  dl.textContent = i18n.download;
+  dl.href = vessel.sheetImage || '#';
+  dl.target = vessel.sheetImage ? '_blank' : '';
+  byId('disclaimer').textContent = i18n.disclaimer;
+
+  // テーブル
+  byId('detail-spec-title').textContent = i18n.detail;
+  byId('hull-title').textContent = i18n.hull;
+  fillTable('hull-spec', [
+    [i18n.labels.material, vessel.hull.material],
+    [i18n.labels.tonnage,  vessel.hull.grossTonnage],
+    [i18n.labels.length,   vessel.hull.length],
+    [i18n.labels.beam,     vessel.hull.beam],
+    [i18n.labels.depth,    vessel.hull.depth],
+    [i18n.labels.builder,  pick(vessel.hull, 'builder', lang)],
+  ]);
+
+  byId('engine-title').textContent = i18n.engine;
+  fillTable('engine-spec', [
+    [i18n.labels.engType, pick(vessel.engine, 'type',  lang)],
+    [i18n.labels.maker,   pick(vessel.engine, 'maker', lang)],
+    [i18n.labels.model,   vessel.engine.model],
+    [i18n.labels.power,   vessel.engine.power ?? vessel.engine.Power ?? vessel.engine.maxOutput ?? '-'],
+    vessel.engine.note ? [i18n.labels.note, vessel.engine.note] : null,
+  ].filter(Boolean));
+
+  // 装備
+  byId('equipment-title').textContent = i18n.equipment;
+  const el = byId('equipment-list'); el.innerHTML='';
+  arrByLang(vessel.equipment, lang).forEach(x=>{
+    const li=document.createElement('li'); li.textContent=x; el.appendChild(li);
+  });
+
+  // 言語ボタンの見た目
+  ['ja','en'].forEach(k=>{
+    const el = byId('lang-'+k);
+    el.classList.remove('bg-jcfs-blue-primary','text-white');
+    el.classList.add('bg-gray-200');
+  });
+  const active = byId('lang-'+lang);
+  active.classList.remove('bg-gray-200');
+  active.classList.add('bg-jcfs-blue-primary','text-white');
+}
+
+/* =========================
+   5) ライトボックス
+   ========================= */
+function openLightbox(src){
+  const lb = byId('lightbox'), img = byId('lightbox-img');
+  img.src = src; img.alt = 'photo';
+  lb.classList.add('show');
+}
+byId('lightbox').addEventListener('click', (e)=>{
+  if(e.target.id==='lightbox'||e.target.id==='lightbox-img') e.currentTarget.classList.remove('show')
+});
+
+/* =========================
+   6) 初期化
+   ========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  byId('year').textContent = new Date().getFullYear();
+  const lang = getLang();
+  setLang(lang);
+  byId('lang-ja').addEventListener('click', ()=> setLang('ja'));
+  byId('lang-en').addEventListener('click', ()=> setLang('en'));
+});
+  </script>
+</body>
+</html>
